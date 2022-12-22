@@ -1,8 +1,13 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
-  userID: 'none',
-  userPW: 'none'
+interface userInfoState {
+  userID: string;
+  userPW: string;
+}
+
+const initialState: userInfoState = {
+  userID: '',
+  userPW: ''
 }
 
 // function reducer(state = userID, action) {
@@ -18,10 +23,10 @@ const userInfoSlice = createSlice({
   name: 'userInfo',
   initialState,
   reducers:{
-    setUserID(state, action){
+    setUserID(state, action: PayloadAction<string>){
       state.userID = action.payload;
     },
-    setUserPW(state, action) {
+    setUserPW(state, action: PayloadAction<string>) {
       state.userPW = action.payload;
     }
   }

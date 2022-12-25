@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from "react-router-dom";
-
 import { configureStore } from "@reduxjs/toolkit";
 
 import userInfoReducer from "../modules/reducer/userInfoReducer"

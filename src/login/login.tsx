@@ -13,7 +13,7 @@ function Login() {
   console.log(userInfo.userPW);
   const dispatch = useAppDispatch();
 
-  let onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(userInfoActions.setUserID(e.target.value)); console.log(e) }; // 변경된 아이디 저장
+  let onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(userInfoActions.setUserID(e.target.value)) }; // 변경된 아이디 저장
   let onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(userInfoActions.setUserPW(e.target.value)) }; // 변경된 패스워드 저장
 
   function login() {

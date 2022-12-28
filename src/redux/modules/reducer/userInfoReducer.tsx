@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface userInfoState {
-  userID: string;
-  userPW: string;
+  nickname: string;
+  profile: string;
 }
 
 const initialState: userInfoState = {
-  userID: '',
-  userPW: ''
+  nickname: '',
+  profile: ''
 }
 
 /* createSlice: 리듀서 함수의 대상인 초기 상태와 슬라이스 이름을 받아 
@@ -17,11 +17,11 @@ const userInfoSlice = createSlice({
   name: 'userInfo', // 슬라이스 이름
   initialState, // 초기 상태
   reducers:{ // 리듀서 설정
-    setUserID(state, action: PayloadAction<string>){ // 액션 생성
-      state.userID = action.payload;
+    setNickname(state, action: PayloadAction<string>){ // 액션 생성
+      state.nickname = action.payload;
     },
-    setUserPW(state, action: PayloadAction<string>) { // 액션 생성
-      state.userPW = action.payload;
+    setProfile(state, action: PayloadAction<string>) { // 액션 생성
+      state.profile = action.payload;
     }
 
   }

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 
+import { loginActions } from '../redux/modules/reducer/loginReducer'
 import { userInfoActions } from '../redux/modules/reducer/userInfoReducer'
 // import { useDispatch, useSelector} from 'react-redux'
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
@@ -78,22 +79,27 @@ function Login() {
   axios.defaults.withCredentials = true; // withCredentials 전역 설정
   const navigate = useNavigate(); // 페이지 이동을 위해 필요
 
-  const userInfo = useAppSelector((state  => state.userInfo))
+  const loginInfo = useAppSelector((state  => state.loginInfo));
+  
   const dispatch = useAppDispatch();
 
-  let onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(userInfoActions.setUserID(e.target.value)) }; // 변경된 아이디 저장
-  let onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(userInfoActions.setUserPW(e.target.value)) }; // 변경된 패스워드 저장
+  let onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(loginActions.setUserID(e.target.value)) }; // 변경된 아이디 저장
+  let onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(loginActions.setUserPW(e.target.value)) }; // 변경된 패스워드 저장
 
 
 
   function login() { // 로그인 함수
     axios.post('http://localhost:6001/login', {
-      userID: userInfo.userID,
-      userPW: userInfo.userPW
+      userID: loginInfo.userID,
+      userPW: loginInfo.userPW
     })
     .then(function (response) { 
       console.log(response);
       if (response.data.login_status === 'success') { // 로그인에 성공했다면
+        // 로그인을 했을 때 user의 닉네임과 프로필 정보를 redux에 저장
+        dispatch(userInfoActions.setNickname(response.data.nickname));
+        dispatch(userInfoActions.setProfile(response.data.profile));
+
         navigate('/main'); // 메인페이지로 이동
       } else {
         alert("로그인에 실패하셨습니다.");

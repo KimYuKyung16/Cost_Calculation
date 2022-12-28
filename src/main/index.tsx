@@ -14,6 +14,10 @@ const Main = styled.div`
   
 `
 
+const UserInfoDiv = styled.div`
+width: 30%;
+`
+
 
 function Index() {
   const navigate = useNavigate();
@@ -23,7 +27,9 @@ function Index() {
   return(
     <>
       <Total>
-        <UserInfo></UserInfo>
+        <UserInfoDiv>
+          <UserInfo></UserInfo>
+        </UserInfoDiv>
         <Main>
           <h1>메인입니다.</h1>
           <input onClick={()=>{navigate('/appointment')}} type="button" value="약속 추가하기"/>

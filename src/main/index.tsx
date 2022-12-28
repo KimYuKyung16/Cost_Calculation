@@ -3,6 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from 'styled-components'; // styled in js
 import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
 
+import axios from 'axios';
+
 const Total = styled.div`
   display: flex;
   flex-direction: row;
@@ -15,6 +17,7 @@ const Main = styled.div`
 
 function Index() {
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
 
 
   return(

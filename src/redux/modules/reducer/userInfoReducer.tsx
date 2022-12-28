@@ -23,6 +23,7 @@ const userInfoSlice = createSlice({
     setUserPW(state, action: PayloadAction<string>) { // 액션 생성
       state.userPW = action.payload;
     }
+
   }
 })
 

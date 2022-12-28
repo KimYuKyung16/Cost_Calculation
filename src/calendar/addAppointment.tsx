@@ -23,27 +23,30 @@ height: 100px;
 function AddAppointment() {
   const dispatch = useAppDispatch();
 
-  const memberList = useAppSelector(state => state.memberList) ;
-  const member = useAppSelector(state => state.member) ;
-  console.log(memberList);
+  const member = useAppSelector(state => state.member);
+  const memberList = useAppSelector(state => state.memberList);
+
   console.log(member);
-
-
-
+  console.log(memberList);
+  
   let onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => { // 수동으로 입력해서 멤버 추가할 때: 닉네임 설정
     dispatch(memberActions.setNickname(e.target.value)) 
   };
 
   
-  function addMember() {
+  function addMember() { // 멤버 추가
     dispatch(memberListActions.addMember({
       userID: member.userID, 
       nickname: member.nickname, 
       profile: member.profile
     })); // 멤버 리스트 배열값 변경
-
     dispatch(memberActions.setNickname('')); // input 초기화
   }
+
+  function deleteMember(index: number) { // 멤버 삭제
+    dispatch(memberListActions.deleteMember(index)); // 멤버 리스트 배열값 변경
+  }
+
 
   return(
     <>
@@ -60,11 +63,14 @@ function AddAppointment() {
             <Member key={index}>
               <DefaultProfile src='/image/default_profile.png'/>
               <p>{x.nickname}</p>
-              <FontAwesomeIcon icon={faMinusCircle} />
+              <p>{index}</p>
+              <FontAwesomeIcon onClick={()=>{deleteMember(index)}} icon={faMinusCircle} />
             </Member>
           )
         })
       }
+
+      <input type="button" value="저장"/>
 
     </>
   )

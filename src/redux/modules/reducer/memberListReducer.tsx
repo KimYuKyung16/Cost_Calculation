@@ -21,7 +21,8 @@ const memberListSlice = createSlice({
     // 액션 생성
     // setUserID: (state, action: PayloadAction<string>) => { state[0].userID = action.payload },
     setInitialMemberList: (state, action: PayloadAction<memberListState[]>) => action.payload,
-    addMember: (state, action: PayloadAction<memberListState>) => { state.push(action.payload) }
+    addMember: (state, action: PayloadAction<memberListState>) => { state.push(action.payload) },
+    deleteMember: (state, action: PayloadAction<number>) => { state.splice(action.payload, 1) }
   }
 })
 

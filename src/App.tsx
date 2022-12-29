@@ -7,6 +7,8 @@ import Signup from "./login/signup";
 import Index from "./main/index";
 import UserInfo from "./userInfo/userInfo";
 
+import ModifiedFriend from "./friend/modifyFriend";
+
 import Appointment from "./calendar/addAppointment";
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
 
         <Route path="/main" element={<Index />}></Route>
         <Route path="/userinfo" element={<UserInfo />}></Route>
+
+        <Route path="/modifiedFriend" element={<ModifiedFriend />}></Route>
 
         <Route path="/appointment" element={<Appointment />}></Route>
       </Routes>

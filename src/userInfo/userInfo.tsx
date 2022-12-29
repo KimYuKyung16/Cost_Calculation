@@ -6,7 +6,6 @@ import axios from 'axios';
 
 import { userInfoActions } from '../redux/modules/reducer/userInfoReducer'
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
-import { editableInputTypes } from '@testing-library/user-event/dist/utils';
 
 const Main = styled.div`
 background-color: #6549b9;
@@ -48,7 +47,7 @@ function UserInfo() {
 
         <div>
           <h2>친구목록</h2>
-          <input type="button" value="친구목록 수정하기"/>
+          <input onClick={()=>{navigate('/modifiedFriend')}}type="button" value="친구목록 수정하기"/>
         </div>
 
       </Main>

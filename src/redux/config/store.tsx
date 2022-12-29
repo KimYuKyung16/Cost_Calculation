@@ -10,6 +10,7 @@ import { persistReducer } from 'redux-persist';
 import loginReducer from "../modules/reducer/loginReducer"
 import signupReducer from "../modules/reducer/signUpReducer"
 import userInfoReducer from "../modules/reducer/userInfoReducer"
+import {userListReducer, userSearchReducer, waitingListReducer, receivingListReducer} from "../modules/reducer/userListReducer"
 import memberListReducer from "../modules/reducer/memberListReducer"
 import {memberReducer} from "../modules/reducer/memberListReducer"
 
@@ -17,6 +18,10 @@ const reducers = combineReducers({ // persist-redux 추가
   loginInfo: loginReducer,
   signupInfo: signupReducer,
   userInfo: userInfoReducer,
+  userList: userListReducer,
+  userSearch: userSearchReducer,
+  waitingList: waitingListReducer,
+  receivingList: receivingListReducer,
   memberList: memberListReducer,
   member: memberReducer
 });

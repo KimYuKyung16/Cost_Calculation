@@ -7,10 +7,47 @@ import axios from 'axios';
 import { userListActions, userSearchActions, waitingListActions, receivingListActions } from '../redux/modules/reducer/userListReducer'
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
-const Main = styled.div`
+import UsersSearch from './usersSearch';
+
+const Container = styled.div`
   display: flex;
   flex-direction: column;
 `
+
+const Header = styled.div`
+
+`
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: row;
+  background-color: antiquewhite;
+`
+
+
+const SearchDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const Section1 = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  background-color: #d1d6d6;
+  height: 100%;
+`
+
+const Section2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  background-color: aqua;
+  height: 100%;
+`
+
+
+
 
 const Profile = styled.img`
   width: 100px;
@@ -22,44 +59,11 @@ function ModifiedFriend() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const userList = useAppSelector((state  => state.userList));
-  const searchVal = useAppSelector((state  => state.userSearch));
+
   const waitingList = useAppSelector((state  => state.waitingList));
   const receivingList = useAppSelector((state  => state.receivingList));
 
-  let onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(userSearchActions.setSearch(e.target.value)) }; // 변경된 아이디 저장
 
-  // interface searchState {
-  //   searchVal: string;
-  // }
-
-  function listUp() { // 유저 검색했을 때 나오는 값들 저장
-    axios.get('http://localhost:6001/userList', {
-      params: {
-        searchVal: searchVal
-      }
-    })
-    .then(function (response) { 
-      console.log(response.data);
-      dispatch(userListActions.setInitialUserList(response.data))
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
-
-  function addFriend(receiver: string) { // 친구 추가하기
-    axios.post('http://localhost:6001/userList/addFriend', {
-      receiver
-    })
-    .then(function (response) { 
-      console.log(response);
-      // dispatch(userListActions.setInitialUserList(response.data))
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
 
   function waitingListUp() { // 친구 신청 대기 리스트 가져오기
     axios.get('http://localhost:6001/waitingList')
@@ -75,7 +79,7 @@ function ModifiedFriend() {
   function receivingListUp() { // 친구 신청 받은 거 리스트 가져오기
     axios.get('http://localhost:6001/receivingList')
     .then(function (response) { 
-      console.log(response.data);
+      // console.log(response.data);
       dispatch(receivingListActions.setInitialReceivingList(response.data))
     })
     .catch(function (error) {
@@ -88,7 +92,7 @@ function ModifiedFriend() {
       list: list
     })
     .then(function (response) { 
-      console.log(response.data);
+      // console.log(response.data);
     })
     .catch(function (error) {
       console.log(error);
@@ -97,71 +101,84 @@ function ModifiedFriend() {
 
 
 
-  useEffect(() => { listUp(); }, [searchVal])
   useEffect(() => { waitingListUp(); receivingListUp(); }, [])
 
   return(
-    <>
-      <h1>친구 목록 수정</h1>
+    <Container>
+      <Header>
+        <h1>친구 목록 수정</h1>
+      </Header>
 
       <Main>
-        <input onChange={onChangeSearch} type="text" placeholder='아이디를 입력하세요'/>
-        <div>
-          <table>
-            <tbody>
-              {
-                userList.map((x, index) => {
-                  return(
-                    <tr key={index}>
-                      <td><Profile src={x.profile}/></td>
-                      <td>{x.nickname}</td>
-                      <td><input onClick={() => {addFriend(x.id);}} type="button" value="친구 추가"/></td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
-        </div>
+        <Section1>
+          <UsersSearch></UsersSearch>
+          {/* <SearchDiv>
+            <input onChange={onChangeSearch} type="text" placeholder='아이디를 입력하세요'/>
+            <div>
+              <table>
+                <tbody>
+                  {
+                    userList.map((x, index) => {
+                      return(
+                        <tr key={index}>
+                          <td><Profile src={x.profile}/></td>
+                          <td>{x.nickname}</td>
+                          {
+                            x.userID || x.receiver || x.sender ? null : <td><input onClick={() => {addFriend(x.id);}} type="button" value="친구 추가"/></td>
+                          }
+
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+            </div>
+          </SearchDiv> */}
+
+          <div>
+            <h2>대기 리스트</h2>
+            <table>
+                <tbody>
+                  {
+                    waitingList.map((x, index) => {
+                      return(
+                        <tr key={index}>
+                          <td><Profile src={x.profile}/></td>
+                          <td>{x.nickname}</td>
+                          <td><input type="button" value={x.state}/></td>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+          </div>
+
+          <div>
+            <h2>친구 신청 온 거 리스트</h2>
+            <table>
+                <tbody>
+                  {
+                    receivingList.map((x, index) => {
+                      return(
+                        <tr key={index}>
+                          <td>보낸 사람: {x.sender}</td>
+                          {/* <td>상태: {x.state}</td> */}
+                          <input onClick={()=>{accept(x);}} type="button" value="수락"/>
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+          </div>
+        </Section1>
+        <Section2>
+          <h1>친구리스트</h1>
+        </Section2>
       </Main>
-
-      <div>
-        <h2>대기 리스트</h2>
-        <table>
-            <tbody>
-              {
-                waitingList.map((x, index) => {
-                  return(
-                    <tr key={index}>
-                      <td>받는사람: {x.receiver}</td>
-                      <td>상태: {x.state}</td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
-      </div>
-
-      <div>
-        <h2>친구 신청 온 거 리스트</h2>
-        <table>
-            <tbody>
-              {
-                receivingList.map((x, index) => {
-                  return(
-                    <tr key={index}>
-                      <td>보낸 사람: {x.sender}</td>
-                      {/* <td>상태: {x.state}</td> */}
-                      <input onClick={()=>{accept(x);}} type="button" value="수락"/>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table>
-      </div>
-    </>
+    </Container>
   )
 }
 

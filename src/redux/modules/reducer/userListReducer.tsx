@@ -2,12 +2,21 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface userListState {
   id: string;
-  pw: string;
+  // pw: string;
   nickname: string;
   profile: string;
+  // friend: string;
+  userID: string;
+  friendID: string;
+  sender: string;
+  receiver: string;
+  state: string;
 }
 
 interface waitingListState {
+  // id: string;
+  nickname: string;
+  profile: string;
   sender: string;
   receiver: string;
   state: string;

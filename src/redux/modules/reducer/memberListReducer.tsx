@@ -14,7 +14,15 @@ const initialState2: memberListState = { // 멤버 한명의 값들을 변경
 
 const initialState: memberListState[] = []; // 멤버 리스트를 변경
 
-const memberListSlice = createSlice({
+interface appointmentNameState {
+  name: string;
+}
+
+const initialState3: appointmentNameState = {
+  name: ''
+}
+
+const memberListSlice = createSlice({ // 멤버 리스트 변경
   name: 'memberList', // 슬라이스 이름
   initialState, // 초기 상태
   reducers:{ // 리듀서 설정
@@ -26,7 +34,7 @@ const memberListSlice = createSlice({
   }
 })
 
-const memberSlice = createSlice({
+const memberSlice = createSlice({ // 멤버의 정보 변경
   name: 'member', // 슬라이스 이름
   initialState: initialState2, // 초기 상태
   reducers:{ // 리듀서 설정
@@ -37,7 +45,18 @@ const memberSlice = createSlice({
   }
 })
 
+const appointmentSlice = createSlice({ // 정산 약속 이름 변경
+  name: 'appointmentName', // 슬라이스 이름
+  initialState: initialState3, // 초기 상태
+  reducers:{ // 리듀서 설정
+    setAppointmentName: (state, action: PayloadAction<string>) => { state.name = action.payload },
+  }
+})
+
 export const memberListActions = memberListSlice.actions;
 export const memberActions = memberSlice.actions;
-export default memberListSlice.reducer;
+export const appointmentActions = appointmentSlice.actions;
+
+export const memberListReducer = memberListSlice.reducer;
 export const memberReducer = memberSlice.reducer;
+export const appointmentReducer = appointmentSlice.reducer;

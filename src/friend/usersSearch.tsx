@@ -8,28 +8,49 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
+  width: 100%;
 `
 
 const Main = styled.div`
-  background-color: aqua;
   position: relative;
+  width: 100%;
 `
 
 const List = styled.div`
-  background-color: #5a2222;
   position: absolute;
   z-index: 1;
   width: 100%;
+`
 
-  & > tbody {
-    background-color: antiquewhite;
-    width: 100%;
+const Test = styled.tbody`
+  background-color: #ffffff;
+  width: 100%;
+
+  * {
+    /* width: 100%; */
+    
   }
 
-  & tr td:nth-child(2){ 
-    text-align: right;
-    background-color: #ba996e;
+  & > tr {
+    width: 100%;
+    /* display: flex;
+    flex-direction: row;
+    align-items: center; */
+    background-color: #ffffff;
+    /* margin: 5px; */
+    padding: 5px;
+    
+  }
+
+  & td:nth-child(1) {
+    width: 100%;
+    /* background-color: #2781d0; */
+  }
+
+  & td:nth-child(2) {
+    width: 100%;
+    /* background-color: #a4adb4; */
   }
 `
 
@@ -84,7 +105,7 @@ function UsersSearch() {
         <input onChange={onChangeSearch} type="text" placeholder='아이디를 입력하세요'/>
         <Main>
           <List>
-            <tbody>
+            <Test>
               {
                 userList.map((x, index) => {
                   return(
@@ -97,7 +118,7 @@ function UsersSearch() {
                   )
                 })
               }
-            </tbody>
+            </Test>
           </List>
         </Main>
       </Container>

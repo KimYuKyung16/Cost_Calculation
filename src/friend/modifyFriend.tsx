@@ -136,7 +136,7 @@ function ModifiedFriend() {
             </div>
           </SearchDiv> */}
 
-          <div>
+<div>
             <h2>대기 리스트</h2>
             <table>
                 <tbody>

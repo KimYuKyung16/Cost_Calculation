@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 �
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 
 import axios from 'axios';
-
+ 
 import styled from "styled-components"; // styled in js
 
 const Member = styled.div`
@@ -56,7 +56,8 @@ function AddAppointment() {
 
   function saveAppointment() { // 약속 저장
     axios.post('http://localhost:6001/appointment', {
-      name: appointment.name
+      name: appointment.name,
+      members: memberList
     })
     .then(function (response) { 
       console.log(response);

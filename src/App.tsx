@@ -6,6 +6,7 @@ import Signup from "./login/signup";
 
 import Index from "./main/index";
 import UserInfo from "./userInfo/userInfo";
+import ModifiedUserInfo from "./userInfo/setProfile";
 
 import ModifiedFriend from "./friend/modifyFriend";
 
@@ -20,6 +21,7 @@ function App() {
 
         <Route path="/main" element={<Index />}></Route>
         <Route path="/userinfo" element={<UserInfo />}></Route>
+        <Route path="/userinfo/modify" element={<ModifiedUserInfo />}></Route>
 
         <Route path="/modifiedFriend" element={<ModifiedFriend />}></Route>
 

@@ -110,7 +110,7 @@ function UsersSearch() {
                 userList.map((x, index) => {
                   return(
                     <tr key={index}>
-                      <td><Profile src={x.profile}/>{x.nickname}</td>
+                      <td><Profile src={x.profile === "\\image\\default_profile.png" ? x.profile : "http://localhost:6001/" + x.profile}/>{x.nickname}</td>
                       {
                         x.userID || x.receiver || x.sender ? null : <td><input onClick={() => {addFriend(x.id);}} type="button" value="친구 추가"/></td>
                       }

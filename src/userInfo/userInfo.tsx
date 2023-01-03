@@ -15,7 +15,8 @@ height: 100vh;
 
 const Profile = styled.img` // 사용자 프로필 사진
 width: 100px;
-/* height: 100px; */
+height: 100px;
+border-radius: 70%;
 `;
 
 const Name = styled.p`
@@ -30,14 +31,13 @@ function UserInfo() {
   const nickname = userInfo.nickname;
   const profile = userInfo.profile; 
 
-
   return(
     <>
       <Main>
         <Profile src={profile} />
         <Name>'{nickname}' 님</Name>
-        <input onClick={()=>{navigate('/userInfo')}} type="button" value="내 정보"/>
-        <input type="button" value="프로필 수정"/>
+        <input onClick={()=>{navigate('/userinfo')}} type="button" value="내 정보"/>
+        <input onClick={()=>{navigate('/userinfo/modify')}} type="button" value="프로필 수정"/>
         <ul>
           <li>전체 약속</li>
           <li>정산중인 약속</li>
@@ -47,7 +47,7 @@ function UserInfo() {
 
         <div>
           <h2>친구목록</h2>
-          <input onClick={()=>{navigate('/modifiedFriend')}}type="button" value="친구목록 수정하기"/>
+          <input onClick={()=>{navigate('/modifiedFriend')}} type="button" value="친구목록 수정하기"/>
         </div>
 
       </Main>

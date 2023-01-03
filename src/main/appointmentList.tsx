@@ -35,7 +35,7 @@ function AppointmentList() {
         {
           appointmentList.map((x, index) => {
             return(
-              <tr>
+              <tr key={index}>
                 <td>{x.calculate_name}</td>
                 <td>{x.members}</td>
               </tr>

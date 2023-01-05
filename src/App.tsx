@@ -10,7 +10,11 @@ import ModifiedUserInfo from "./userInfo/setProfile";
 
 import ModifiedFriend from "./friend/modifyFriend";
 
-import Appointment from "./calendar/addAppointment";
+import AddAppointment from "./calendar/addAppointment";
+import Appointment from "./calendar/appointment";
+
+import CostList from "./calendar/cost_list";
+import AddCost from "./calendar/addCost";
 
 function App() {
   return (
@@ -25,7 +29,11 @@ function App() {
 
         <Route path="/modifiedFriend" element={<ModifiedFriend />}></Route>
 
-        <Route path="/appointment" element={<Appointment />}></Route>
+        <Route path="/appointment" element={<AddAppointment />}></Route>
+        <Route path="/appointment/:num" element={<Appointment />}></Route>
+
+        <Route path="/appointment/:num/costlist" element={<CostList />}></Route>
+        <Route path="/appointment/:num/cost" element={<AddCost />}></Route>
       </Routes>
     </>
   );

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface appointmentListState {
+  num: Number;
   id: string;
   calculate_name: string;
   members: string;

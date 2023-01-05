@@ -11,6 +11,8 @@ import axios from 'axios';
  
 
 function AppointmentList() {
+  axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const appointmentList = useAppSelector(state => state.appointmentList);
@@ -35,7 +37,7 @@ function AppointmentList() {
         {
           appointmentList.map((x, index) => {
             return(
-              <tr key={index}>
+              <tr onClick={()=>{navigate('/appointment/' + x.num)}} key={index}>
                 <td>{x.calculate_name}</td>
                 <td>{x.members}</td>
               </tr>

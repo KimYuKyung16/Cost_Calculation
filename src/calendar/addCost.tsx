@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
-import { userListActions, userSearchActions } from '../redux/modules/reducer/userListReducer'
+import { costActions } from '../redux/modules/reducer/costReducer'
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
@@ -47,24 +47,85 @@ function AddCost() {
   
   let params = useParams();
   console.log(params.num); // 리스트 번호
+  
+  const memberList = useAppSelector(state => state.memberList); // 멤버 리스트
+  const cost = useAppSelector(state => state.cost); // 비용 리스트
+  console.log('cost:',cost);
+
+  const dispatch = useAppDispatch();
+
+  // 변경된 제목 저장
+  let onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    dispatch(costActions.setcostTitle(e.target.value)) 
+  }; 
+
+  // 변경된 지불인 아이디 저장
+  let onChangePayer = (e: React.ChangeEvent<HTMLSelectElement>) => { 
+    dispatch(costActions.setcostPayer(e.target.value)) 
+  }; 
+
+  // 변경된 비용 저장
+  let onChangeCost = (e: React.ChangeEvent<HTMLInputElement>) => { 
+    dispatch(costActions.setcostCost(e.target.value)) 
+  }; 
+
+  // 변경된 내용 저장
+  let onChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => { 
+    dispatch(costActions.setcostContent(e.target.value)) 
+  }; 
+
+  function save_process(){
+    if (cost.title && cost.cost && cost.content && cost.payer){
+      const contents_send_val = {
+        calculateListNum: params.num,
+        title: cost.title,
+        payer: cost.payer,
+        id: cost.id,
+        cost: cost.cost,
+        content: cost.content,
+        receipt: cost.receipt
+      }
+      axios.post('http://localhost:6001/cost', { // 서버로 post 요청
+        contents_send_val
+      })
+      .then(function (response) { // 서버에서 응답이 왔을 때
+        if (response.data.status === 'success') {
+          navigate('/appointment/' + params.num);
+        } else {
+          alert("저장에 실패했습니다.");
+        }  
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    } else {
+      alert("작성되지 않은 부분이 있습니다.")
+    }
+    
+  }
+  
 
   return(
     <Main>
       <Main__title>
-        <input type="text" placeholder='비용 처리 제목'/>
-        <select value='name1'>
-          <option value='name1'>test이름</option>
-          <option value='name2'>test이름2</option>
-          <option value='name3'>test이름3</option>
+        <input onChange={onChangeTitle} type="text" placeholder='비용 처리 제목'/>
+        <select onChange={onChangePayer} value={memberList[0].userID}>
+          {
+            memberList.map((x, index) => {
+              return(
+                <option onClick={()=>{dispatch(costActions.setcostID(x.userID))}} key={index} value={x.userID}>{x.nickname}</option>
+              )
+            })
+          }        
         </select>
       </Main__title>
       <Main__cost>
-        <input type="text" placeholder='지출 비용: 숫자' />
+        <input onChange={onChangeCost}  type="text" placeholder='지출 비용: 숫자' />
       </Main__cost>
 
       <Main__contents>
         <Main__contents__content>
-          <textarea></textarea>
+          <textarea onChange={onChangeContent}></textarea>
         </Main__contents__content>
 
         <Main__contents__receipt>
@@ -72,6 +133,9 @@ function AddCost() {
           <input type="file"/>
         </Main__contents__receipt>
       </Main__contents>
+
+      <input onClick={save_process} type="button" value="저장"/>
+
     </Main>
   )
 }

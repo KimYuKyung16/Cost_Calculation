@@ -12,6 +12,12 @@ import axios from 'axios';
 import styled from "styled-components"; // styled in js
 
 
+const Profile = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 70%;
+`
+
 function Appointment() {
   axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
   const navigate = useNavigate();
@@ -42,6 +48,20 @@ function Appointment() {
 
   return(
     <>
+      <div>
+        <tbody>
+          {
+            memberList.map((x, index) => {
+              return(
+                <tr key={index}>
+                  <td><Profile src={x.profile}/>{x.nickname}</td>
+                </tr>
+              )
+            })
+          }
+        </tbody>
+      </div>
+
       <div>
         <input onClick={()=>{navigate('cost')}} type="button" value="비용 등록"/>
       </div>

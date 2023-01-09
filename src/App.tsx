@@ -13,7 +13,7 @@ import ModifiedFriend from "./friend/modifyFriend";
 import AddAppointment from "./calendar/addAppointment";
 import Appointment from "./calendar/appointment";
 
-import CostList from "./calendar/cost_list";
+import CostList from "./calendar/costList";
 import AddCost from "./calendar/addCost";
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
         <Route path="/appointment" element={<AddAppointment />}></Route>
         <Route path="/appointment/:num" element={<Appointment />}></Route>
 
-        <Route path="/appointment/:num/costlist" element={<CostList />}></Route>
+        <Route path="/appointment/:num/costlist" element={<CostList num={undefined} />}></Route>
         <Route path="/appointment/:num/cost" element={<AddCost />}></Route>
       </Routes>
     </>

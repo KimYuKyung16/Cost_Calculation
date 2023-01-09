@@ -120,7 +120,7 @@ function AddAppointment() {
 
   function addFriendMember(id: string, nickname: string, profile: string) { // 친구 중에서 멤버 추가
     dispatch(memberListActions.addMember({
-      userID: id, 
+      id: id, 
       nickname: nickname, 
       profile: profile
     }));
@@ -128,7 +128,7 @@ function AddAppointment() {
 
   function addMember() { // 멤버 추가
     dispatch(memberListActions.addMember({
-      userID: member.userID, 
+      id: member.id, 
       nickname: member.nickname, 
       profile: member.profile
     })); // 멤버 리스트 배열값 변경

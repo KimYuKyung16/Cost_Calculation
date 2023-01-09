@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface memberListState {
-  userID: string;
+  id: string;
   nickname: string;
   profile: string;
 }
 
 const initialState2: memberListState = { // 멤버 한명의 값들을 변경
-  userID: '',
+  id: '',
   nickname: '',
   profile: ''
 };

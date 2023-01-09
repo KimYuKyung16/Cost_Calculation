@@ -59,9 +59,10 @@ function AddCost() {
     dispatch(costActions.setcostTitle(e.target.value)) 
   }; 
 
-  // 변경된 지불인 아이디 저장
+  // 변경된 지불인 닉네임 저장
   let onChangePayer = (e: React.ChangeEvent<HTMLSelectElement>) => { 
-    dispatch(costActions.setcostPayer(e.target.value)) 
+    dispatch(costActions.setcostID(e.target.value)); 
+    dispatch(costActions.setcostPayer(e.target.options[e.target.selectedIndex].text)); 
   }; 
 
   // 변경된 비용 저장
@@ -103,17 +104,17 @@ function AddCost() {
     }
     
   }
-  
+
 
   return(
     <Main>
       <Main__title>
         <input onChange={onChangeTitle} type="text" placeholder='비용 처리 제목'/>
-        <select onChange={onChangePayer} value={memberList[0].userID}>
+        <select onChange={onChangePayer} value={cost.id}>
           {
             memberList.map((x, index) => {
               return(
-                <option onClick={()=>{dispatch(costActions.setcostID(x.userID))}} key={index} value={x.userID}>{x.nickname}</option>
+                <option key={index} value={x.id}>{x.nickname}</option>
               )
             })
           }        

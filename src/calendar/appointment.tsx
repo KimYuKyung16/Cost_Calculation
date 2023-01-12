@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
@@ -32,6 +32,56 @@ const Profile = styled.img`
   border-radius: 70%;
 `
 
+const Table = styled.table`
+  border-collapse: collapse;
+  padding: 10px;
+  margin: 0 10px;
+  /* background-color: aqua; */
+
+  & tr {
+    border-bottom: 0.5px solid #ffffff;
+    display: flex;
+
+    &:last-child{
+      border-bottom: none;
+    }
+  }
+
+  & td {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+
+    &:nth-child(1) {
+      /* width: 20%; */
+    }
+    
+    &:nth-child(2) {
+      font-weight: bold;
+      width: 30%;
+      /* background-color: beige; */
+      padding-left: 10px;
+    }
+
+    &:nth-child(3) {
+      /* width: 100%; */
+      text-align: right;
+    }
+
+  }
+`
+
+const List = styled.ul`
+  list-style: none;
+  padding-left: 0;
+
+  & > li {
+    font-size: small;
+    padding: 5px 0;
+  }
+`
+
 function Appointment() {
   axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
   const navigate = useNavigate();
@@ -44,60 +94,77 @@ function Appointment() {
   const memberList = useAppSelector(state => state.memberList);
   console.log(memberList)
 
+  let [memberNum, setMemberNum] = useState();
+  let [totalCost, setTotalCost] = useState(''); // 총 비용
+  let [eachCost, setEachCost] = useState(''); // 1인당 내야 하는 비용
 
-  function member_List() {
-    axios.get('http://localhost:6001/test', {
-      params: {
-        num: params.num
-      }
-    })
-    .then(function (response) { 
-      console.log(response.data);
-      dispatch(memberListActions.setInitialMemberList(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+
+  const member_List = async () => {
+    try {
+      let member = await axios.get('http://localhost:6001/test', {
+        params: {
+          num: params.num
+        }
+      })
+      setMemberNum(member.data.length);
+      dispatch(memberListActions.setInitialMemberList(member.data));
+      return member.data.length; // 총 인원
+    } catch(e) {
+      console.log(e);
+    }
   }
 
-  function sum_Of_Money() {
-    axios.get('http://localhost:6001/sum', {
-      params: {
-        num: params.num
-      }
-    })
-    .then(function (response) { 
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+  // 전체적인 비용 API로 가져오기
+  const sum_Of_Money = async () => {
+    const memberNum = await member_List(); // promise 형태라서 await
+    try {
+      let money = await axios.get('http://localhost:6001/sum', {
+        params: {
+          num: params.num,
+          memberNum: memberNum 
+        }
+      })
+      console.log(money.data);
+      setTotalCost(money.data.sumCost); // 총 비용 설정
+      setEachCost(money.data.eachCost); // 1인당 내야 하는 비용 설정
+    } catch(e) {
+      console.log(e)
+    }
   }
 
 
-  useEffect(()=> {member_List(); sum_Of_Money();}, []);
+
+  useEffect(()=> {sum_Of_Money();}, []);
 
   return(
     <Container>
       <Test>
         <div>
-          <p>총 비용:</p>
-          <p>1인당 내야 하는 비용:</p>
+          <p>총 비용: {totalCost}</p>
+          <p>1인당 내야 하는 비용: {eachCost}</p>
         </div>
 
-        <div>
+        <Table>
           <tbody>
             {
               memberList.map((x, index) => {
                 return(
                   <tr key={index}>
-                    <td><Profile src={x.profile}/>{x.nickname}</td>
+                    <td><Profile src={x.profile}/></td>
+                    <td>{x.nickname}</td>
+                    <td>
+                      <List>
+                        <li>총 지출비: </li>
+                        <li>더 내야하는 비용: </li>
+                        <li>받아야 하는 비용: </li>
+                      </List>
+                    </td>
                   </tr>
                 )
               })
             }
           </tbody>
-        </div>
+        </Table>
 
         <div>
           <input onClick={()=>{navigate('cost')}} type="button" value="비용 등록"/>

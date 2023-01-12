@@ -32,7 +32,7 @@ const Main = styled.div`
   height: 90%;
   box-sizing: border-box;
   overflow: auto; // 화면을 넘어가면 스크롤이 되도록
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
   /* -ms-overflow-style: none;
   scrollbar-width: none; */
 
@@ -97,27 +97,27 @@ function CostList(props: Props) {
     threshold: [0, 0.5, 1] // 타겟 엘리먼트가 교차영역에 진입했을 때, 교차영역에 타켓 엘리먼트의 50%가 있을 때, 교차 영역에 타켓 엘리먼트의 100%가 있을 때 observe가 반응한다.
   }
 
-  let observer = new IntersectionObserver(loading, options);
+  // let observer = new IntersectionObserver(loading, options);
 
-  // IntersectionObserver 생성
-  const io = new IntersectionObserver((entries, observer) => {
-    // IntersectionObserverEntry 객체 리스트와 observer 본인(self)를 받음
-    // 동작을 원하는 것 작성
-    entries.forEach(entry => {
-      // entry와 observer 출력
-      console.log('entry:', entry);
-      console.log('observer:', observer);
-    })
-  }, options)
+  // // IntersectionObserver 생성
+  // const io = new IntersectionObserver((entries, observer) => {
+  //   // IntersectionObserverEntry 객체 리스트와 observer 본인(self)를 받음
+  //   // 동작을 원하는 것 작성
+  //   entries.forEach(entry => {
+  //     // entry와 observer 출력
+  //     console.log('entry:', entry);
+  //     console.log('observer:', observer);
+  //   })
+  // }, options)
 
 
-  function loading() {
-    console.log('loading중');
-  }
+  // function loading() {
+  //   console.log('loading중');
+  // }
 
-  io.observe(options.root);
+  // io.observe(options.root);
 
-  console.log(io);
+  // console.log(io);
 
 
 

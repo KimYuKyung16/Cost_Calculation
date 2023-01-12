@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { userListActions, userSearchActions } from '../redux/modules/reducer/userListReducer'
 import { memberActions, memberListActions, appointmentActions } from '../redux/modules/reducer/memberListReducer'
@@ -23,15 +23,35 @@ width: 100px;
 height: 100px;
 `;
 
-const Container = styled.div`
+const Main__member = styled.div`
   display: flex;
   flex-direction: column;  
   width: 100%;
 `
 
-const Main = styled.div`
+const Main__member__search = styled.div`
+  /* background-color: aqua; */
   position: relative;
+
+  & > input {
+    &:nth-child(1) {
+      width: 50%;
+      height: 30px;
+      font-size: 17px;
+    }
+    &:nth-child(2) {
+      height: 30px;
+      font-size: 17px;
+      border: none;
+      background-color: aquamarine;
+    }
+  }
+`
+
+const Main = styled.div`
+  /* position: relative; */
   width: 100%;
+  background-color: antiquewhite;
 `
 
 const List = styled.div`
@@ -181,9 +201,13 @@ function AddAppointment() {
       <h5>일정이름</h5>
       <input onChange={onChangeAppointmentName} type="text" placeholder="일정 이름을 적어주세요"/>
       <h5>인원</h5>
-      <Container>
-        <input ref={el} onClick={ ()=>{ dispatch(userSearchActions.setSearch(''))} } onChange={onChangeNickname} type="text" placeholder="이름을 적어주세요" value={member.nickname}/>
+      <Main__member>
+        <Main__member__search>
+          <input ref={el} onClick={ ()=>{ dispatch(userSearchActions.setSearch(''))} } onChange={onChangeNickname} type="text" placeholder="이름을 적어주세요" value={member.nickname}/>
+          <input onClick={addMember} type="button" value="인원 추가" />
+        </Main__member__search>
         <Main>
+          {/* <p>안녕</p> */}
           <List>
             <Test>
               {
@@ -198,8 +222,8 @@ function AddAppointment() {
             </Test>
           </List>
         </Main>
-      </Container>
-      <input onClick={addMember} type="button" value="인원 추가" />
+      </Main__member>
+      
 
       {
         memberList.map((x, index) => {

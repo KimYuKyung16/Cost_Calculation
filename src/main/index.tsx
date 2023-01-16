@@ -16,7 +16,7 @@ const Main = styled.div`
 `
 
 const UserInfoDiv = styled.div`
-width: 30%;
+width: 20%;
 `
 
 function Index() {

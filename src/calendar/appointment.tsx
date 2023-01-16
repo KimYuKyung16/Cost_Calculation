@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { AriaAttributes, DOMAttributes, useEffect, useRef, useState } from 'react';
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
@@ -66,21 +66,32 @@ const Table = styled.table`
 
     &:nth-child(3) {
       /* width: 100%; */
-      text-align: right;
+      text-align: left;
     }
 
   }
 `
 
-const List = styled.ul`
+const List= styled.ul`
   list-style: none;
   padding-left: 0;
 
   & > li {
-    font-size: small;
+    font-size: smaller;
     padding: 5px 0;
   }
 `
+
+const MyInfo = styled.div`
+  background-color: #8b7ac1;
+  outline: 3px solid #fdfdfd;
+  /* padding: 10px; */
+
+  & p {
+    color: #5a5a5a;
+  }
+`
+
 
 function Appointment() {
   axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
@@ -90,24 +101,41 @@ function Appointment() {
   let params = useParams();
   let num: string|undefined = params.num;
   console.log(typeof(params.num)); // 리스트 번호
+  console.log(num);
 
-  const memberList = useAppSelector(state => state.memberList);
+  interface MemberListInterface {
+    id: string; // 아이디
+    nickname: string; // 닉네임 
+    profile: string; // 프로필
+    totalCost: number; // 총 지출비
+    lackCost: number; // 더 내야하는 비용
+    excessCost: number; // 받아야 하는 비용
+  }
+
+  // const memberList = useAppSelector(state => state.memberList);
+  let [memberList, setMemberList] = useState<MemberListInterface[]>([]);
+  const userInfo = useAppSelector(state => state.userInfo);
+  // console.log(memberList)
   console.log(memberList)
 
   let [memberNum, setMemberNum] = useState();
-  let [totalCost, setTotalCost] = useState(''); // 총 비용
-  let [eachCost, setEachCost] = useState(''); // 1인당 내야 하는 비용
+  let [totalCost, setTotalCost] = useState(0); // 총 비용
+  let [eachCost, setEachCost] = useState(0); // 1인당 내야 하는 비용
 
-
+  // 멤버 리스트 가져오기
   const member_List = async () => {
     try {
-      let member = await axios.get('http://localhost:6001/test', {
+      let member = await axios.get('http://localhost:6001/memberList', {
         params: {
-          num: params.num
+          num: params.num,
+          // eachCost: eachCost
         }
       })
-      setMemberNum(member.data.length);
-      dispatch(memberListActions.setInitialMemberList(member.data));
+      console.log('실행이 되었습니다.')
+      setTotalCost(member.data.sumCost); // 총 비용 설정
+      setEachCost(member.data.eachCost); // 1인당 내야 하는 비용 설정
+      setMemberList(member.data.memberList)
+      // dispatch(memberListActions.setInitialMemberList([]));
       return member.data.length; // 총 인원
     } catch(e) {
       console.log(e);
@@ -115,52 +143,91 @@ function Appointment() {
   }
 
   // 전체적인 비용 API로 가져오기
-  const sum_Of_Money = async () => {
-    const memberNum = await member_List(); // promise 형태라서 await
-    try {
-      let money = await axios.get('http://localhost:6001/sum', {
-        params: {
-          num: params.num,
-          memberNum: memberNum 
-        }
-      })
-      console.log(money.data);
-      setTotalCost(money.data.sumCost); // 총 비용 설정
-      setEachCost(money.data.eachCost); // 1인당 내야 하는 비용 설정
-    } catch(e) {
-      console.log(e)
-    }
-  }
+  // const sum_Of_Money = async () => {
+  //   const memberNum = await member_List(); // promise 형태라서 await
+  //   try {
+  //     let money = await axios.get('http://localhost:6001/sum', {
+  //       params: {
+  //         num: params.num,
+  //         memberNum: memberNum 
+  //       }
+  //     })
+  //     console.log(money.data);
+  //     setTotalCost(money.data.sumCost); // 총 비용 설정
+  //     setEachCost(money.data.eachCost); // 1인당 내야 하는 비용 설정
+  //   } catch(e) {
+  //     console.log(e)
+  //   }
+  // }
 
 
-
-  useEffect(()=> {sum_Of_Money();}, []);
+  useEffect(() => {}, [memberList])
+  useEffect(()=> {member_List();}, []);
+  // useEffect(() => {member_List();}, [eachCost])
 
   return(
     <Container>
       <Test>
         <div>
-          <p>총 비용: {totalCost}</p>
-          <p>1인당 내야 하는 비용: {eachCost}</p>
+          <p>총 비용: {totalCost} 원</p>
+          <p>1인당 내야 하는 비용: {eachCost} 원</p>
         </div>
+
+        {/* <div>
+          <table>
+            <tbody>
+              <tr>
+                <td><Profile src={userInfo.profile}/></td>
+                <td>{userInfo.nickname}</td>
+                <td>
+                  <List>
+                    <li>총 지출비: </li>
+                    <li>더 내야하는 비용: </li>
+                    <li>받아야 하는 비용: </li>
+                  </List>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div> */}
 
         <Table>
           <tbody>
             {
               memberList.map((x, index) => {
-                return(
-                  <tr key={index}>
-                    <td><Profile src={x.profile}/></td>
-                    <td>{x.nickname}</td>
-                    <td>
-                      <List>
-                        <li>총 지출비: </li>
-                        <li>더 내야하는 비용: </li>
-                        <li>받아야 하는 비용: </li>
-                      </List>
-                    </td>
-                  </tr>
-                )
+                if (index === 0) {
+                  return (
+                    <>
+                    <MyInfo>
+                        <tr key={index}>
+                        <td><Profile src={x.profile}/></td>
+                        <td>{x.nickname}</td>
+                        <td>
+                          <List>
+                            <li>총 지출비: {x.totalCost} 원</li>
+                            <li>더 내야하는 비용: {x.lackCost} 원</li>
+                            <li>받아야 하는 비용: {x.excessCost} 원</li>
+                          </List>
+                        </td>
+                      </tr>
+                    </MyInfo>
+                    </>
+                  )
+                } else {
+                  return(
+                    <tr key={index}>
+                      <td><Profile src={x.profile}/></td>
+                      <td>{x.nickname}</td>
+                      <td>
+                        <List color={'white'}>
+                          <li>총 지출비: {x.totalCost} 원</li>
+                          <li>더 내야하는 비용: {x.lackCost} 원</li>
+                          <li>받아야 하는 비용: {x.excessCost} 원</li>
+                        </List>
+                      </td>
+                    </tr>
+                  )
+                }
               })
             }
           </tbody>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
@@ -119,8 +119,13 @@ function CostList(props: Props) {
 
   // console.log(io);
 
+  interface costListInterface {
+    title: string;
+    cost: string;
+    payer: string;
+  }
 
-
+  let [costList2, setCostList2] = useState<costListInterface[]>([]);
 
   function costListPrint() {
     axios.get('http://localhost:6001/costlist', {
@@ -130,12 +135,15 @@ function CostList(props: Props) {
     })
     .then(function (response) { 
       console.log(response.data);
-      dispatch(costActions.setcostList(response.data));
+      setCostList2(response.data);
+      // dispatch(costActions.setcostList(response.data));
     })
     .catch(function (error) {
       console.log(error);
     })
   }
+
+  console.log(costList2)
 
   useEffect(() => { costListPrint(); }, [])
 
@@ -149,7 +157,7 @@ function CostList(props: Props) {
         <Main__List>
           <tbody>
             {
-              costList.list.map((x, index) => {
+              costList2.map((x, index) => {
                 return(
                   <tr>
                     <td className='test1'>{x.title}</td>

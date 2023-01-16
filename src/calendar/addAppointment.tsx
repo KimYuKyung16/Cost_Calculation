@@ -120,6 +120,8 @@ function AddAppointment() {
     dispatch(userSearchActions.setSearch(e.target.value));
   };
 
+  console.log(memberList);
+
   function friendlistUp() { // 유저 검색했을 때 나오는 값들 저장
     axios.get('http://localhost:6001/friendList', {
       params: {
@@ -188,7 +190,12 @@ function AddAppointment() {
     }
   };
 
-  
+  const test2 = () => {
+    dispatch(memberListActions.setInitialMemberList([]));
+    console.log(memberList)
+  }
+
+  useEffect(() => {test2();}, [])  
   useEffect(() => { friendlistUp(); }, [searchVal])
   useEffect(() => {
     window.addEventListener("click", test);

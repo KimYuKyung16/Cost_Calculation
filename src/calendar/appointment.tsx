@@ -14,15 +14,36 @@ import axios from 'axios';
 import styled from "styled-components"; // styled in js
 
 const Container = styled.div`
+  /* width: 100vw; */
+  /* height: 100vw; */
+`
+
+const Header = styled.div`
+  height: 3vw;
+  background-color: #322c58;
+  border-bottom: 1px solid white;
+
+  & img {
+    width: auto;
+    height: 60%;
+    border-radius: 70%;
+    border: 2px solid white;
+  }
+`
+
+
+
+const Main = styled.div`
   display: flex;
   flex-direction: row;
+  box-sizing: content-box;
   /* background-color: #6549b9; */
 `
 
 const Test = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #6549b9;
+  background-color: #322c58;
   width: 40%;
 `
 
@@ -83,7 +104,7 @@ const List= styled.ul`
 `
 
 const MyInfo = styled.div`
-  background-color: #8b7ac1;
+  background-color: #6f6fae;
   outline: 3px solid #fdfdfd;
   /* padding: 10px; */
 
@@ -167,78 +188,84 @@ function Appointment() {
 
   return(
     <Container>
-      <Test>
-        <div>
-          <p>총 비용: {totalCost} 원</p>
-          <p>1인당 내야 하는 비용: {eachCost} 원</p>
-        </div>
+      <Header>
+        <img src='/image/logo_purple.png'/>
+      </Header>
+      
+      <Main>
+        <Test>
+          <div>
+            <p>총 비용: {totalCost} 원</p>
+            <p>1인당 내야 하는 비용: {eachCost} 원</p>
+          </div>
 
-        {/* <div>
-          <table>
+          {/* <div>
+            <table>
+              <tbody>
+                <tr>
+                  <td><Profile src={userInfo.profile}/></td>
+                  <td>{userInfo.nickname}</td>
+                  <td>
+                    <List>
+                      <li>총 지출비: </li>
+                      <li>더 내야하는 비용: </li>
+                      <li>받아야 하는 비용: </li>
+                    </List>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div> */}
+
+          <Table>
             <tbody>
-              <tr>
-                <td><Profile src={userInfo.profile}/></td>
-                <td>{userInfo.nickname}</td>
-                <td>
-                  <List>
-                    <li>총 지출비: </li>
-                    <li>더 내야하는 비용: </li>
-                    <li>받아야 하는 비용: </li>
-                  </List>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div> */}
-
-        <Table>
-          <tbody>
-            {
-              memberList.map((x, index) => {
-                if (index === 0) {
-                  return (
-                    <>
-                    <MyInfo>
-                        <tr key={index}>
+              {
+                memberList.map((x, index) => {
+                  if (index === 0) {
+                    return (
+                      <>
+                      <MyInfo>
+                          <tr key={index}>
+                          <td><Profile src={x.profile}/></td>
+                          <td>{x.nickname}</td>
+                          <td>
+                            <List>
+                              <li>총 지출비: {x.totalCost} 원</li>
+                              <li>더 내야하는 비용: {x.lackCost} 원</li>
+                              <li>받아야 하는 비용: {x.excessCost} 원</li>
+                            </List>
+                          </td>
+                        </tr>
+                      </MyInfo>
+                      </>
+                    )
+                  } else {
+                    return(
+                      <tr key={index}>
                         <td><Profile src={x.profile}/></td>
                         <td>{x.nickname}</td>
                         <td>
-                          <List>
+                          <List color={'white'}>
                             <li>총 지출비: {x.totalCost} 원</li>
                             <li>더 내야하는 비용: {x.lackCost} 원</li>
                             <li>받아야 하는 비용: {x.excessCost} 원</li>
                           </List>
                         </td>
                       </tr>
-                    </MyInfo>
-                    </>
-                  )
-                } else {
-                  return(
-                    <tr key={index}>
-                      <td><Profile src={x.profile}/></td>
-                      <td>{x.nickname}</td>
-                      <td>
-                        <List color={'white'}>
-                          <li>총 지출비: {x.totalCost} 원</li>
-                          <li>더 내야하는 비용: {x.lackCost} 원</li>
-                          <li>받아야 하는 비용: {x.excessCost} 원</li>
-                        </List>
-                      </td>
-                    </tr>
-                  )
-                }
-              })
-            }
-          </tbody>
-        </Table>
+                    )
+                  }
+                })
+              }
+            </tbody>
+          </Table>
 
-        <div>
-          <input onClick={()=>{navigate('cost')}} type="button" value="비용 등록"/>
-        </div>
-      </Test>
+          <div>
+            <input onClick={()=>{navigate('cost')}} type="button" value="비용 등록"/>
+          </div>
+        </Test>
 
-      <CostList num={num} />
+        <CostList num={num} />
+      </Main>
     </Container>
   )
 }

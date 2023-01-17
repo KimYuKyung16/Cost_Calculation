@@ -18,7 +18,7 @@ import AddCost from "./calendar/addCost";
 
 function App() {
   return (
-    <>
+    
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
@@ -35,7 +35,7 @@ function App() {
         <Route path="/appointment/:num/costlist" element={<CostList num={undefined} />}></Route>
         <Route path="/appointment/:num/cost" element={<AddCost />}></Route>
       </Routes>
-    </>
+    
   );
 }
 

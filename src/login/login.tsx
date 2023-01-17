@@ -123,7 +123,7 @@ function Login() {
     <Main>
       <Title>정산관리 시스템</Title>
       <Side>
-        <Side__image src='image/logo512.png'/>
+        <Side__image src='image/logo_purple.png'/>
         <Side__login>
           <Side__login__component onChange={onChangeId} type="text" placeholder='아이디를 입력하세요.'/>
           <Side__login__component onChange={onChangePw} type="password" placeholder='패스워드를 입력하세요.'/>

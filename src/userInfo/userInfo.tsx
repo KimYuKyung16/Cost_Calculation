@@ -8,7 +8,7 @@ import { userInfoActions } from '../redux/modules/reducer/userInfoReducer'
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 const Main = styled.div`
-background-color: #6549b9;
+background-color: #322c58;
 width: 100%;
 height: 100vh;
 `
@@ -30,8 +30,9 @@ height: 40%;
   }
 
   & p { // 사용자 닉네임
-    color: yellow;
+    color: #b7b6d6;
     font-size: 1.5rem;
+    font-weight: bold;
   }
 `
 
@@ -44,7 +45,7 @@ width: 100%;
 height: 5%;
 
 & input {
-  background-color: #6549b9;
+  background-color: #322c58;
   border: 3px solid #bac7fb;
   width: 30%;
   color: #bac7fb;
@@ -79,7 +80,7 @@ height: 40%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    color: white;
+    color: #b7b6d6;
     font-weight: bold;
     font-size: 20px;
     /* background-color: #b4b4b4; */
@@ -90,7 +91,7 @@ height: 40%;
   }
 
   & li:hover{  
-    background-color : #4a2670;
+    background-color : #44466b;
     color : white;
   }
 }

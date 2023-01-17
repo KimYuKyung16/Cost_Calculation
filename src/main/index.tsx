@@ -9,10 +9,11 @@ import axios from 'axios';
 const Total = styled.div`
   display: flex;
   flex-direction: row;
+  /* background-color: #b7b6d6; */
 `
 
 const Main = styled.div`
-  
+  width: 80%;
 `
 
 const UserInfoDiv = styled.div`

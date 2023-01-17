@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+interface membersState {
+  id: string;
+  nickname: string;
+  profile: string;
+}
 interface appointmentListState {
   num: Number;
   id: string;
   calculate_name: string;
-  members: string;
+  members: membersState[] | any;
 }
 
 const initialState: appointmentListState[] = []; // 검색된 유저 리스트

@@ -14,6 +14,7 @@ import {userListReducer, userSearchReducer, waitingListReducer, receivingListRed
 import {memberListReducer, memberReducer, appointmentReducer} from "../modules/reducer/memberListReducer"
 import {appointmentListReducer} from "../modules/reducer/appointmentListReducer";
 import {costReducer} from "../modules/reducer/costReducer";
+import {barReducer} from "../modules/reducer/barReducer";
 
 const reducers = combineReducers({ // persist-redux 추가
   loginInfo: loginReducer,
@@ -29,7 +30,9 @@ const reducers = combineReducers({ // persist-redux 추가
   appointment: appointmentReducer,
   appointmentList: appointmentListReducer,
 
-  cost: costReducer
+  cost: costReducer,
+
+  barState: barReducer,
 });
 
 const persistConfig = { // persist-redux 추가

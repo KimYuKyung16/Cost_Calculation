@@ -8,6 +8,7 @@ import styled from 'styled-components'; // styled in js
 import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
 
 import axios from 'axios';
+import { memberListActions } from '../redux/modules/reducer/memberListReducer';
  
 
 
@@ -27,6 +28,7 @@ const Main = styled.div`
   width: 100%;
   height: 90%;
   box-sizing: border-box;
+  padding: 0 10%;
 `
 
 const Main__List = styled.table`
@@ -41,7 +43,7 @@ const Main__List = styled.table`
     
     & tr {
       width: 100%;
-      border-bottom: 1px solid #c9c9c9;
+      border-bottom: 1px solid #e3e3e3;
       /* background-color: #191a68; */
       
     }
@@ -54,7 +56,7 @@ const Main__List = styled.table`
       font-size: 1.2em;
       width: 100%;
       padding: 0 3%;
-      background-color: red;
+      /* background-color: red; */
       box-sizing: border-box;
 
       & p {
@@ -87,44 +89,59 @@ const Main__List = styled.table`
   }
 `
 const Main__List__Members = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: row;
-  flex-wrap: wrap-reverse;
-  background-color: #44466b;
   border-radius: 10px;
-  /* height: 100%; */
-  position: relative;
   width: 10%;
-  padding-bottom: 10%;
-  /* overflow: hidden; */
-
-  /* &::after {
-    display: block;
-    content: "";
-    padding-bottom: 10%;
-  } */
+  max-width: 70px;
+  max-height: 70px;
 
   & div {
-    position: relative;
-    width: 100%;
-    background-color: aqua;
-    padding-bottom: 100%;
+    padding-top: 100%;
+    padding-top: 0%;
+    max-width: 50px;
+    max-height: 50px;
+
+      & div {
+        display: flex;
+        flex-direction: row;
+        flex-flow: wrap-reverse;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        padding-top: 0%;
+        max-width: 70px;
+        max-height: 70px;
+        top: 0;
+
+
+        
+
+        & div {
+          width: 50%;
+          padding-top: 50%;
+          max-width: 30px;
+          max-height: 30px; 
+          position: relative;
+          border-radius: 10px;
+          background-color: #eeee00;
+
+          & img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            padding-top: 0%;
+            position: absolute;
+            top: 0;
+            border: 1px solid #bfbfbf;
+          } 
+        }
+      }
   }
 
-  & div::after {
-    display: block;
-    content: "";
-    padding-bottom: 100%;
-  }
 
-  & img {
-    position: absolute;
-    width: 45%;
-    height: 45%;
-    border-radius: 10px;
-  }
+
+
+  
 
   
 
@@ -166,15 +183,19 @@ function AppointmentList() {
                         <span>{x.members.length}</span>
                       </p>       
                       <Main__List__Members>
-                          {
-                            x.members.map((member: { id: string, nickname:string, profile: string }, index: any) => {
-                              return(
-                                <div>
-                                  <img src={member.profile}/>
-                                </div>
-                              )
-                            })
-                          }
+                        <div>
+                          <div> {/* 3개의 프로필을 모아둔 div*/}
+                            {
+                              x.members.map((member: { id: string, nickname:string, profile: string }, index: any) => {
+                                return(
+                                  <div>
+                                    <img src={member.profile}/>
+                                  </div>
+                                )
+                              })
+                            }
+                          </div>
+                        </div>
                       </Main__List__Members>
                     </td>
                   </tr>

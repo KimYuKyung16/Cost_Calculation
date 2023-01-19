@@ -1,30 +1,32 @@
-import { AriaAttributes, DOMAttributes, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import { memberListActions } from '../redux/modules/reducer/memberListReducer'
+import { barActions } from '../redux/modules/reducer/barReducer'
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
-import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 
 import Layout_Header from './header';
 import MemberList from './appointment_MembrList';
 import CostList from './costList';
 
 import axios from 'axios'; 
-import styled from "styled-components"; // styled in js
+import styled, { Keyframes, keyframes } from "styled-components"; // styled in js
 
 const Header = styled.div`
 height: 40px;
 border-bottom: 1px solid white;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  z-index: 1;
+}
 `
 
 const Total = styled.div`
 display: flex;
 flex-direction: column;
 width: 100%; 
-/* height: 100%; */
+height: 100%;
 background-color: aquamarine;
 box-sizing: border-box;
 `
@@ -33,10 +35,67 @@ box-sizing: border-box;
 const Container = styled.div`
 display: flex;
 flex-direction: row;
-height: calc(100vh - 40px);
-  /* width: 100vw; */
-  /* height: 100vw; */
+height: calc(100% - 40px);
+position: relative;
 `
+
+const appear = keyframes`
+0% {
+  transform: translateX(-150%);
+}
+
+100% {
+  transform: translateX(0%);
+}
+`
+
+const disappear = keyframes`
+0% {
+  transform: translateX(0%);
+}
+100% {
+  transform: translateX(-150%);
+}
+`
+
+const default_disappear = keyframes`
+0% {
+  transform: translateX(-150%);
+}
+100% {
+  transform: translateX(-150%);
+}
+`
+
+
+
+const opacity = keyframes` // 불투명하게
+0% {
+  opacity: 0%;
+}
+100% {
+  opacity: 50%;
+}
+`
+
+const transparency = keyframes` // 투명하게
+0% {
+  opacity: 50%;
+}
+100% {
+  opacity: 0%;
+}
+`
+
+
+
+interface MemberList_Props {
+  visable: Keyframes | undefined;
+}
+
+interface Black_Props {
+  visable: string | undefined;
+}
 
 const Main__MemberList = styled.div`
   width: 30%;
@@ -45,12 +104,40 @@ const Main__MemberList = styled.div`
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
-  display: none;
+  /* display:  */
+  position: absolute;
+  top: 0;
+  width: 70%;
+  animation: ${(props: MemberList_Props) => props.visable} 1s ease-out forwards;
+  z-index: 1;
 }
 `
 
+
 const Main__CostList = styled.div`
+height: 100%;
 width: 70%;
+
+`
+const BlackContainer = styled.div`
+/* 모바일, 타블렛 기준 */
+
+`
+
+const Black = styled.div`
+width: 100%;
+height: 100%;
+background-color: black;
+position: absolute;
+opacity: 50%;
+display: none;
+
+@media screen and (max-width: 1023px) { 
+display: block;
+/* transform: translateX(-150%); */
+z-index: 1;
+animation: ${(props: Black_Props) => props.visable === 'block' ? opacity : transparency} 1s ease-out forwards;
+}
 `
 
 function Appointment() {
@@ -60,17 +147,68 @@ function Appointment() {
 
   let params = useParams();
   let num: string|undefined = params.num;
-  console.log(typeof(params.num)); // 리스트 번호
-  console.log(num);
+
+  let barState = useAppSelector(state => state.barState);
+  // let [screenOpacity, setScreenOpacity] = useState<Keyframes>(); 
+  let [visable, setVisable] = useState<Keyframes>();
+
+  // const ResizedComponent = () => {
+  //   const [windowSize, setWindowSize] = useState(
+  //     window.innerWidth,
+  //   );
+   
+  //   const handleResize = () => {
+  //     setWindowSize(window.innerWidth);
+  //   }
+   
+  //   useEffect(() => {
+  //     window.addEventListener('resize', handleResize);
+  //     return () => { // cleanup 
+  //       window.removeEventListener('resize', handleResize);
+  //     }
+  //   }, []);
+
+  // }
+
+
+  const appearAnimation = () => {
+    if (barState.visable === 'none') {
+      setVisable(disappear);
+      // setScreenOpacity(transparency);
+    } else {
+      setVisable(appear);
+      // setScreenOpacity(opacity);
+    } 
+  }
+
+
+  useEffect(() => {
+    appearAnimation();
+  }, [barState])
+
+
 
 
   return(
     <Total>
-      <Header><Layout_Header num={num}></Layout_Header></Header>
+
+      <BlackContainer>
+        <Black visable={barState.visable}></Black>
+      </BlackContainer>
+
+      <Header>
+        <Layout_Header num={num}></Layout_Header>
+      </Header>
+
       <Container>
-        <Main__MemberList><MemberList num={num}></MemberList> </Main__MemberList>
-        <Main__CostList><CostList num={num}></CostList></Main__CostList>
+        <Main__MemberList visable={visable} >
+          <MemberList num={num}></MemberList> 
+        </Main__MemberList>
+        <Main__CostList>
+          {/* <CostList num={num}></CostList> */}
+        </Main__CostList>
       </Container>  
+
     </Total>
   )
 }

@@ -2,7 +2,7 @@ import { AriaAttributes, DOMAttributes, useEffect, useRef, useState } from 'reac
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
-import { memberListActions } from '../redux/modules/reducer/memberListReducer'
+import { barActions } from '../redux/modules/reducer/barReducer'
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
@@ -81,7 +81,9 @@ function Layout_Header(props: Props) {
   const dispatch = useAppDispatch();
   
   let [appointmentTitle, setAppointmentTitle] = useState<string>('') ; // 바를 클릭한 횟수
-  let [barState, setBarState] = useState<String>('none'); // 멤버 컴포넌트 상태 -> default값: 안보임.
+  // let [barState, setBarState] = useState<String>('none'); // 멤버 컴포넌트 상태 -> default값: 안보임.
+
+  let barState = useAppSelector(state => state.barState);
 
   const getTitle = async () => { // 약속 이름 가져오기
     try {
@@ -95,10 +97,8 @@ function Layout_Header(props: Props) {
   }
 
   const clickBar = () => { // 햄버거바를 클릭했을 때 실행되는 함수
-    setBarState ((prev) => {
-      if (prev === 'none') return ('block'); // 이전 값이 none이면 보이게 처리
-      else return ('none'); // 이전 값이 block이면 안보이게 처리
-    })
+    if (barState.visable === 'none') dispatch(barActions.setBar('block'));
+    else dispatch(barActions.setBar('none'));
   }
 
   useEffect(()=> {getTitle();}, []);

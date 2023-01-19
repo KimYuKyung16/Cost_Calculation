@@ -3,6 +3,7 @@ import { AriaAttributes, DOMAttributes, useEffect, useRef, useState } from 'reac
 import { useNavigate, Link, useParams } from "react-router-dom";
 
 import { memberListActions } from '../redux/modules/reducer/memberListReducer'
+import { barActions } from '../redux/modules/reducer/barReducer'
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
@@ -116,9 +117,8 @@ function AppointmentMemberList(props: Props) {
 
   let params = useParams();
   let num: string|undefined = params.num;
-  console.log(typeof(params.num)); // 리스트 번호
-  console.log(num);
 
+  let barState = useAppSelector(state => state.barState);
   interface MemberListInterface {
     id: string; // 아이디
     nickname: string; // 닉네임 

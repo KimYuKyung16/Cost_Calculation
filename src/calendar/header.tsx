@@ -97,8 +97,9 @@ function Layout_Header(props: Props) {
   }
 
   const clickBar = () => { // 햄버거바를 클릭했을 때 실행되는 함수
-    if (barState.visable === 'none') dispatch(barActions.setBar('block'));
-    else dispatch(barActions.setBar('none'));
+    if (barState.visable === 'none') dispatch(barActions.setVisable('block'));
+    else dispatch(barActions.setVisable('none'));
+    console.log(barState.visable)
   }
 
   useEffect(()=> {getTitle();}, []);

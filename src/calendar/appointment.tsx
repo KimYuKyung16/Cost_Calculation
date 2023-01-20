@@ -39,58 +39,8 @@ height: calc(100% - 40px);
 position: relative;
 `
 
-const appear = keyframes`
-0% {
-  transform: translateX(-150%);
-}
-
-100% {
-  transform: translateX(0%);
-}
-`
-
-const disappear = keyframes`
-0% {
-  transform: translateX(0%);
-}
-100% {
-  transform: translateX(-150%);
-}
-`
-
-const default_disappear = keyframes`
-0% {
-  transform: translateX(-150%);
-}
-100% {
-  transform: translateX(-150%);
-}
-`
-
-
-
-const opacity = keyframes` // 불투명하게
-0% {
-  opacity: 0%;
-}
-100% {
-  opacity: 50%;
-}
-`
-
-const transparency = keyframes` // 투명하게
-0% {
-  opacity: 50%;
-}
-100% {
-  opacity: 0%;
-}
-`
-
-
-
 interface MemberList_Props {
-  visable: Keyframes | undefined;
+  visable: string | undefined;
 }
 
 interface Black_Props {
@@ -108,10 +58,14 @@ const Main__MemberList = styled.div`
   position: absolute;
   top: 0;
   width: 70%;
-  animation: ${(props: MemberList_Props) => props.visable} 1s ease-out forwards;
+  /* animation: ${(props: MemberList_Props) => props.visable} 1s ease-out both; */
+  transform: ${(props: MemberList_Props) => props.visable === 'block' ? 'translateX(-0%)' : 'translateX(-100%)' };
+  transition: ${(props: MemberList_Props) => props.visable === 'block' ? 'transform 1s ease-out' : 'transform 1s ease-in'};
   z-index: 1;
 }
 `
+
+// state ? props.visable : 
 
 
 const Main__CostList = styled.div`
@@ -136,7 +90,8 @@ display: none;
 display: block;
 /* transform: translateX(-150%); */
 z-index: 1;
-animation: ${(props: Black_Props) => props.visable === 'block' ? opacity : transparency} 1s ease-out forwards;
+opacity: ${(props: MemberList_Props) => props.visable === 'block' ? '80%' : '0%' };
+transition: ${(props: MemberList_Props) => props.visable === 'block' ? 'opacity 1s ease-out' : 'opacity 1s ease-in'};
 }
 `
 
@@ -149,50 +104,30 @@ function Appointment() {
   let num: string|undefined = params.num;
 
   let barState = useAppSelector(state => state.barState);
-  // let [screenOpacity, setScreenOpacity] = useState<Keyframes>(); 
-  let [visable, setVisable] = useState<Keyframes>();
 
-  // const ResizedComponent = () => {
-  //   const [windowSize, setWindowSize] = useState(
-  //     window.innerWidth,
-  //   );
-   
-  //   const handleResize = () => {
-  //     setWindowSize(window.innerWidth);
-  //   }
-   
-  //   useEffect(() => {
-  //     window.addEventListener('resize', handleResize);
-  //     return () => { // cleanup 
-  //       window.removeEventListener('resize', handleResize);
-  //     }
-  //   }, []);
+  const testRef:any = useRef();
+  const testRef2:any = useRef();
 
-  // }
+ useEffect(() => {
+    function handleOutsideClick(e: any) {
+      if (testRef.current && testRef.current.contains(e.target)) {
+        dispatch(barActions.setVisable('none'))
+      }
+    }
 
-
-  const appearAnimation = () => {
-    if (barState.visable === 'none') {
-      setVisable(disappear);
-      // setScreenOpacity(transparency);
-    } else {
-      setVisable(appear);
-      // setScreenOpacity(opacity);
-    } 
-  }
-
-
-  useEffect(() => {
-    appearAnimation();
-  }, [barState])
-
-
+    // Component rendering 후 이벤트 등록
+    document.addEventListener('click', handleOutsideClick, true);
+    // Component 제거 시 이벤트 제거
+    return () => {
+      document.removeEventListener('click', handleOutsideClick, true);
+    };
+  }, [testRef]);
 
 
   return(
     <Total>
 
-      <BlackContainer>
+      <BlackContainer ref={testRef}>
         <Black visable={barState.visable}></Black>
       </BlackContainer>
 
@@ -201,11 +136,11 @@ function Appointment() {
       </Header>
 
       <Container>
-        <Main__MemberList visable={visable} >
+        <Main__MemberList visable={barState.visable}>
           <MemberList num={num}></MemberList> 
         </Main__MemberList>
         <Main__CostList>
-          {/* <CostList num={num}></CostList> */}
+          <CostList num={num}></CostList>
         </Main__CostList>
       </Container>  
 

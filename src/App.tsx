@@ -9,6 +9,7 @@ import UserInfo from "./userInfo/userInfo";
 import ModifiedUserInfo from "./userInfo/setProfile";
 
 import ModifiedFriend from "./friend/modifyFriend";
+import Friend from "./friend/friend";
 
 import AddAppointment from "./calendar/addAppointment";
 import Appointment from "./calendar/appointment";
@@ -29,6 +30,7 @@ function App() {
         <Route path="/userinfo/modify" element={<ModifiedUserInfo />}></Route>
 
         <Route path="/modifiedFriend" element={<ModifiedFriend />}></Route>
+        <Route path="/friend" element={<Friend />}></Route>
 
         <Route path="/appointment" element={<AddAppointment />}></Route>
         <Route path="/appointment/:num" element={<Appointment />}></Route>

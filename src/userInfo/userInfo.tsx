@@ -129,7 +129,7 @@ function UserInfo() {
 
         <div>
           <h2>친구목록</h2>
-          <input onClick={()=>{navigate('/modifiedFriend')}} type="button" value="친구목록 수정하기"/>
+          <input onClick={()=>{navigate('/friend')}} type="button" value="친구목록 수정하기"/>
         </div>
 
       </Main>

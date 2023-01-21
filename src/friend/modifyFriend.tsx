@@ -8,6 +8,7 @@ import { userListActions, userSearchActions, waitingListActions, receivingListAc
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 import UsersSearch from './usersSearch';
+import FriendList from './friendList';
 
 const Container = styled.div`
   display: flex;
@@ -175,7 +176,7 @@ function ModifiedFriend() {
           </div>
         </Section1>
         <Section2>
-          <h1>친구리스트</h1>
+          <FriendList></FriendList>
         </Section2>
       </Main>
     </Container>

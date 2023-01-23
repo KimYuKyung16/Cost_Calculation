@@ -95,7 +95,6 @@ const Main__List__Members = styled.div`
   max-height: 70px;
 
   & div {
-    padding-top: 100%;
     padding-top: 0%;
     max-width: 50px;
     max-height: 50px;

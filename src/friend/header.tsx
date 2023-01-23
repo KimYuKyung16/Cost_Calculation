@@ -6,7 +6,7 @@ import { barActions } from '../redux/modules/reducer/barReducer'
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
-import { faBars } from '@fortawesome/free-solid-svg-icons'; // 뒤로가기, 햄버거바 아이콘
+import { faAngleLeft, faBars, faEllipsisV } from '@fortawesome/free-solid-svg-icons'; 
 
 import axios from 'axios'; 
 import styled from "styled-components"; // styled in js
@@ -25,18 +25,20 @@ const Header = styled.div`
     font-size: 1.2em;
   }
 
-  & > p:first-child { // 햄버거바 아이콘
-    display: none;
+  & p:nth-child(1) { // 뒤로가기 아이콘
     padding: 0 10px;
     font-size: 1.2em;
   }
 
+  & p:nth-child(3) { // 뒤로가기 아이콘
+    padding: 0 10px;
+    font-size: 1.2em;
+  }
+
+
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
   padding: 0;
-  & > p:first-child { // 햄버거바 아이콘
-    display: block;
-  }
 }
 
 `
@@ -85,11 +87,14 @@ function Layout_Header() {
 
   return (
     <Header>
-      <p onClick={clickBar}><FontAwesomeIcon icon={faBars}/></p> {/* 햄버거바 */}
+      <p onClick={clickBar}><FontAwesomeIcon icon={faAngleLeft}/></p> {/* 햄버거바 */}
+
       <Header__title>
         <img src='/image/logo_purple.png'/>
         <p>친구 목록</p>
       </Header__title>
+
+      <p><FontAwesomeIcon icon={faEllipsisV}/></p>
     </Header>
   )
 }

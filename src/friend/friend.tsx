@@ -13,6 +13,13 @@ import styled from "styled-components"; // styled in js
 
 import Layout_Header from './header';
 import FriendList from './friendList';
+import AddFriend from './addFriend';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* height: 100vh; */
+`
 
 const Header = styled.header`
 height: 40px;
@@ -24,15 +31,48 @@ border-bottom: 1px solid white;
 }
 `
 
+const Main = styled.main`
+  width: 100%;
+  height: calc(100vh - 41px);
+  padding: 0;
+  position: relative;
+`
+
+const Main__FriendList = styled.div`
+  width: 100%;
+  height: calc(100vh - 41px);
+  padding: 0;
+`
+
+const Main__AddFriend = styled.div`
+  width: 100%;
+  height: 100vh;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  background-color: #663d3d;
+  z-index: 1;
+
+
+`
+
+
 function Friend() {
 
     return(
-      <>
+      <Container>
         <Header>
           <Layout_Header></Layout_Header>
         </Header>
-        <FriendList></FriendList>
-      </>
+        <Main>
+          <Main__AddFriend>
+            <AddFriend></AddFriend>
+          </Main__AddFriend>
+          <Main__FriendList>
+            <FriendList></FriendList>
+          </Main__FriendList>
+        </Main>
+      </Container>
     )
 }
 

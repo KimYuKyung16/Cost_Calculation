@@ -8,12 +8,10 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 
-import axios from 'axios'; 
 import styled from "styled-components"; // styled in js
 
-import Layout_Header from './header';
-import FriendList from './friendList';
 import UsersSearch from './usersSearch';
+import ReceivingFriendList from './receivingFriendList';
 
 
 const Container = styled.main`
@@ -27,6 +25,7 @@ function AddFriend() {
     return(
       <Container>
         <UsersSearch></UsersSearch>
+        <ReceivingFriendList></ReceivingFriendList>
       </Container>
     )
 }

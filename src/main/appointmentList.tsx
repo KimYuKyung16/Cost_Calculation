@@ -62,7 +62,13 @@ const Main__List = styled.table`
       & p {
         color: #322c59;
 
-        & span {
+        & span:nth-child(2) {
+          color: #3c3c3c;
+          padding-left: 10px;
+          font-weight: bold;
+        }
+
+        & span:nth-child(3) {
           color: #4b4b74;
           padding-left: 10px;
           font-weight: 600;
@@ -136,15 +142,14 @@ const Main__List__Members = styled.div`
         }
       }
   }
-
-
-
-
-  
-
-  
-
 `
+
+const Star = styled.img`
+  width: 20px;
+  height: 20px;
+  /* padding-right: 10px; */
+`
+
 
 function AppointmentList() {
   axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
@@ -164,6 +169,28 @@ function AppointmentList() {
     })
   }
 
+  const bookmark = async (index: number, num: number) => {
+    let bookmark = appointmentList[index].bookmark;
+    if (bookmark === 'true') bookmark = 'false'
+    else bookmark = 'true'
+
+    console.log(appointmentList)
+
+    dispatch(appointmentListActions.setBookmark({index: index, bookmark: bookmark}));
+
+    let setBookmark = await axios.put(`http://localhost:6001/appointmentList/bookmark/${num}`, {
+      data: {
+        bookmark: bookmark
+      }
+    });
+
+    console.log(setBookmark)
+  }
+
+
+
+
+
   useEffect(() => { appointmentListUp(); }, [])
 
 
@@ -175,10 +202,11 @@ function AppointmentList() {
             {
               appointmentList.map((x, index) => {
                 return(
-                  <tr onClick={()=>{navigate('/appointment/' + x.num)}} key={index}>
+                  <tr key={index}>
                     <td>
                       <p>
-                        {x.calculate_name}
+                        <Star onClick={()=>{bookmark(index, x.num)}} src={appointmentList[index].bookmark === 'true'? 'image/star.png' : 'image/empty_star.png'}  />
+                        <span onClick={()=>{navigate('/appointment/' + x.num)}}>{x.calculate_name}</span>
                         <span>{x.members.length}</span>
                       </p>       
                       <Main__List__Members>

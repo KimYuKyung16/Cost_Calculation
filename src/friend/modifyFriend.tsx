@@ -77,16 +77,7 @@ function ModifiedFriend() {
     })
   }
 
-  function receivingListUp() { // 친구 신청 받은 거 리스트 가져오기
-    axios.get('http://localhost:6001/receivingList')
-    .then(function (response) { 
-      // console.log(response.data);
-      dispatch(receivingListActions.setInitialReceivingList(response.data))
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
+
 
   function accept(list: {}) {
     axios.post('http://localhost:6001/receivingList/accept', {
@@ -102,7 +93,7 @@ function ModifiedFriend() {
 
 
 
-  useEffect(() => { waitingListUp(); receivingListUp(); }, [])
+  useEffect(() => { waitingListUp(); }, [])
 
   return(
     <Container>

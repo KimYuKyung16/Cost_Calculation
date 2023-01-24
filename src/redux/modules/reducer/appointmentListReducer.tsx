@@ -6,10 +6,11 @@ interface membersState {
   profile: string;
 }
 interface appointmentListState {
-  num: Number;
+  num: number;
   id: string;
   calculate_name: string;
   members: membersState[] | any;
+  bookmark: string;
 }
 
 const initialState: appointmentListState[] = []; // 검색된 유저 리스트
@@ -19,6 +20,9 @@ const appointmentListSlice = createSlice({
   initialState, // 초기 상태
   reducers:{ // 리듀서 설정
     setInitialAppointmentList: (state, action: PayloadAction<appointmentListState[]>) => action.payload,
+    setBookmark: (state, action: PayloadAction<any>) => {
+      state[action.payload.index].bookmark = action.payload.bookmark;
+    }
   }
 })
 

@@ -156,18 +156,30 @@ function AppointmentList() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  // dispatch(appointmentListActions.setInitialAppointmentList([{
+  //   num: 1,
+  //   id: 'kyk',
+  //   calculate_name: 'kykname',
+  //   members: [{id: 'test', nickname: 'teello', profile: 'ss'}],
+  //   bookmark: 'test'
+  // }]));
+
   const appointmentList = useAppSelector(state => state.appointmentList);
+  const appointmentListType = useAppSelector(state => state.appoinmentListType);
   
-  function appointmentListUp() {
-    axios.get('http://localhost:6001/appointmentList')
-    .then(function (response) { 
-      console.log(response); 
-      dispatch(appointmentListActions.setInitialAppointmentList(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+  const appointmentListUp = async () => {
+    try {
+      let list = await axios.get('http://localhost:6001/appointmentList', {
+        params: {
+          type: appointmentListType.type
+        }
+      })
+      dispatch(appointmentListActions.setInitialAppointmentList(list.data));
+    } catch(e) {
+      console.log(e);
+    }
   }
+
 
   const bookmark = async (index: number, num: number) => {
     let bookmark = appointmentList[index].bookmark;
@@ -191,7 +203,7 @@ function AppointmentList() {
 
 
 
-  useEffect(() => { appointmentListUp(); }, [])
+  useEffect(() => { appointmentListUp(); }, [appointmentListType.type])
 
 
   return(

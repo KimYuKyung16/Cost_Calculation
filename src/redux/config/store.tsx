@@ -12,7 +12,7 @@ import signupReducer from "../modules/reducer/signUpReducer"
 import userInfoReducer from "../modules/reducer/userInfoReducer"
 import {userListReducer, userSearchReducer, waitingListReducer, receivingListReducer} from "../modules/reducer/userListReducer"
 import {memberListReducer, memberReducer, appointmentReducer} from "../modules/reducer/memberListReducer"
-import {appointmentListReducer} from "../modules/reducer/appointmentListReducer";
+import {appointmentListReducer, appointmentListTypeeducer} from "../modules/reducer/appointmentListReducer";
 import {costReducer} from "../modules/reducer/costReducer";
 import {barReducer} from "../modules/reducer/barReducer";
 
@@ -29,6 +29,7 @@ const reducers = combineReducers({ // persist-redux 추가
 
   appointment: appointmentReducer,
   appointmentList: appointmentListReducer,
+  appoinmentListType: appointmentListTypeeducer,
 
   cost: costReducer,
 

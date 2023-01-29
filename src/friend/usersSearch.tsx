@@ -3,28 +3,60 @@ import { useEffect } from 'react';
 import styled from "styled-components"; // styled in js
 import axios from 'axios';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
+import { faSearchPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
+
 import { userListActions, userSearchActions } from '../redux/modules/reducer/userListReducer'
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
-const Container = styled.div`
+const Main = styled.div`
   display: flex;
   flex-direction: column;  
   width: 100%;
-  background-color: antiquewhite;
+  background-color: #ffffff;
+  padding: 10px 5px;
+  box-sizing: border-box;
 
   & input {
-    background-color: aqua;
-    padding: 5px;
-    font-size: 1.2em;
+    /* width: 100%; */
+    background-color: #ffffff;
+    font-size: 0.9em;
+    outline: none;
+    padding: 7px;
   }
 `
 
-const Main = styled.div`
-  position: relative;
+const Main__Search = styled.div`
+display: flex;
+flex-direction: row;
+width: 100%;
+background-color: #ffffff;
+align-items: center;
+justify-content: center;
+border: 1px solid #abababff;
+border-bottom: none;
+box-sizing: border-box;
+
+& :nth-child(1) {
   width: 100%;
+  border: none;
+}
+
+& :nth-child(2) {
+  font-size: 1.3em;
+  color: #322c58;
+  padding: 0 10px;
+}
 `
 
-const Main__list = styled.table`
+
+const Main__list = styled.div`
+  position: relative;
+  width: 100%;
+  
+`
+
+const Main__list_memberList = styled.table`
   position: absolute;
   z-index: 1;
   width: 100%;
@@ -35,12 +67,14 @@ const Main__list = styled.table`
   font-weight: bold;
   /* color: #4f4f4f; */
   background-color: aquamarine;
+  box-sizing: border-box;
+  border: 1px solid #abababff;
 
   & tr {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #e2e2e2;
+    background-color: #ffffff;
     width: 100%;
     height: 70px;
     padding: 0.5em;
@@ -152,10 +186,13 @@ function UsersSearch() {
   useEffect(() => { listUp(); }, [searchVal])
 
   return (
-    <Container>
-      <input onChange={onChangeSearch} type="text" placeholder='아이디를 입력하세요'/>
-      <Main>
-        <Main__list>
+    <Main>
+      <Main__Search>
+        <input onChange={onChangeSearch} type="text" placeholder='아이디를 입력하세요'/>
+        <FontAwesomeIcon icon={faSearchPlus}/>
+      </Main__Search>
+      <Main__list>
+        <Main__list_memberList>
           <tbody>
             {
               userList.map((x, index) => {
@@ -171,9 +208,9 @@ function UsersSearch() {
               })
             }
           </tbody>
-        </Main__list>
-      </Main>
-    </Container>
+        </Main__list_memberList>
+      </Main__list>
+    </Main>
   )
 }
 

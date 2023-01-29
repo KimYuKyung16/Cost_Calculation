@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components"; // styled in js
 import axios from 'axios';
 
+import { friendVisibleActions } from '../redux/modules/reducer/barReducer'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faMinusCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 // import { faMinusCircle } from "@fortawesome/free-regular-svg-icons";
@@ -94,6 +96,7 @@ const Main__button = styled.p`
   border: 2px solid #9291a1;
   width: 10vw;
   height: 10vw;
+  z-index: 1;
 
   & :nth-child(1) {
     font-size: 4vw;
@@ -109,6 +112,11 @@ const Profile = styled.img`
 `
 
 function FriendList() {
+  axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
+  const dispatch = useAppDispatch();
+
+  const friendVisibleState = useAppSelector(state => state.friendVisible);
+  console.log(friendVisibleState.visible)
 
   interface friendListType {
     id: string;
@@ -120,15 +128,20 @@ function FriendList() {
 
   const getFriendList = async () => {
     let friendlist = await axios.get('http://localhost:6001/friendList')
-
     setFriendList(friendlist.data);
 
+  }
+
+  const clickAddFriendBtn = () => { // 친구추가 버튼을 클릭했을 때 실행되는 함수
+    console.log('test')
+    if (friendVisibleState.visible === 'none') dispatch(friendVisibleActions.setVisible('block'));
+    else dispatch(friendVisibleActions.setVisible('none'));
+    console.log(friendVisibleState.visible);
   }
 
   useEffect(() => {
     getFriendList();
   }, [])
-
 
   return(
     <>
@@ -151,7 +164,7 @@ function FriendList() {
           </tbody>
         </Main__List>
 
-        <Main__button>
+        <Main__button onClick={clickAddFriendBtn}>
           <FontAwesomeIcon icon={faUserPlus}/>
         </Main__button>
       </Main>

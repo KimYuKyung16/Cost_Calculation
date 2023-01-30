@@ -1,6 +1,8 @@
 import { useNavigate, Link } from "react-router-dom";
 
 import styled from 'styled-components'; // styled in js
+
+import Header from './header';
 import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
 import AppointmentList from "../main/appointmentList";
 
@@ -18,8 +20,8 @@ const Total = styled.div`
 
 const Main = styled.div`
 box-sizing: border-box;
-  width: 80%;
-  padding: 2% 10%;
+width: 80%;
+padding: 2% 5%;
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
@@ -29,7 +31,7 @@ box-sizing: border-box;
 `
 
 const UserInfoDiv = styled.div`
-width: 20%;
+width: 25%;
 min-width: 300px;
 
 /* 모바일, 타블렛 기준 */
@@ -49,7 +51,9 @@ function Index() {
         <UserInfoDiv>
           <UserInfo></UserInfo>
         </UserInfoDiv>
+
         <Main>
+          <Header></Header>
           <AppointmentList></AppointmentList>
           <input onClick={()=>{navigate('/appointment')}} type="button" value="약속 추가하기"/>
         </Main>

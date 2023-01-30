@@ -13,6 +13,34 @@ import axios from 'axios';
  
 import styled from "styled-components"; // styled in js
 
+const Container = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: #322c58;
+
+& h2 {
+  color: white;
+}
+
+& hr {
+  width: 90%;
+  box-sizing: border-box;
+}
+`
+
+const Main = styled.div`
+width: 100%;
+`
+
+const Main__appointmentName = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
+/* background-color: aquamarine; */
+width: 100%;
+` 
+
 const Member = styled.div`
 display: flex;
 flex-direction: row;
@@ -48,7 +76,14 @@ const Main__member__search = styled.div`
   }
 `
 
-const Main = styled.div`
+const Main__memberList = styled.div`
+  /* display: flex;
+  flex-direction: column;  
+  width: 100%; */
+  background-color: azure;
+`
+
+const Main__friendList = styled.div`
   /* position: relative; */
   width: 100%;
   background-color: antiquewhite;
@@ -120,10 +155,12 @@ function AddAppointment() {
     dispatch(userSearchActions.setSearch(e.target.value));
   };
 
-  console.log(memberList);
+  // console.log(memberList);
+  // console.log(friendList);
+  console.log(searchVal)
 
   function friendlistUp() { // 유저 검색했을 때 나오는 값들 저장
-    axios.get('http://localhost:6001/friendList', {
+    axios.get('http://localhost:6001/searchFriendList', {
       params: {
         searchVal: searchVal
       }
@@ -182,72 +219,94 @@ function AddAppointment() {
     })
   }
 
-  const test = function({target}: any) {
-    if (!el.current.contains(target)) {
-      dispatch(userSearchActions.setSearch(' '));
-    } else  {
-      dispatch(userSearchActions.setSearch(''));
-    }
-  };
+  // const test = function(e: any) {
+  //   console.log(e.target)
+  //   if (!el.current.contains(e.target)) {
+  //     dispatch(userSearchActions.setSearch(' '));
+  //   } else  {
+  //     dispatch(userSearchActions.setSearch(''));
+  //   }
+  // };
 
   const test2 = () => {
     dispatch(memberListActions.setInitialMemberList([]));
     console.log(memberList)
   }
 
+  useEffect(() => {
+    function handleOutsideClick(e: any) {
+      if (el.current && el.current.contains(e.target)) {
+        dispatch(userSearchActions.setSearch(''));
+      } else {
+        dispatch(userSearchActions.setSearch(' '));
+      }
+    }
+
+    // Component rendering 후 이벤트 등록
+    document.addEventListener('click', handleOutsideClick, true);
+    // Component 제거 시 이벤트 제거
+    return () => {
+      document.removeEventListener('click', handleOutsideClick, true);
+    };
+  }, [el]);
+
   useEffect(() => {test2();}, [])  
   useEffect(() => { friendlistUp(); }, [searchVal])
-  useEffect(() => {
-    window.addEventListener("click", test);
-  }, [])
+  // useEffect(() => {
+  //   window.removeEventListener("click", test, true);
+  // }, [])
 
 
   return(
-    <>
-      <h1>약속 추가하기</h1>
-      <h5>일정이름</h5>
-      <input onChange={onChangeAppointmentName} type="text" placeholder="일정 이름을 적어주세요"/>
-      <h5>인원</h5>
-      <Main__member>
-        <Main__member__search>
-          <input ref={el} onClick={ ()=>{ dispatch(userSearchActions.setSearch(''))} } onChange={onChangeNickname} type="text" placeholder="이름을 적어주세요" value={member.nickname}/>
-          <input onClick={addMember} type="button" value="인원 추가" />
-        </Main__member__search>
-        <Main>
-          {/* <p>안녕</p> */}
-          <List>
-            <Test>
-              {
-                friendList.map((x, index) => {
-                  return(
-                    <tr onClick={()=>{ addFriendMember(x.friendID, x.nickname, x.profile)}} key={index}>
-                      <td><Profile src={x.profile === "\\image\\default_profile.png" ? x.profile : x.profile}/>{x.nickname}</td>
-                    </tr>
-                  )
-                })
-              }
-            </Test>
-          </List>
-        </Main>
-      </Main__member>
-      
+    <Container>
+      <Main>
+        <h2>일정 추가</h2>
+        <hr />
+        <Main__appointmentName>
+          <label htmlFor="appointmentName">일정이름 </label>
+          <input id="appointmentName" onChange={onChangeAppointmentName} type="text" placeholder="일정 이름을 적어주세요"/>
+        </Main__appointmentName>
+        <Main__member>
+          <Main__member__search>
+            <label htmlFor="id">인원추가 </label>
+            <input id="id" ref={el} onClick={ ()=>{ dispatch(userSearchActions.setSearch(''))} } onChange={onChangeNickname} type="text" placeholder="이름을 적어주세요" value={member.nickname}/>
+            <input onClick={addMember} type="button" value="인원 추가" />
+          </Main__member__search>
+          <Main__friendList>
+            <List>
+              <Test>
+                {
+                  friendList.map((x, index) => {
+                    return(
+                      <tr onClick={()=>{ addFriendMember(x.friendID, x.nickname, x.profile)}} key={index}>
+                        <td><Profile src={x.profile === "\\image\\default_profile.png" ? x.profile : x.profile}/>{x.nickname}</td>
+                      </tr>
+                    )
+                  })
+                }
+              </Test>
+            </List>
+          </Main__friendList>
+        </Main__member>
+        
+        <Main__memberList>
+          {
+            memberList.map((x, index) => {
+              return(
+                <Member key={index}>
+                  <DefaultProfile src={x.profile ? x.profile : '/image/default_profile.png'}/>
+                  <p>{x.nickname}</p>
+                  <p>{index}</p>
+                  <FontAwesomeIcon onClick={()=>{deleteMember(index)}} icon={faMinusCircle} />
+                </Member>
+              )
+            })
+          }
+        </Main__memberList>
 
-      {
-        memberList.map((x, index) => {
-          return(
-            <Member key={index}>
-              <DefaultProfile src={x.profile ? x.profile : '/image/default_profile.png'}/>
-              <p>{x.nickname}</p>
-              <p>{index}</p>
-              <FontAwesomeIcon onClick={()=>{deleteMember(index)}} icon={faMinusCircle} />
-            </Member>
-          )
-        })
-      }
-
-      <input onClick={saveAppointment} type="button" value="저장"/>
-
-    </>
+        <input onClick={saveAppointment} type="button" value="저장"/>
+      </Main>
+    </Container>
   )
 }
 

@@ -17,17 +17,18 @@ import ReceivingFriendList from './receivingFriendList';
 const Container = styled.main`
 display: flex;
 flex-direction: column;
-  width: 100%;
-  height: 100%;
-  background-color: #9c815d;
+width: 100%;
+height: 100%;
+background-color: #322c58;
+padding: 10px;
+box-sizing: border-box;
 
-  & p:nth-child(1) {
-    color: #000000;
-    text-align: right;
+  & > h3 {
+    color: #ffffff;
     margin: 0;
-    /* background-color: aqua; */
-    font-size: 1.2rem;
-    padding: 5px 5px 5px 0;
+    font-size: 1.1rem;
+    padding: 10px;
+    text-align: center;
   }
 `
 
@@ -35,6 +36,7 @@ function AddFriend() {
 
     return(
       <Container>
+        <h3>친구 신청 '◡'</h3>
         <UsersSearch />
         <ReceivingFriendList />
       </Container>

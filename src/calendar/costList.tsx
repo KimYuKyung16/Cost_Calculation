@@ -14,11 +14,11 @@ import styled from "styled-components"; // styled in js
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   padding: 1% 3%;
   box-sizing: border-box;  
-  /* overflow: auto;  */
+  /* background-color: #0e3535; */
 `
 
 const Header = styled.div`
@@ -28,11 +28,12 @@ const Header = styled.div`
 const Main = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   /* width: 100%; */
   height: 90%;
   box-sizing: border-box;
   overflow: auto; // 화면을 넘어가면 스크롤이 되도록
-  /* background-color: aquamarine; */
+
   /* -ms-overflow-style: none;
   scrollbar-width: none; */
 
@@ -43,11 +44,13 @@ const Main = styled.div`
 `
 
 const Main__List = styled.table`
-  /* background-color: #ffffff; */
+  background-color: #ffffff;
   /* table-layout:fixed;  */
   width: 100%;
+  height: 100%;
   border-spacing: 10px;
-  border-collapse: separate;
+  border-collapse: separate; 
+  box-sizing: border-box;
 
   * {
     padding: 1% 2%;
@@ -153,7 +156,7 @@ function CostList(props: Props) {
         <h1>비용 정산 리스트</h1>
       </Header>
 
-      <Main className='main'>
+      <Main>
         <Main__List>
           <tbody>
             {

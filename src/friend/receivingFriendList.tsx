@@ -19,6 +19,100 @@ import UsersSearch from './usersSearch';
 const Container = styled.main`
   width: 100%;
   height: 100%;
+  background-color: #322c5a;
+  padding: 10px 0;
+
+  & div {
+    height: 100%;
+  }
+`
+
+const Profile = styled.img`
+  /* width: 50px;
+  height: 50px;
+  border-radius: 70%; */
+`
+const Main__List = styled.table`
+  width: 100%;
+  height: 100%;
+  border-spacing: 0px;
+  border-collapse: separate;
+  font-size: 1em;
+  font-weight: bold;
+  /* box-sizing: border-box; */
+  color: #4f4f4f;
+  background-color: #322c58;
+
+  & tr {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #b3b9d3;
+    width: 100%;
+    height: 70px;
+    padding: 0.5em;
+    box-sizing: border-box;
+
+    & > input {
+      background-color: #ecd876;
+      border: 1px solid #6a6a6a;
+      color: #322c58;
+      height: 50%;
+      width: 10%;
+      min-width: 70px;
+    }
+  }
+
+  & td:nth-child(1) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    /* background-color: aliceblue; */
+
+    & div {
+      width: 10%;
+      height: 50px;
+      /* padding-bottom: 10%; */
+      position: relative;
+      border-radius: 70%;
+      margin: 0 0.5rem;
+
+      max-height: 50px;
+      max-width: 50px;
+      background-color: #a34747;
+
+      & img {
+        width: 100%;
+        height: 100%;
+        border-radius: 70%;
+        padding-top: 0%;
+        position: absolute;
+        top: 0;
+        border: 1px solid #bfbfbf;
+      } 
+    }
+  }
+
+  & td:nth-child(2) {
+    /* visibility: hidden; */
+    padding: 0 20px;
+    color: #a34747;
+    /* background-color: aqua; */
+  }
+`
+
+const Main__List_None = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+align-items: center;
+justify-content: center;
+
+& h3 {
+color: #b5b8d5;
+font-size: 1em;
+margin-bottom: 30%;
+}
 `
 
 
@@ -52,30 +146,45 @@ function ReceivingFriendList() {
     })
   }
 
-
+  const component_change = () => {
+    console.log(receivingList)
+    if (receivingList.length) {
+      return(
+        <Main__List>
+          <tbody>
+            {
+              receivingList.map((x, index) => {
+                return(
+                  <tr key={index}>
+                    <td>
+                      <div><Profile src={x.profile}/></div>
+                      {x.nickname}
+                    </td>
+                    <input onClick={()=>{accept(x);}} type="button" value="수락"/>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </Main__List>
+      )
+    } else {
+      return (
+        <Main__List_None>
+          <h3>친구 신청이 없습니다.</h3>
+        </Main__List_None>
+      )
+    }
+  }
 
   useEffect(() => { receivingListUp(); }, [])
+  useEffect(() => { component_change(); }, [receivingList])
 
     return(
       <Container>
-        <div>
-          <h2>친구 신청 온 거 리스트</h2>
-          <table>
-              <tbody>
-                {
-                  receivingList.map((x, index) => {
-                    return(
-                      <tr key={index}>
-                        <td>보낸 사람: {x.sender}</td>
-                        {/* <td>상태: {x.state}</td> */}
-                        <input onClick={()=>{accept(x);}} type="button" value="수락"/>
-                      </tr>
-                    )
-                  })
-                }
-              </tbody>
-            </table>
-        </div>
+        {/* <div> */}
+          {component_change()}
+        {/* </div> */}
       </Container>
     )
 }

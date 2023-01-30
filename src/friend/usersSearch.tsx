@@ -13,9 +13,7 @@ const Main = styled.div`
   display: flex;
   flex-direction: column;  
   width: 100%;
-  background-color: #ffffff;
-  padding: 10px 5px;
-  box-sizing: border-box;
+  background-color: #322c5a;
 
   & input {
     /* width: 100%; */
@@ -33,7 +31,7 @@ width: 100%;
 background-color: #ffffff;
 align-items: center;
 justify-content: center;
-border: 1px solid #abababff;
+border: 1px solid #322c5a;
 border-bottom: none;
 box-sizing: border-box;
 
@@ -66,9 +64,9 @@ const Main__list_memberList = styled.table`
   font-size: 1em;
   font-weight: bold;
   /* color: #4f4f4f; */
-  background-color: aquamarine;
+  background-color: #ffffff;
   box-sizing: border-box;
-  border: 1px solid #abababff;
+  border: 1px solid #322c5a; // 화면 커졌을 때 이상한 줄 원인
 
   & tr {
     display: flex;
@@ -103,39 +101,8 @@ const Main__list_memberList = styled.table`
       border: 1px solid #bfbfbf;
     }
   }
+
 `
-
-// const Test = styled.tbody`
-//   /* background-color: #ffffff; */
-//   width: 100%;
-
-//   * {
-//     /* width: 100%; */
-    
-//   }
-
-//   & > tr {
-//     width: 100%;
-//     /* display: flex;
-//     flex-direction: row;
-//     align-items: center; */
-//     /* background-color: #ffffff; */
-//     background-color: aliceblue;
-//     /* margin: 5px; */
-//     padding: 5px;
-    
-//   }
-
-//   & td:nth-child(1) {
-//     width: 100%;
-//     /* background-color: #2781d0; */
-//   }
-
-//   & td:nth-child(2) {
-//     width: 100%;
-//     /* background-color: #a4adb4; */
-//   }
-// `
 
 const Profile = styled.img`  
   border: 1px solid #bfbfbf;

@@ -25,8 +25,8 @@ border-bottom: 1px solid white;
 const Total = styled.div`
 display: flex;
 flex-direction: column;
-width: 100%; 
-height: 100%;
+width: 100vw; 
+height: 100vh;
 background-color: aquamarine;
 box-sizing: border-box;
 `
@@ -36,6 +36,7 @@ const Container = styled.div`
 display: flex;
 flex-direction: row;
 height: calc(100% - 40px);
+width: 100%;
 position: relative;
 `
 
@@ -65,13 +66,10 @@ const Main__MemberList = styled.div`
 }
 `
 
-// state ? props.visable : 
-
-
 const Main__CostList = styled.div`
+/* display: flex; */
 height: 100%;
-width: 70%;
-
+width: 100%;
 `
 const BlackContainer = styled.div`
 /* 모바일, 타블렛 기준 */

@@ -9,15 +9,33 @@ import axios from 'axios';
 const Total = styled.div`
   display: flex;
   flex-direction: row;
-  /* background-color: #b7b6d6; */
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  flex-direction: column;
+}
 `
 
 const Main = styled.div`
+box-sizing: border-box;
   width: 80%;
+  padding: 2% 10%;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  width: 100%;
+  padding: 0;
+}
 `
 
 const UserInfoDiv = styled.div`
 width: 20%;
+min-width: 300px;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  width: 100%;
+}
 `
 
 function Index() {
@@ -32,7 +50,6 @@ function Index() {
           <UserInfo></UserInfo>
         </UserInfoDiv>
         <Main>
-          <h1>메인입니다.</h1>
           <AppointmentList></AppointmentList>
           <input onClick={()=>{navigate('/appointment')}} type="button" value="약속 추가하기"/>
         </Main>

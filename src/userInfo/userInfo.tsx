@@ -5,16 +5,25 @@ import styled from "styled-components"; // styled in js
 import axios from 'axios';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
-import { faUserFriends, faEnvelope } from '@fortawesome/free-solid-svg-icons'; 
+import { faUserFriends, faEnvelope, faBars } from '@fortawesome/free-solid-svg-icons'; 
 
 import { appointmentListTypeActions } from '../redux/modules/reducer/appointmentListReducer'
 import { userInfoActions } from '../redux/modules/reducer/userInfoReducer';
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 const Main = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
 background-color: #322c58;
 width: 100%;
 height: 100vh;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  height: 7vh;
+  flex-direction: row;
+}
 `
 
 const Main__Friend_Message = styled.div`
@@ -31,30 +40,67 @@ box-sizing: border-box;
 & :nth-child(1) {
   padding-right: 10px;
 }
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  display: none;
+}
 `
 
 
 const Main__Profile = styled.div`
 display: flex;
 flex-direction: column;
-justify-content: flex-end;
+justify-content: center;
 align-items: center;
-/* text-align: center; */
 width: 100%;
 height: 35%;
+max-width: 250px;
+/* background-color: red; */
 
-  & img { // 사용자 프로필 사진
+  & div {
+    width: 90%;
+    position: relative;
+    border-radius: 70%;
+    background-color: #ffffff;
+    padding-top: 90%;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      border-radius: 70%;
+      padding-top: 0%;
+      position: absolute;
+      top: 0;
+      outline: 5px solid white;
+    } 
+  }
+
+
+  /* & img { // 사용자 프로필 사진
     width: 200px;
     height: 200px;
     border-radius: 70%;
     outline: 5px solid white;
-  }
+  } */
 
   & p { // 사용자 닉네임
     color: #b7b6d6;
-    font-size: 1.5rem;
+    font-size: 1.3em;
     font-weight: bold;
   }
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  flex-direction: row;
+  min-width: 60px;
+  max-width: 60px;
+  & div {
+    & img {
+      outline: 2px solid white;
+    }
+  }
+}
 `
 
 const Main__InfoButton = styled.div`
@@ -74,6 +120,11 @@ height: 5%;
   cursor: pointer;
   border-radius: 20px;
   margin: 0 5px;
+}
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  display: none;
 }
 `
 interface Type_Props {
@@ -124,6 +175,11 @@ height: 40%;
     color : white;
   }
 }
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  display: none;
+}
 `
 
 
@@ -159,15 +215,15 @@ function UserInfo() {
   return(
     <>
       <Main>
-
+        <h1><FontAwesomeIcon icon={faBars}/></h1>
         <Main__Friend_Message>
-          <FontAwesomeIcon icon={faUserFriends}/>
+          <FontAwesomeIcon onClick={()=>{navigate('/friend')}} icon={faUserFriends}/>
           <FontAwesomeIcon icon={faEnvelope}/>
         </Main__Friend_Message>
 
         <Main__Profile>
-          <img src={profile} />
-          <p>'{nickname}' 님</p>
+          <div><img src={profile} /></div>
+          {/* <p>'{nickname}' 님</p> */}
         </Main__Profile>
 
         <Main__InfoButton>
@@ -183,10 +239,10 @@ function UserInfo() {
           </ul>
         </Main__List>
 
-        <div>
+        {/* <div>
           <h2>친구목록</h2>
           <input onClick={()=>{navigate('/friend')}} type="button" value="친구목록 수정하기"/>
-        </div>
+        </div> */}
 
       </Main>
     </>

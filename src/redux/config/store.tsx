@@ -15,6 +15,7 @@ import {memberListReducer, memberReducer, appointmentReducer} from "../modules/r
 import {appointmentListReducer, appointmentListTypeeducer} from "../modules/reducer/appointmentListReducer";
 import {costReducer} from "../modules/reducer/costReducer";
 import {barReducer, friendVisibleReducer} from "../modules/reducer/barReducer";
+import {friendListReducer} from "../modules/reducer/friendReducer"
 
 const reducers = combineReducers({ // persist-redux 추가
   loginInfo: loginReducer,
@@ -35,6 +36,7 @@ const reducers = combineReducers({ // persist-redux 추가
 
   barState: barReducer,
   friendVisible: friendVisibleReducer,
+  friendList: friendListReducer
 });
 
 const persistConfig = { // persist-redux 추가

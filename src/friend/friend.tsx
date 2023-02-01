@@ -34,12 +34,18 @@ border-bottom: 1px solid white;
 `
 
 const Main = styled.main`
-  width: 100%;
-  height: calc(100vh - 41px);
-  height: 100%;
-  padding: 0;
-  position: relative;
-  overflow: none;
+display: flex;
+flex-direction: row;
+width: 100%;
+height: calc(100vh - 41px);
+padding: 0;
+position: relative;
+overflow: none;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+display: block;
+}
 `
 
 interface AddFriend_Props {
@@ -48,10 +54,9 @@ interface AddFriend_Props {
 
 const Main__AddFriend = styled.div`
   box-sizing: border-box;
-  width: 100%;
-  height: 90%;
+  width: 40%;
+  height: 100%;
   padding: 0;
-  position: absolute;
   bottom: 0px;
   background-color: #9a9a9a;
   /* z-index: 2; */
@@ -59,9 +64,9 @@ const Main__AddFriend = styled.div`
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
-  /* display:  */
+  width: 100%;
+  height: 90%;
   position: absolute;
-  /* top: 0; */
   transform: ${(props: AddFriend_Props) => props.visible === 'block' ? 'translateY(-0%)' : 'translateY(100%)' };
   transition: ${(props: AddFriend_Props) => props.visible === 'block' ? 'transform 0.5s ease-out' : 'transform 0.5s ease-in'};
   z-index: 2;
@@ -69,10 +74,17 @@ const Main__AddFriend = styled.div`
 `
 
 const Main__FriendList = styled.div`
-  width: 100%;
-  height: calc(100vh - 41px);
-  padding: 0;
-  z-index: 0;
+box-sizing: border-box;
+width: 60%;
+height: calc(100vh - 41px);
+padding: 1% 3%;
+z-index: 0;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+width: 100%;
+padding: 0;
+}
 `
 
 const BlackContainer = styled.div`
@@ -83,12 +95,10 @@ width: 100%;
 height: 100%;
 background-color: black;
 position: absolute;
-opacity: 50%;
 display: none;
 
 @media screen and (max-width: 1023px) { 
 display: block;
-/* transform: translateX(-150%); */
 z-index: 1;
 opacity: ${(props: AddFriend_Props) => props.visible === 'block' ? '80%' : '0%' };
 transition: ${(props: AddFriend_Props) => props.visible === 'block' ? 'opacity 0.5s ease-out' : 'opacity 0.5s ease-in'};

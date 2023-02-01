@@ -12,7 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 �
 import { faMinusCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 // import { faMinusCircle } from "@fortawesome/free-regular-svg-icons";
 
-import {  } from '../redux/modules/reducer/userListReducer'
+import { userListActions } from '../redux/modules/reducer/userListReducer'
+import { friendListActions } from '../redux/modules/reducer/friendReducer' 
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 const Main = styled.div`
@@ -31,13 +32,13 @@ const Main__List = styled.table`
   font-weight: bold;
   /* box-sizing: border-box; */
   color: #4f4f4f;
-  background-color: #bfbfbf;
+  background-color: #ffffff;
 
   & tr {
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: #928b82;
+    background-color: #ffffff;
     width: 100%;
     height: 70px;
     padding: 0.5em;
@@ -83,7 +84,7 @@ const Main__List = styled.table`
 `
 
 const Main__button = styled.p`
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -101,7 +102,11 @@ const Main__button = styled.p`
   & :nth-child(1) {
     font-size: 4vw;
   }
-  
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+display: flex;
+}
 `
 
 
@@ -117,6 +122,7 @@ function FriendList() {
 
   const friendVisibleState = useAppSelector(state => state.friendVisible);
   console.log(friendVisibleState.visible)
+  const friendList = useAppSelector(state => state.friendList);
 
   interface friendListType {
     id: string;
@@ -124,24 +130,32 @@ function FriendList() {
     profile: string;
   }
 
-  let [friendList, setFriendList] = useState<friendListType[]>([])
+  // let [friendList, setFriendList] = useState<friendListType[]>([])
 
   const getFriendList = async () => {
     let friendlist = await axios.get('http://localhost:6001/friendList')
-    setFriendList(friendlist.data);
-
+    // setFriendList(friendlist.data);
+    dispatch(friendListActions.setInitialFriendList(friendlist.data));
   }
 
   const clickAddFriendBtn = () => { // 친구추가 버튼을 클릭했을 때 실행되는 함수
-    console.log('test')
     if (friendVisibleState.visible === 'none') dispatch(friendVisibleActions.setVisible('block'));
     else dispatch(friendVisibleActions.setVisible('none'));
     console.log(friendVisibleState.visible);
   }
 
+   const deleteFriend = async (index: number, id: string) => {
+    let state = await axios.delete('http://localhost:6001/friendList', {
+      params: { id: id }
+    });
+
+    if (state) dispatch(friendListActions.deleteFriend(index));
+   }
+
   useEffect(() => {
     getFriendList();
   }, [])
+
 
   return(
     <>
@@ -156,7 +170,16 @@ function FriendList() {
                       <div><Profile src={x.profile}/></div>
                       {x.nickname}
                     </td>
-                    <td><FontAwesomeIcon icon={faMinusCircle} /></td>
+                    <td><FontAwesomeIcon onClick={
+                      () => {
+                        if (window.confirm("친구 목록에서 삭제하시겠습니까?")) { 
+                          deleteFriend(index, x.id)               
+                          console.log("삭제되었습니다.");                
+                        } else { 
+                          console.log("삭제에 실패했습니다.");  
+                        }              
+                      }
+                    } icon={faMinusCircle} /></td>
                   </tr>
                 )
               })

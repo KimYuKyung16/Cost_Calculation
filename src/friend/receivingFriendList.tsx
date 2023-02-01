@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
+import { friendListActions } from '../redux/modules/reducer/friendReducer'
 import { userListActions, receivingListActions } from '../redux/modules/reducer/userListReducer'
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
@@ -139,7 +140,6 @@ function ReceivingFriendList() {
       list: list
     })
     .then(function (response) { 
-      // console.log(response.data);
     })
     .catch(function (error) {
       console.log(error);

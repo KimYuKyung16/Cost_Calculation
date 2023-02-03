@@ -16,6 +16,8 @@ interface appointmentListState {
   calculate_name: string;
   members: membersState[] | any;
   bookmark: string;
+  date: string;
+  time: string;
 }
 
 const initialState: appointmentListState[] = []; // 검색된 유저 리스트

@@ -157,25 +157,6 @@ function AppointmentMemberList(props: Props) {
     }
   }
 
-  // 전체적인 비용 API로 가져오기
-  // const sum_Of_Money = async () => {
-  //   const memberNum = await member_List(); // promise 형태라서 await
-  //   try {
-  //     let money = await axios.get('http://localhost:6001/sum', {
-  //       params: {
-  //         num: params.num,
-  //         memberNum: memberNum 
-  //       }
-  //     })
-  //     console.log(money.data);
-  //     setTotalCost(money.data.sumCost); // 총 비용 설정
-  //     setEachCost(money.data.eachCost); // 1인당 내야 하는 비용 설정
-  //   } catch(e) {
-  //     console.log(e)
-  //   }
-  // }
-
-
   useEffect(() => {}, [memberList])
   useEffect(()=> {member_List();}, []);
   // useEffect(() => {member_List();}, [eachCost])
@@ -188,24 +169,6 @@ function AppointmentMemberList(props: Props) {
             <p>총 비용: {totalCost} 원</p>
             <p>1인당 내야 하는 비용: {eachCost} 원</p>
           </div>
-
-          {/* <div>
-            <table>
-              <tbody>
-                <tr>
-                  <td><Profile src={userInfo.profile}/></td>
-                  <td>{userInfo.nickname}</td>
-                  <td>
-                    <List>
-                      <li>총 지출비: </li>
-                      <li>더 내야하는 비용: </li>
-                      <li>받아야 하는 비용: </li>
-                    </List>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div> */}
 
           <Table>
             <tbody>

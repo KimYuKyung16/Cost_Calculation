@@ -178,12 +178,15 @@ function AddAppointment() {
   }
 
   function addFriendMember(id: string, nickname: string, profile: string) { // 친구 중에서 멤버 추가
+    console.log('멤버의 id값:',id)
     dispatch(memberListActions.addMember({
       id: id, 
       nickname: nickname, 
       profile: profile
     }));
   }
+
+  console.log(friendList)
 
   function addMember() { // 멤버 추가
     dispatch(memberListActions.addMember({
@@ -198,21 +201,42 @@ function AddAppointment() {
     dispatch(memberListActions.deleteMember(index)); // 멤버 리스트 배열값 변경
   }
 
+
+
+  function date(){ //날짜를 구해주는 함수
+    let today = new Date();
+
+    let year = today.getFullYear();
+    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+    let day = ('0' + today.getDate()).slice(-2);
+
+    let dateString = year + '.' + month  + '.' + day;
+    return dateString
+  }
+
+  function time(){ //시간을 구해주는 함수
+    let today = new Date();   
+
+    let hours = ('0' + today.getHours()).slice(-2); 
+    let minutes = ('0' + today.getMinutes()).slice(-2);
+    let seconds = ('0' + today.getSeconds()).slice(-2); 
+    
+    let timeString = hours + ':' + minutes  + ':' + seconds;
+    return timeString
+  }
+
+
   function saveAppointment() { // 약속 저장
     axios.post('http://localhost:6001/appointment', {
       name: appointment.name,
-      members: memberList
+      members: memberList,
+      date: date(),
+      time: time()
     })
     .then(function (response) { 
       console.log(response);
-      // if (response.data.login_status === 'success') { // 로그인에 성공했다면
-      //   dispatch(userInfoActions.setNickname(response.data.nickname));
-      //   dispatch(userInfoActions.setProfile(response.data.profile));
-
-      //   navigate('/main'); // 메인페이지로 이동
-      // } else {
-      //   alert("로그인에 실패하셨습니다.");
-      // }  
+      // navigate('/main'); // 메인페이지로 이동
+ 
     })
     .catch(function (error) {
       console.log(error);
@@ -278,7 +302,7 @@ function AddAppointment() {
                 {
                   friendList.map((x, index) => {
                     return(
-                      <tr onClick={()=>{ addFriendMember(x.friendID, x.nickname, x.profile)}} key={index}>
+                      <tr onClick={()=>{ addFriendMember(x.id, x.nickname, x.profile)}} key={index}>
                         <td><Profile src={x.profile === "\\image\\default_profile.png" ? x.profile : x.profile}/>{x.nickname}</td>
                       </tr>
                     )

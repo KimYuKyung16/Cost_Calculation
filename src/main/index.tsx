@@ -55,7 +55,6 @@ function Index() {
         <Main>
           <Header></Header>
           <AppointmentList></AppointmentList>
-          <input onClick={()=>{navigate('/appointment')}} type="button" value="약속 추가하기"/>
         </Main>
       </Total>
     </>

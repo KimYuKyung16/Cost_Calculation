@@ -18,6 +18,7 @@ interface appointmentListState {
   bookmark: string;
   date: string;
   time: string;
+  state: string;
 }
 
 const initialState: appointmentListState[] = []; // 검색된 유저 리스트

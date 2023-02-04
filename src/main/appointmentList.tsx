@@ -9,6 +9,9 @@ import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
 
 import axios from 'axios';
 import { memberListActions } from '../redux/modules/reducer/memberListReducer';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
+import { faPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
  
 
 
@@ -23,6 +26,7 @@ const Container = styled.div`
 `
 
 const Main = styled.div`
+  position: relative
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -127,7 +131,7 @@ const Main__List__Members = styled.div`
           max-height: 30px; 
           position: relative;
           border-radius: 10px;
-          background-color: #eeee00;
+          background-color: #000000;
 
           & img {
             width: 100%;
@@ -147,6 +151,31 @@ const Star = styled.img`
   width: 20px;
   height: 20px;
   /* padding-right: 10px; */
+`
+
+const Main__Btn = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+position: absolute;
+background-color: #322c5a;
+color: #ffffff;
+width: 60px;
+height: 60px;
+bottom: 10%;
+right: 10%;
+font-size: 3em;
+`
+
+interface State_Props {
+  state: string | undefined;
+}
+
+const Main__State = styled.div`
+background-color: ${(props: State_Props) => props.state === 'true' ? '#72bc93' : '#b6b7d5' };
+/* background-color: #72bc93; */
+color: #ffffff;
+padding: 3px 10px;
 `
 
 
@@ -199,6 +228,61 @@ function AppointmentList() {
   }
 
 
+  const componentChange = () => {
+    if (!appointmentList.length) {
+      return (
+        <>
+          <p>일정이 없습니다.</p>
+          <p>새로운 일정을 추가해보세요.</p>
+        </>
+      )
+    } else {
+      return (
+        <Main__List>
+          <tbody>
+            {
+              appointmentList.map((x, index) => {
+                return(
+                  <tr key={index}>
+                    <td>
+
+                      <p>
+                        <Star onClick={()=>{bookmark(index, x.num)}} src={appointmentList[index].bookmark === 'true'? 'image/star.png' : 'image/empty_star.png'}  />
+                        <span onClick={()=>{navigate('/appointment/' + x.num)}}>{x.calculate_name}</span>
+                        <span>{x.members.length}</span>
+                      </p>   
+
+                      <Main__List__Members>
+                        <div>
+                          <div> {/* 3개의 프로필을 모아둔 div*/}
+                            {
+                              x.members.map((member: { id: string, nickname:string, profile: string }, index: any) => {
+                                return(
+                                  <div key={index}>
+                                    <img src={member.profile}/>
+                                  </div>
+                                )
+                              })
+                            }
+                          </div>
+                        </div>
+                      </Main__List__Members>
+
+                      <p>{x.date}</p>
+                      <Main__State state={x.state}>
+                        {x.state}
+                      </Main__State>
+                    </td>
+                  </tr>
+                )
+              })
+            }
+          </tbody>
+        </Main__List>
+      )
+    }
+  }
+
 
 
 
@@ -208,40 +292,9 @@ function AppointmentList() {
   return(
     <Container>
       <Main>
-        <Main__List>
-          <tbody>
-            {
-              appointmentList.map((x, index) => {
-                return(
-                  <tr key={index}>
-                    <td>
-                      <p>
-                        <Star onClick={()=>{bookmark(index, x.num)}} src={appointmentList[index].bookmark === 'true'? 'image/star.png' : 'image/empty_star.png'}  />
-                        <span onClick={()=>{navigate('/appointment/' + x.num)}}>{x.calculate_name}</span>
-                        <span>{x.members.length}</span>
-                      </p>       
-                      <Main__List__Members>
-                        <div>
-                          <div> {/* 3개의 프로필을 모아둔 div*/}
-                            {
-                              x.members.map((member: { id: string, nickname:string, profile: string }, index: any) => {
-                                return(
-                                  <div>
-                                    <img src={member.profile}/>
-                                  </div>
-                                )
-                              })
-                            }
-                          </div>
-                        </div>
-                      </Main__List__Members>
-                    </td>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </Main__List>
+        {componentChange()}
+        <Main__Btn><FontAwesomeIcon onClick={()=>{navigate('/appointment')}} icon={faPlus}/></Main__Btn>
+        {/* <input  type="button" value="약속 추가하기"/> */}
       </Main>
     </Container>
   )

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 
 import { appointmentListActions } from '../redux/modules/reducer/appointmentListReducer'
@@ -26,7 +26,6 @@ const Container = styled.div`
 `
 
 const Main = styled.div`
-  position: relative
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -45,6 +44,7 @@ const Main__List = styled.table`
     /* padding: 1% 2%; */
     
     & tr {
+      display: flex;
       width: 100%;
       border-bottom: 1px solid #e3e3e3;
       /* background-color: #191a68; */
@@ -53,11 +53,12 @@ const Main__List = styled.table`
 
     & td {
       display: flex;
+      flex-direction: row;
       align-items: center;
       justify-content: space-between;
       font-weight: bold;
       font-size: 1.2em;
-      width: 100%;
+      /* width: 100%; */
       padding: 0 3%;
       /* background-color: red; */
       box-sizing: border-box;
@@ -81,20 +82,23 @@ const Main__List = styled.table`
     }
 
     & td:nth-child(1) {
-      /* width: 60%; */
-      /* background-color: #6f70a8; */
+      width: 100%;
+      /* background-color: #e61414; */
     }
 
-    /* & td:nth-child(2) {
-      width: 30px;
-      text-align: center;
-      background-color: #6549b9;
-      border-radius: 10px;
-      color: white;
-      font-weight: bold;
-    } */
+    & td:nth-child(2) {
+      /* width: 10%; */
+      /* background-color: #ecc529; */
+      white-space: nowrap;;
+      padding: 0;
+    }
 
-   
+    & td:nth-child(3) {
+      /* background-color: #282ab1; */
+      width: 200px;
+      padding: 0;
+      padding-left: 10px;
+    }
   }
 `
 const Main__List__Members = styled.div`
@@ -171,11 +175,18 @@ interface State_Props {
   state: string | undefined;
 }
 
+const Main__Date = styled.div`
+color: #6c6c6c;
+font-size: 0.8em;
+padding: 0;
+`
+
 const Main__State = styled.div`
 background-color: ${(props: State_Props) => props.state === 'true' ? '#72bc93' : '#b6b7d5' };
 /* background-color: #72bc93; */
 color: #ffffff;
 padding: 3px 10px;
+font-size: 0.8em;
 `
 
 
@@ -191,6 +202,13 @@ function AppointmentList() {
   //   members: [{id: 'test', nickname: 'teello', profile: 'ss'}],
   //   bookmark: 'test'
   // }]));
+
+
+
+
+
+
+
 
   const appointmentList = useAppSelector(state => state.appointmentList);
   const appointmentListType = useAppSelector(state => state.appoinmentListType);
@@ -244,8 +262,8 @@ function AppointmentList() {
               appointmentList.map((x, index) => {
                 return(
                   <tr key={index}>
-                    <td>
 
+                    <td>
                       <p>
                         <Star onClick={()=>{bookmark(index, x.num)}} src={appointmentList[index].bookmark === 'true'? 'image/star.png' : 'image/empty_star.png'}  />
                         <span onClick={()=>{navigate('/appointment/' + x.num)}}>{x.calculate_name}</span>
@@ -267,12 +285,16 @@ function AppointmentList() {
                           </div>
                         </div>
                       </Main__List__Members>
-
-                      <p>{x.date}</p>
-                      <Main__State state={x.state}>
-                        {x.state}
-                      </Main__State>
                     </td>
+
+                    <td>
+                      <Main__Date>{x.date}</Main__Date>
+                    </td>
+
+                    <td>
+                      <Main__State state={x.state}>{x.state === 'true' ? '정산중' : '정산완료' }</Main__State>
+                    </td>
+                    
                   </tr>
                 )
               })
@@ -293,6 +315,7 @@ function AppointmentList() {
     <Container>
       <Main>
         {componentChange()}
+        <div ref={testRef} style={{width: '100%', height: 30}}></div>
         <Main__Btn><FontAwesomeIcon onClick={()=>{navigate('/appointment')}} icon={faPlus}/></Main__Btn>
         {/* <input  type="button" value="약속 추가하기"/> */}
       </Main>

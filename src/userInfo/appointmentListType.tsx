@@ -8,11 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 �
 import { faUserFriends, faEnvelope, faBars } from '@fortawesome/free-solid-svg-icons'; 
 
 import { appointmentListTypeActions } from '../redux/modules/reducer/appointmentListReducer'
+import { appointmentListTypeCountActions } from '../redux/modules/reducer/appointmentListReducer'
 import { userInfoActions } from '../redux/modules/reducer/userInfoReducer';
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 interface Type_Props {
-  type: number | undefined;
+  type: string | undefined;
 }
 
 const Main__List = styled.div`
@@ -90,37 +91,58 @@ function AppointmentListType() {
   axios.defaults.withCredentials = true; // withCredentials 전역 설정
   const dispatch = useAppDispatch();
   const appointmentListType = useAppSelector(state => state.appoinmentListType);
+  const appointmentListTypeCount = useAppSelector(state => state.appoinmentListTypeCount);
+
+  console.log(appointmentListType)
+  console.log(appointmentListTypeCount)
+
+  /* 타입별 리스트 개수 가져오기 */
+  const AppointmentType_Count = async () => {
+    try {
+      let count = await axios.get('http://localhost:6001/appointmentList', {
+        params: { type: 'count' }
+      })
+      dispatch(appointmentListTypeCountActions.setInitialAppointmentListTypeCount(count.data.countList));
+    } catch(e) {
+      console.log(e);
+    }
+  }
 
   const clickAppointmentType1 = () => {
-    dispatch(appointmentListTypeActions.setInitialAppointmentListType(1));
+    dispatch(appointmentListTypeActions.setInitialAppointmentListType('1'));
   }
 
   const clickAppointmentType2 = () => {
-    dispatch(appointmentListTypeActions.setInitialAppointmentListType(2));
+    dispatch(appointmentListTypeActions.setInitialAppointmentListType('2'));
   }
 
   const clickAppointmentType3 = () => {
-    dispatch(appointmentListTypeActions.setInitialAppointmentListType(3));
+    dispatch(appointmentListTypeActions.setInitialAppointmentListType('3'));
   }
 
   const clickAppointmentType4 = () => {
-    dispatch(appointmentListTypeActions.setInitialAppointmentListType(4));
+    dispatch(appointmentListTypeActions.setInitialAppointmentListType('4'));
   }
+
+  useEffect(() => {
+    AppointmentType_Count();
+  }, [])
+
 
   return (
     <Main__List type={appointmentListType.type}>
       <ul>
         <li onClick={clickAppointmentType1}>
-          <p># 전체 약속</p><p>0</p>
+          <p># 전체 약속</p><p>{appointmentListTypeCount[0].count}</p>
         </li>
         <li onClick={clickAppointmentType2}>
-          <p># 정산중인 약속</p><p>0</p>
+          <p># 정산중인 약속</p><p>{appointmentListTypeCount[1].count}</p>
         </li>
         <li onClick={clickAppointmentType3}>
-          <p># 정산 완료된 약속</p><p>0</p>
+          <p># 정산 완료된 약속</p><p>{appointmentListTypeCount[2].count}</p>
         </li>
         <li onClick={clickAppointmentType4}>
-          <p># 즐겨찾기 약속</p><p>0</p>
+          <p># 즐겨찾기 약속</p><p>{appointmentListTypeCount[3].count}</p>
         </li>
       </ul>
     </Main__List>

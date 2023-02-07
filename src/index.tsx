@@ -14,7 +14,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
     <PersistGate persistor={persistor}> {/* persist-redux 추가 */} 
       <BrowserRouter>
@@ -22,7 +22,7 @@ root.render(
       </BrowserRouter>
     </PersistGate>{/* persist-redux 추가 */}
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 

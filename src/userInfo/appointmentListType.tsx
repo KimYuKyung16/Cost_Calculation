@@ -102,7 +102,11 @@ function AppointmentListType() {
       let count = await axios.get('http://localhost:6001/appointmentList', {
         params: { type: 'count' }
       })
-      dispatch(appointmentListTypeCountActions.setInitialAppointmentListTypeCount(count.data.countList));
+      console.log('count값:',count.data.countList)
+
+      if (count.data.countList) {
+        dispatch(appointmentListTypeCountActions.setInitialAppointmentListTypeCount(count.data.countList));
+      }
     } catch(e) {
       console.log(e);
     }
@@ -133,16 +137,16 @@ function AppointmentListType() {
     <Main__List type={appointmentListType.type}>
       <ul>
         <li onClick={clickAppointmentType1}>
-          <p># 전체 약속</p><p>{appointmentListTypeCount[0].count}</p>
+          <p># 전체 약속</p><p>{appointmentListTypeCount.length ? appointmentListTypeCount[0].count : 0}</p>
         </li>
         <li onClick={clickAppointmentType2}>
-          <p># 정산중인 약속</p><p>{appointmentListTypeCount[1].count}</p>
+          <p># 정산중인 약속</p><p>{appointmentListTypeCount.length ? appointmentListTypeCount[1].count : 0}</p>
         </li>
         <li onClick={clickAppointmentType3}>
-          <p># 정산 완료된 약속</p><p>{appointmentListTypeCount[2].count}</p>
+          <p># 정산 완료된 약속</p><p>{appointmentListTypeCount.length ? appointmentListTypeCount[2].count : 0}</p>
         </li>
         <li onClick={clickAppointmentType4}>
-          <p># 즐겨찾기 약속</p><p>{appointmentListTypeCount[3].count}</p>
+          <p># 즐겨찾기 약속</p><p>{appointmentListTypeCount.length ? appointmentListTypeCount[3].count : 0}</p>
         </li>
       </ul>
     </Main__List>

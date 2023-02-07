@@ -11,6 +11,7 @@ import axios from 'axios';
 const Total = styled.div`
   display: flex;
   flex-direction: row;
+  height: 100%;
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
@@ -22,6 +23,7 @@ const Main = styled.div`
 box-sizing: border-box;
 width: 80%;
 padding: 2% 5%;
+height: 100vh;
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
@@ -33,11 +35,21 @@ padding: 2% 5%;
 const UserInfoDiv = styled.div`
 width: 25%;
 min-width: 300px;
+height: 100%;
+background-color: antiquewhite;
+position: sticky;
+top: 0;
+z-index: 1;
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
   width: 100%;
 }
+`
+
+const AppointmentListDiv = styled.div`
+  height: 90%;
+  /* background-color: beige; */
 `
 
 function Index() {
@@ -54,7 +66,7 @@ function Index() {
 
         <Main>
           <Header></Header>
-          <AppointmentList></AppointmentList>
+          <AppointmentListDiv><AppointmentList></AppointmentList></AppointmentListDiv>
         </Main>
       </Total>
     </>

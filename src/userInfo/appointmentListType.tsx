@@ -98,11 +98,11 @@ function AppointmentListType() {
 
   /* 타입별 리스트 개수 가져오기 */
   const AppointmentType_Count = async () => {
+    console.log("작동이 되는지 확인중")
     try {
       let count = await axios.get('http://localhost:6001/appointmentList', {
         params: { type: 'count' }
       })
-      console.log('count값:',count.data.countList)
 
       if (count.data.countList) {
         dispatch(appointmentListTypeCountActions.setInitialAppointmentListTypeCount(count.data.countList));

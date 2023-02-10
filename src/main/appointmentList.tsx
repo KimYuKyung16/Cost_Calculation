@@ -24,6 +24,12 @@ const Container = styled.div`
   /* padding: 2% 5%; */
   box-sizing: border-box;  
   overflow: auto; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const Main = styled.div`
@@ -221,6 +227,7 @@ function AppointmentList() {
 
   let [visible, setVisible] = useState<boolean>(true); // 로딩화면 가시성 여부
   let [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+  
 
   const testRef:any = useRef(); 
 
@@ -245,6 +252,7 @@ function AppointmentList() {
 
   // const appointmentList = useAppSelector(state => state.appointmentList);
   const appointmentListType = useAppSelector(state => state.appoinmentListType); // 현재 선택한 리스트 타입
+  let [type, setType] = useState(appointmentListType.type);
 
   /* 정산 내역 출력 */
   const appointmentListUp = async () => { 
@@ -257,11 +265,19 @@ function AppointmentList() {
           current_page: currentPage
         }
       })
-      console.log(list.data.list)
+      // console.log(list.data.list)
       setTotalPageCount(list.data.totalPageCount); // 총 페이지 개수
 
-      // 정산 타입이 count가 아닐 경우에는 정산 리스트 저장
-      if (appointmentListType.type !== 'count') setAppointmentList(state => [...state, ...list.data.list]);
+
+      if (appointmentListType.type !== 'count') { // 정산 타입이 count가 아닐 경우에는 정산 리스트 저장
+        // if (currentPage === 1) {
+        //   setAppointmentList([]);
+        //   setAppointmentList(list.data.list);
+        //   console.log(list.data.list)
+        // }else {
+          setAppointmentList(state => [...state, ...list.data.list]);
+        // }
+      }
     } catch(e) {
       console.log(e);
     }
@@ -382,16 +398,16 @@ function AppointmentList() {
 
 
   
-  useEffect(() => {
-    setCurrentPage(1); 
+  useEffect(() => { 
     setAppointmentList([]);
+    setCurrentPage(1); 
+    // appointmentListUp(); 
+    setType(appointmentListType.type)
   }, [appointmentListType.type])
 
   useEffect(() => { 
     appointmentListUp(); 
-  }, [appointmentListType.type, currentPage]) // 타입과 현재 페이지가 바뀔 경우
-
-  
+  }, [currentPage,type]) // 현재 페이지가 바뀔 경우
 
 
   return(

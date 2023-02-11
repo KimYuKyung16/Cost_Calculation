@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components"; // styled in js
@@ -13,6 +13,7 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 
 
 import AppointmentListType from './appointmentListType';
 
+import MiniUserInfo from '../main/mini_userInfo';
 
 const Main = styled.div`
 display: flex;
@@ -61,7 +62,47 @@ box-sizing: border-box;
 `
 
 
+interface UserInfo_Props {
+  visible: string | undefined;
+}
+
+
+const MiniUserInfoDiv = styled.div`
+  display: none;
+  position: absolute;
+  top: 53px;
+  left: 5px;
+  z-index: 30;
+  background-color: #e0e0e0;
+  width: 200px;
+  border: 1px solid #5b5b5b;
+
+  box-shadow: 0 5px 20px rgba(206, 206, 206, 0.8);
+  border-radius: 10px;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  display: ${(props: UserInfo_Props) => props.visible };
+}
+`
+
 const Main__Profile = styled.div`
+  display: flex;
+flex-direction: row;
+width: 200px;
+/* background-color: antiquewhite; */
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  flex-direction: column;
+position: relative;
+}
+`
+
+
+
+
+const Main__Profile_Image = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -96,7 +137,7 @@ max-width: 250px;
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
-  flex-direction: row;
+  /* flex-direction: row; */
   min-width: 40px;
   max-width: 40px;
   padding: 10px;
@@ -142,7 +183,14 @@ function UserInfo() {
 
   const nickname = userInfo.nickname;
   const profile = userInfo.profile; 
+
+  let [userInfoVisible, setUserInfoVisible] = useState('none');
   
+
+  const profileMouseClick = () => {
+    if (userInfoVisible === 'none') setUserInfoVisible('block');
+    else setUserInfoVisible('none');
+  }
 
   return(
     <>
@@ -155,10 +203,14 @@ function UserInfo() {
         </Main__Friend_Message>
 
         <Main__Profile>
-          <div><img src={profile}/></div>
-          {/* <p>'{nickname}' 님</p> */}
+          <Main__Profile_Image>
+            <div><img src={profile} onClick={profileMouseClick}/></div>
+          </Main__Profile_Image>
+          <MiniUserInfoDiv visible={userInfoVisible}>
+            <MiniUserInfo></MiniUserInfo>
+          </MiniUserInfoDiv>
         </Main__Profile>
-
+      
         <Main__InfoButton>
           <input onClick={()=>{navigate('/userinfo')}} type="button" value="내 정보"/>
           <input onClick={()=>{navigate('/userinfo/modify')}} type="button" value="프로필 수정"/>

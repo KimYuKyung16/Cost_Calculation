@@ -10,9 +10,6 @@ import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
 import axios from 'axios';
 import { memberListActions } from '../redux/modules/reducer/memberListReducer';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
-import { faPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
- 
 
 
 const Container = styled.div`
@@ -48,7 +45,7 @@ const Main__List = styled.table`
   width: 100%;
   border-spacing: 0 15px;
   border-collapse: collapse;
-
+  box-sizing: border-box;
   * {
     /* padding: 1% 2%; */
     
@@ -57,6 +54,7 @@ const Main__List = styled.table`
       width: 100%;
       border-bottom: 1px solid #e3e3e3;
       /* background-color: #191a68; */
+      box-sizing: border-box;
       
     }
 
@@ -69,7 +67,6 @@ const Main__List = styled.table`
       font-size: 1.2em;
       /* width: 100%; */
       padding: 0 3%;
-      /* background-color: red; */
       box-sizing: border-box;
 
       & p {
@@ -166,19 +163,6 @@ const Star = styled.img`
   /* padding-right: 10px; */
 `
 
-const Main__Btn = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-position: absolute;
-background-color: #322c5a;
-color: #ffffff;
-width: 60px;
-height: 60px;
-bottom: 10%;
-right: 10%;
-font-size: 3em;
-`
 
 interface State_Props {
   state: string | undefined;
@@ -416,7 +400,6 @@ function AppointmentList() {
         <Main__List>
           {componentChange()}
         </Main__List>
-        <Main__Btn><FontAwesomeIcon onClick={()=>{navigate('/appointment')}} icon={faPlus}/></Main__Btn>
       </Main>
     </Container>
   )

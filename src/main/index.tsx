@@ -8,6 +8,9 @@ import AppointmentList from "../main/appointmentList";
 
 import axios from 'axios';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
+import { faPlus, faPlusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
+ 
 const Total = styled.div`
   display: flex;
   flex-direction: row;
@@ -23,7 +26,7 @@ const Main = styled.div`
 box-sizing: border-box;
 width: 80%;
 padding: 2% 5%;
-height: 100vh;
+height: 100%;
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
@@ -36,7 +39,6 @@ const UserInfoDiv = styled.div`
 width: 25%;
 min-width: 300px;
 height: 100%;
-background-color: antiquewhite;
 position: sticky;
 top: 0;
 z-index: 1;
@@ -49,7 +51,46 @@ z-index: 1;
 
 const AppointmentListDiv = styled.div`
   height: 90%;
+  width: 100%;
+  padding-bottom: 20px;
   /* background-color: beige; */
+`
+
+const HeaderDiv = styled.div`
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+
+@media screen and (max-width: 1023px) { 
+  position: static;
+}
+`
+
+
+const Main__Btn = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+position: sticky;
+background-color: #322c59;
+color: #ffffff;
+width: 20%;
+height: 50px;
+font-size: 1em;
+border-radius: 15px;
+border: 3px solid #6e6e6e;
+font-weight: bold;
+
+bottom: 30px;
+left: 90%;
+box-shadow: 0px 0px 10px rgba(125, 125, 125, 0.8);
+
+@media screen and (max-width: 1023px) { 
+  /* position: static; */
+  bottom: 30px;
+  left: 40%;
+}
 `
 
 function Index() {
@@ -65,8 +106,18 @@ function Index() {
         </UserInfoDiv>
 
         <Main>
-          <Header></Header>
-          <AppointmentListDiv><AppointmentList></AppointmentList></AppointmentListDiv>
+          <HeaderDiv>
+            <Header></Header>
+          </HeaderDiv>
+          
+          <AppointmentListDiv>
+            <AppointmentList></AppointmentList>
+          </AppointmentListDiv>
+
+          <Main__Btn onClick={()=>{navigate('/appointment')}}>
+            <p><FontAwesomeIcon  icon={faPlusCircle}/> 일정 추가</p>
+          </Main__Btn>
+    
         </Main>
       </Total>
     </>

@@ -12,6 +12,8 @@ import { appointmentListTypeCountActions } from '../redux/modules/reducer/appoin
 import { userInfoActions } from '../redux/modules/reducer/userInfoReducer';
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
+import "../static/fonts/font.css"
+
 interface Type_Props {
   type: string | undefined;
 }
@@ -22,31 +24,25 @@ flex-direction: column;
 /* align-items: center; */
 justify-content: center;
 width: 100%;
-height: 40%;
-/* background-color: #6b0285; */
+height: 100%;
 
 & > ul {
-  /* list-style:none; */
   display: flex;
   flex-direction: column;
-  /* background-color: #bf8b46; */
   height: 100%;
-  /* align-items: center; */
-  /* justify-content: space-around; */
   padding-left: 0;
+  list-style: none;
 
   & > li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    height: 20%;
+    padding: 5px 20px;
     color: #b7b6d6;
     font-weight: bold;
     font-size: 20px;
-    /* background-color: #b4b4b4; */
-    /* padding: 10px; */
-    height: 15%;
-    padding: 5px 20px;
     cursor: pointer;
   }
 
@@ -67,6 +63,8 @@ height: 40%;
 align-items: flex-end;
 
 & > ul {
+  width: auto;
+  align-items: center;
   flex-direction: row;
   padding: 0 10px;
 

@@ -14,6 +14,7 @@ const Main = styled.div`
 
   & > div > p {
     font-size: 1.4em;
+    color: #6f6fad;
   }
 `
 

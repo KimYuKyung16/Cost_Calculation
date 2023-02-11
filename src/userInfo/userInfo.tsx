@@ -22,6 +22,16 @@ align-items: center;
 background-color: #322c58;
 width: 100%;
 height: 100vh;
+min-height: 100vh;
+overflow: scroll;
+
+
+-ms-overflow-style: none; /* 인터넷 익스플로러 */
+scrollbar-width: none; /* 파이어폭스 */
+/* ( 크롬, 사파리, 오페라, 엣지 ) 동작 */
+&::-webkit-scrollbar {
+  display: none;
+}
 
 & > h1 {
 display: none; // 화면 클 때는 햄버거바 안보임.
@@ -33,7 +43,9 @@ padding: 0 10px;
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
   height: 60px;
+  min-height: 60px;
   flex-direction: row;
+  overflow: visible;
 
   & > h1 {
     display: block; // 화면 작을 때는 햄버거바 보임.
@@ -41,7 +53,9 @@ padding: 0 10px;
 }
 `
 
-const Main__Friend_Message = styled.div`
+// 친구 리스트 & 메시지 아이콘들
+const Main__Icon = styled.div`
+width: 100%;
 text-align: right;
 padding: 20px 20px 0 0;
 box-sizing: border-box;
@@ -51,12 +65,9 @@ box-sizing: border-box;
   font-size: 1.3em;
 }
 
-& :nth-child(1) {
-  padding-right: 10px;
-}
+& :nth-child(1) { padding-right: 10px; }
 
-/* 모바일, 타블렛 기준 */
-@media screen and (max-width: 1023px) { 
+@media screen and (max-width: 1023px) { /* 모바일, 타블렛 기준 */
   display: none;
 }
 `
@@ -87,15 +98,20 @@ const MiniUserInfoDiv = styled.div`
 `
 
 const Main__Profile = styled.div`
-  display: flex;
+display: flex;
 flex-direction: row;
-width: 200px;
-/* background-color: antiquewhite; */
+justify-content: center;
+align-items: center;
+width: 100%;
+position: static;
+padding: 30px 0;
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
+  width: auto;
   flex-direction: column;
-position: relative;
+  position: relative;
+  padding: 0;
 }
 `
 
@@ -150,28 +166,42 @@ max-width: 250px;
 }
 `
 
-const Main__InfoButton = styled.div`
+// 
+const Main__Info_Btn = styled.div`
 display: flex;
 flex-direction: row;
 justify-content: center;
 /* background-color: aqua; */
 width: 100%;
-height: 5%;
+height: auto;
+padding-bottom: 20px;
 
-& input {
+& > input {
   background-color: #322c58;
   border: 3px solid #bac7fb;
-  width: 30%;
+  width: 35%;
   color: #bac7fb;
   font-weight: bold;
   cursor: pointer;
   border-radius: 20px;
   margin: 0 5px;
+  height: 40px;
 }
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
   display: none;
+}
+`
+
+const Main__ListType = styled.div`
+  width: 100%;
+  height: 200px;
+  /* background-color: #187575; */
+
+@media screen and (max-width: 1023px) { 
+  height: 60px;
+  padding: 0;
 }
 `
 
@@ -197,10 +227,10 @@ function UserInfo() {
       <Main>
         {/* <h1><FontAwesomeIcon icon={faBars}/></h1> */}
 
-        <Main__Friend_Message>
+        <Main__Icon>
           <FontAwesomeIcon onClick={()=>{navigate('/friend')}} icon={faUserFriends}/>
           <FontAwesomeIcon icon={faEnvelope}/>
-        </Main__Friend_Message>
+        </Main__Icon>
 
         <Main__Profile>
           <Main__Profile_Image>
@@ -211,12 +241,15 @@ function UserInfo() {
           </MiniUserInfoDiv>
         </Main__Profile>
       
-        <Main__InfoButton>
+        <Main__Info_Btn>
           <input onClick={()=>{navigate('/userinfo')}} type="button" value="내 정보"/>
           <input onClick={()=>{navigate('/userinfo/modify')}} type="button" value="프로필 수정"/>
-        </Main__InfoButton>
+        </Main__Info_Btn>
 
-        <AppointmentListType /> {/* 약속 리스트 종류 출력 */}
+        <Main__ListType>
+          <AppointmentListType /> {/* 약속 리스트 종류 출력 */}
+        </Main__ListType>
+
         
       </Main>
     </>

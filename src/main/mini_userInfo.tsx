@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 
 import styled from "styled-components"; // styled in js
@@ -12,15 +12,6 @@ import { userInfoActions } from '../redux/modules/reducer/userInfoReducer';
 import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 import "../static/fonts/font.css"
-
-
-const Main__Friend_Message = styled.div`
-
-/* 모바일, 타블렛 기준 */
-@media screen and (max-width: 1023px) { 
-
-}
-`
 
 const Profile = styled.img`
   width: 120px;

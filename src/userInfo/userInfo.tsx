@@ -51,6 +51,11 @@ padding: 0 10px;
     display: block; // 화면 작을 때는 햄버거바 보임.
   }
 }
+
+@media screen and (max-width: 600px) {
+  flex-direction: column;
+  overflow: visible;
+}
 `
 
 // 친구 리스트 & 메시지 아이콘들
@@ -194,14 +199,51 @@ padding-bottom: 20px;
 }
 `
 
+interface Visible_Props {
+  visible: string | undefined;
+}
+
 const Main__ListType = styled.div`
   width: 100%;
   height: 200px;
-  /* background-color: #187575; */
+  background-color: #322c58;
 
 @media screen and (max-width: 1023px) { 
   height: 60px;
   padding: 0;
+}
+
+@media screen and (max-width: 600px) { 
+  display: ${(props: Visible_Props) => props.visible };
+  height: 100%;
+}
+`
+
+const Test = styled.div`
+display: flex;
+flex-direction: row;
+width: 100%;
+
+& > :nth-child(2) {
+  display: none;
+}
+
+@media screen and (max-width: 1023px) { 
+  width: auto;
+}
+
+
+@media screen and (max-width: 600px) { 
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  & > :nth-child(2) {
+    display: block;
+    padding-right: 10px;
+    font-size: 1.5em;
+    color: #ffffff;
+  }
 }
 `
 
@@ -215,11 +257,17 @@ function UserInfo() {
   const profile = userInfo.profile; 
 
   let [userInfoVisible, setUserInfoVisible] = useState('none');
+  let [menubarVisible, setMenubarVisible] = useState('none');
   
 
   const profileMouseClick = () => {
     if (userInfoVisible === 'none') setUserInfoVisible('block');
     else setUserInfoVisible('none');
+  }
+
+  const menubarMouseClick = () => {
+    if (menubarVisible === 'none') setMenubarVisible('block');
+    else setMenubarVisible('none');
   }
 
   return(
@@ -232,25 +280,32 @@ function UserInfo() {
           <FontAwesomeIcon icon={faEnvelope}/>
         </Main__Icon>
 
-        <Main__Profile>
-          <Main__Profile_Image>
-            <div><img src={profile} onClick={profileMouseClick}/></div>
-          </Main__Profile_Image>
-          <MiniUserInfoDiv visible={userInfoVisible}>
-            <MiniUserInfo></MiniUserInfo>
-          </MiniUserInfoDiv>
-        </Main__Profile>
+        <Test>
+          <Main__Profile>
+            <Main__Profile_Image>
+              <div><img src={profile} onClick={profileMouseClick}/></div>
+            </Main__Profile_Image>
+            <MiniUserInfoDiv visible={userInfoVisible}>
+              <MiniUserInfo></MiniUserInfo>
+            </MiniUserInfoDiv>
+          </Main__Profile>
+          
+          <FontAwesomeIcon icon={faBars} onClick={menubarMouseClick}/>
+        </Test>
       
         <Main__Info_Btn>
           <input onClick={()=>{navigate('/userinfo')}} type="button" value="내 정보"/>
           <input onClick={()=>{navigate('/userinfo/modify')}} type="button" value="프로필 수정"/>
         </Main__Info_Btn>
 
-        <Main__ListType>
+        <Main__ListType visible = {menubarVisible}>
           <AppointmentListType /> {/* 약속 리스트 종류 출력 */}
         </Main__ListType>
+{/* 
+        <div>
+          <FontAwesomeIcon icon={faBars}/>
+        </div> */}
 
-        
       </Main>
     </>
   )

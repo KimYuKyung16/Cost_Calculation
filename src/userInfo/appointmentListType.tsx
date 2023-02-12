@@ -18,6 +18,7 @@ interface Type_Props {
   type: string | undefined;
 }
 
+
 const Main__List = styled.div`
 display: flex;
 flex-direction: column;
@@ -25,6 +26,7 @@ flex-direction: column;
 justify-content: center;
 width: 100%;
 height: 100%;
+background-color: #322c58;
 
 & > ul {
   display: flex;
@@ -79,7 +81,26 @@ align-items: flex-end;
 }
 
 @media screen and (max-width: 600px) { 
-display: none;
+display: block;
+width: 100%;
+height: 200px;
+/* padding-bottom: 20px; */
+
+  & > ul {
+    box-sizing: border-box;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+
+    & > li {
+      width: 100%;
+      height: 30px;
+    
+      & > p:nth-child(2) {
+        display: block;
+      }
+    }
+  }
 }
 }
 `

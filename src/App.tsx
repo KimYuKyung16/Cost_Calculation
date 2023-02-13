@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
+import GlobalStyle from "../src/styles/GlobalStyle";
+
 import {Routes, Route} from 'react-router-dom';
+
+import Main from "./components/main/index"
 
 import Login from "./login/login";
 import Signup from "./login/signup";
@@ -20,26 +23,29 @@ import AddCost from "./calendar/addCost";
 
 function App() {
   return (
-    
-      <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/signup" element={<Signup />}></Route>
+    <>
+     <GlobalStyle />
+    <Routes>
+      <Route path="/" element={<Main />}></Route>
 
-        <Route path="/main" element={<Index />}></Route>
-        <Route path="/userinfo" element={<UserInfo />}></Route>
-        <Route path="/userinfo/modify" element={<ModifiedUserInfo />}></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/signup" element={<Signup />}></Route>
 
-        <Route path="/modifiedFriend" element={<ModifiedFriend />}></Route>
-        <Route path="/friend" element={<Friend />}></Route>
+      <Route path="/main" element={<Index />}></Route>
+      <Route path="/userinfo" element={<UserInfo />}></Route>
+      <Route path="/userinfo/modify" element={<ModifiedUserInfo />}></Route>
 
-        <Route path="/appointment" element={<AddAppointment />}></Route>
-        <Route path="/appointment/:num" element={<Appointment />}></Route>
+      <Route path="/modifiedFriend" element={<ModifiedFriend />}></Route>
+      <Route path="/friend" element={<Friend />}></Route>
 
-        {/* <Route path="/appointment/:num/memberlist" element={<AppointmentMemberList num={undefined} />}></Route> */}
-        <Route path="/appointment/:num/costlist" element={<CostList num={undefined} />}></Route>
-        <Route path="/appointment/:num/cost" element={<AddCost />}></Route>
-      </Routes>
-    
+      <Route path="/appointment" element={<AddAppointment />}></Route>
+      <Route path="/appointment/:num" element={<Appointment />}></Route>
+
+      {/* <Route path="/appointment/:num/memberlist" element={<AppointmentMemberList num={undefined} />}></Route> */}
+      <Route path="/appointment/:num/costlist" element={<CostList num={undefined} />}></Route>
+      <Route path="/appointment/:num/cost" element={<AddCost />}></Route>
+    </Routes>
+    </>
   );
 }
 

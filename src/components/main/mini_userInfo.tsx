@@ -7,11 +7,11 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faUserFriends, faEnvelope, faBars } from '@fortawesome/free-solid-svg-icons'; 
 
-import { appointmentListTypeActions } from '../redux/modules/reducer/appointmentListReducer'
-import { userInfoActions } from '../redux/modules/reducer/userInfoReducer';
-import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
+import { appointmentListTypeActions } from '../../redux/modules/reducer/appointmentListReducer'
+import { userInfoActions } from '../../redux/modules/reducer/userInfoReducer';
+import { useAppSelector, useAppDispatch } from '../../redux/hooks' // 커스텀된 useSelector, useDispatch
 
-import "../static/fonts/font.css"
+import "../../static/fonts/font.css"
 
 const Profile = styled.img`
   width: 120px;

@@ -18,8 +18,16 @@ const Container = styled.div`
   /* height: 100vw; */
   width: 100%;
   height: 100%;
+  min-height: 100;
   background-color: #116348;
+  /* overflow: scroll;
 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  } */
 `
 
 const Main = styled.div`
@@ -150,7 +158,7 @@ function AppointmentMemberList(props: Props) {
       setTotalCost(member.data.sumCost); // 총 비용 설정
       setEachCost(member.data.eachCost); // 1인당 내야 하는 비용 설정
       setMemberList(member.data.memberList)
-      // dispatch(memberListActions.setInitialMemberList([]));
+      dispatch(memberListActions.setInitialMemberList(member.data.memberList));
       return member.data.length; // 총 인원
     } catch(e) {
       console.log(e);

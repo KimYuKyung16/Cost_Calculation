@@ -13,7 +13,7 @@ import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 
 
 import AppointmentListType from './appointmentListType';
 
-import MiniUserInfo from '../main/mini_userInfo';
+import MiniUserInfo from '../components/main/mini_userInfo';
 
 const Main = styled.div`
 display: flex;
@@ -55,6 +55,7 @@ padding: 0 10px;
 @media screen and (max-width: 600px) {
   flex-direction: column;
   overflow: visible;
+  height: 100%;
 }
 `
 
@@ -129,7 +130,7 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 width: 100%;
-height: 35%;
+height: 100%;
 max-width: 250px;
 
   & div {
@@ -161,7 +162,6 @@ max-width: 250px;
   /* flex-direction: row; */
   min-width: 40px;
   max-width: 40px;
-  padding: 10px;
 
   & div {
     & img {
@@ -204,9 +204,9 @@ interface Visible_Props {
 }
 
 const Main__ListType = styled.div`
-  width: 100%;
-  height: 200px;
-  background-color: #322c58;
+width: 100%;
+height: auto;
+background-color: #322c58;
 
 @media screen and (max-width: 1023px) { 
   height: 60px;
@@ -215,7 +215,7 @@ const Main__ListType = styled.div`
 
 @media screen and (max-width: 600px) { 
   display: ${(props: Visible_Props) => props.visible };
-  height: 100%;
+  height: auto;
 }
 `
 
@@ -230,6 +230,7 @@ width: 100%;
 
 @media screen and (max-width: 1023px) { 
   width: auto;
+  padding-left: 10px;
 }
 
 
@@ -237,6 +238,7 @@ width: 100%;
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 60px;
 
   & > :nth-child(2) {
     display: block;

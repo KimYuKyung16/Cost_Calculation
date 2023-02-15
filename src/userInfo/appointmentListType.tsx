@@ -34,6 +34,8 @@ background-color: #322c58;
   height: 100%;
   padding-left: 0;
   list-style: none;
+  padding: 0;
+  margin: 0;
 
   & > li {
     display: flex;
@@ -71,6 +73,7 @@ align-items: flex-end;
   padding: 0 10px;
 
   & > li {
+    height: 50%;
     font-size: 0.9em;
     padding: 10px 10px;
 
@@ -83,18 +86,19 @@ align-items: flex-end;
 @media screen and (max-width: 600px) { 
 display: block;
 width: 100%;
-height: 200px;
-/* padding-bottom: 20px; */
+height: 150px;
+margin-bottom: 10px;
 
   & > ul {
-    box-sizing: border-box;
     flex-direction: column;
     width: 100%;
-    height: auto;
+    height: 150px;
+    padding: 0;
 
     & > li {
       width: 100%;
-      height: 30px;
+      height: 25%;
+      padding: 10px 20px;
     
       & > p:nth-child(2) {
         display: block;

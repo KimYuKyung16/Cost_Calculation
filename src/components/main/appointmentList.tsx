@@ -2,13 +2,13 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate, Link } from "react-router-dom";
 
 // import { appointmentListActions } from '../redux/modules/reducer/appointmentListReducer'
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import styled from 'styled-components'; // styled in js
-import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
+import UserInfo from '../../userInfo/userInfo'; // 유저 정보 페이지
 
 import axios from 'axios';
-import { memberListActions } from '../redux/modules/reducer/memberListReducer';
+import { memberListActions } from '../../redux/modules/reducer/memberListReducer';
 
 
 

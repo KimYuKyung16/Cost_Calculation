@@ -17,7 +17,6 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   padding: 1% 3%;
-  box-sizing: border-box;  
   /* background-color: #0e3535; */
 `
 
@@ -31,7 +30,6 @@ const Main = styled.div`
   align-items: center;
   /* width: 100%; */
   height: 90%;
-  box-sizing: border-box;
   overflow: auto; // 화면을 넘어가면 스크롤이 되도록
 
   /* -ms-overflow-style: none;
@@ -47,37 +45,42 @@ const Main__List = styled.table`
   background-color: #ffffff;
   /* table-layout:fixed;  */
   width: 100%;
-  height: 100%;
-  border-spacing: 10px;
-  border-collapse: separate; 
-  box-sizing: border-box;
+  height: auto;
+  border-spacing: 5px;
+  border-collapse: separate;
+  font-size: 0.9em;
 
   * {
     padding: 1% 2%;
+  }
 
-    & td:nth-child(1) {
-      width: 60%;
-      background-color: #dddddd;
-    }
+  & > tbody > tr{
+    background-color: #fffc60;
+    height: 30px;
+  }
 
-    & td:nth-child(2) {
-      /* width: 20%; */
-      text-align: center;
-      background-color: #6549b9;
-      border-radius: 10px;
-      color: white;
-      font-weight: bold;
-    }
+  & td:nth-child(1) {
+    width: 60%;
+    background-color: #dddddd;
+  }
 
-    & td:nth-child(3) {
-      /* width: 20%; */
-      text-align: right;
-      background-color: #6549b9;
-      border-radius: 10px;
-      color: #fffc60;
-      font-weight: bold;
-      font-size: larger;
-    }
+  & td:nth-child(2) {
+    /* width: 20%; */
+    text-align: center;
+    background-color: #322c58;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+  }
+
+  & td:nth-child(3) {
+    /* width: 20%; */
+    text-align: right;
+    background-color: #322c58;
+    border-radius: 5px;
+    color: #fffc60;
+    font-weight: bold;
+    /* font-size: larger; */
   }
 
 `
@@ -152,9 +155,9 @@ function CostList(props: Props) {
 
   return(
     <Container>
-      <Header>
+      {/* <Header>
         <h1>비용 정산 리스트</h1>
-      </Header>
+      </Header> */}
 
       <Main>
         <Main__List>
@@ -163,9 +166,9 @@ function CostList(props: Props) {
               costList2.map((x, index) => {
                 return(
                   <tr>
-                    <td className='test1'>{x.title}</td>
-                    <td className='test2'>{x.payer}</td>
-                    <td className='test3'>{x.cost} 원</td>
+                    <td>{x.title}</td>
+                    <td>{x.payer}</td>
+                    <td>{x.cost} 원</td>
                   </tr>
                 )
               })

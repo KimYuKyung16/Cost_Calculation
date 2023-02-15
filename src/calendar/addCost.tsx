@@ -50,6 +50,7 @@ function AddCost() {
   
   const memberList = useAppSelector(state => state.memberList); // 멤버 리스트
   const cost = useAppSelector(state => state.cost); // 비용 리스트
+  console.log(memberList);
   console.log('cost:',cost);
 
   const dispatch = useAppDispatch();

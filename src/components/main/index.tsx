@@ -1,110 +1,127 @@
-/* 시작 페이지 */
+import { useNavigate, Link } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
+import styled from 'styled-components'; // styled in js
 
-import styled, { keyframes } from 'styled-components'; 
+import Header from './header';
+import UserInfo from '../../userInfo/userInfo'; // 유저 정보 페이지
+import AppointmentList from "./appointmentList";
 
-function Index() {
-  const navigate = useNavigate(); 
+import axios from 'axios';
 
-  return(
-    <Main>
-      <div>
-        <Main__Logo src="/image/logo.png" />
-        <Main__Logo_start>
-          <Logo_name src="/image/logo_letter.png" />
-          <Main__start type="button" value="시작하기" onClick={()=>{ navigate('/login') }}/>
-        </Main__Logo_start>
-      </div>
-
-      <div>
-        <Main__Logo src="/image/logo_name.png" />
-        <Main__start type="button" value="시작하기" onClick={()=>{ navigate('/login') }}/>
-      </div>
-
-      <p>당신의 정산을 손쉽게 만들어 줄 수 있습니다. 지금 한 번 시작해보세요 :)</p>
-    </Main>
-  );
-}
-
-const Main = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-width: 100vw;
-height: 100vh;
-background-color: #322c58;
-padding-bottom: 10vh;
-color: #74b99a;
-
-& > div:nth-child(1) {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
+import { faPlus, faPlusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
+ 
+const Total = styled.div`
   display: flex;
   flex-direction: row;
-  padding-bottom: 10vh;
-}
+  height: 100%;
 
-& > div:nth-child(2) {
-  display: none;
-  text-align: center;
-  padding-bottom: 10vh;
-}
-
+/* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
-  & > div:nth-child(1) { display: none; }
-  & > div:nth-child(2) { display: block; }
-  & > p { font-size: 2vw; }
+  flex-direction: column;
 }
 `
 
-const Main__Logo = styled.img` // 로고
-width: 200px;
-padding-right: 20px;
-padding-bottom: 20px;
-
-@media screen and (max-width: 1023px) { 
-  width: 70vw;
-}
-`
-
-const Main__Logo_start = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-`
-
-const Logo_name = styled.img` // 로고 이름에서 text부분
-width: 300px;
-padding-bottom: 30px;
-`
-
-const Shine = keyframes` 
-  0% { border-color: #77B79D; color: #77B79D; }
-  15% { border-color: #A0CCBA; color: #A0CCBA; }
-  30% { border-color: #b8d0c6; color: #b8d0c6; }
-  45% { border-color: #A0CCBA; color: #A0CCBA; }
-  60% { border-color: #77B79D; color: #77B79D; }
-  75% { border-color: #A0CCBA; color: #A0CCBA;  }
-  90% { border-color: #b8d0c6; color: #b8d0c6;  } 
- 100% { border-color: #A0CCBA; color: #A0CCBA; }
-`
-
-const Main__start = styled.input` // 시작하기 버튼
+const Main = styled.div`
+box-sizing: border-box;
 width: 80%;
-height: 50px;
-background-color: #322c58;;
-border: 3px solid #77B79D;
-animation: ${Shine} 2s 1s infinite linear alternate;
-font-weight: bold;
-color: #A0CCBA;
-cursor: pointer;
+padding: 2% 5%;
+height: 100%;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  width: 100%;
+  padding: 0;
+}
+`
+
+const UserInfoDiv = styled.div`
+width: 25%;
+min-width: 300px;
+height: 100%;
+position: sticky;
+top: 0;
+z-index: 1;
+
+/* 모바일, 타블렛 기준 */
+@media screen and (max-width: 1023px) { 
+  width: 100%;
+}
+`
+
+const AppointmentListDiv = styled.div`
+  height: 90%;
+  width: 100%;
+  padding-bottom: 20px;
+  /* background-color: beige; */
+`
+
+const HeaderDiv = styled.div`
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
 
 @media screen and (max-width: 1023px) { 
-  width: 60%;
+  position: static;
 }
 `
 
 
+const Main__Btn = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+position: sticky;
+background-color: #322c59;
+color: #ffffff;
+width: 20%;
+height: 50px;
+font-size: 1em;
+border-radius: 15px;
+border: 3px solid #6e6e6e;
+font-weight: bold;
 
+bottom: 30px;
+left: 90%;
+box-shadow: 0px 0px 10px rgba(125, 125, 125, 0.8);
+
+@media screen and (max-width: 1023px) { 
+  /* position: static; */
+  bottom: 30px;
+  left: 40%;
+}
+`
+
+function Index() {
+  const navigate = useNavigate();
+  axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
+
+
+  return(
+    <>
+      <Total>
+        <UserInfoDiv>
+          <UserInfo></UserInfo>
+        </UserInfoDiv>
+
+        <Main>
+          <HeaderDiv>
+            <Header></Header>
+          </HeaderDiv>
+          
+          <AppointmentListDiv>
+            <AppointmentList></AppointmentList>
+          </AppointmentListDiv>
+
+          <Main__Btn onClick={()=>{navigate('/appointment')}}>
+            <p><FontAwesomeIcon  icon={faPlusCircle}/> 일정 추가</p>
+          </Main__Btn>
+    
+        </Main>
+      </Total>
+    </>
+  )
+}
 
 export default Index;

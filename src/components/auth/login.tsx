@@ -1,14 +1,18 @@
-/* 로그인 페이지 */
+/** 
+ * 로그인 페이지
+ * 
+ * */
 
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom"; 
 
 import axios from 'axios';
 import styled from 'styled-components'; 
+import { Main, Main__Logo, Main__Components, Etc_components, Component_Input, Component_btn } from '../../styles/Login_SignUp_Component';
 
-import { useAppSelector, useAppDispatch } from '../redux/hooks'
-import { loginActions } from '../redux/modules/reducer/loginReducer'
-import { userInfoActions } from '../redux/modules/reducer/userInfoReducer'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { loginActions } from '../../redux/modules/reducer/loginReducer';
+import { userInfoActions } from '../../redux/modules/reducer/userInfoReducer';
 
 
 function Login() {
@@ -48,86 +52,19 @@ function Login() {
     <Main>
       <Main__Logo src="image/logo_name.png"/>
       <Main__Components>
-        <Login_components>
-          <Login__component onChange={onChangeId} type="text" placeholder='아이디를 입력하세요.'/>
-          <Login__component onChange={onChangePw} type="password" placeholder='패스워드를 입력하세요.'/>
-          <Login__btn onClick={login} type="button" value="로그인"/>
+        <Etc_components>
+          <Component_Input onChange={onChangeId} type="text" placeholder='아이디를 입력하세요.'/>
+          <Component_Input onChange={onChangePw} type="password" placeholder='패스워드를 입력하세요.'/>
+          <Component_btn onClick={login} type="button" value="로그인"/>
           <Signup>
             <p>회원이 아니라면</p>
             <p onClick={()=>{navigate('/signup')}}>회원가입</p>
           </Signup>
-        </Login_components>
+        </Etc_components>
       </Main__Components>
     </Main>
   );
 }
-
-
-const Main = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-width: 100vw;
-height: 100vh;
-background-color: #322c58;
-padding-bottom: 15vh;
-box-sizing: border-box;
-`
-
-const Main__Logo = styled.img` // 로고
-width: 200px;
-padding-bottom: 20px;
-`
-
-const Main__Components = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-width: 30vw;
-
-@media screen and (max-width: 1023px) { 
-  width: 50vw;
-}
-`
-
-const Login_components = styled.div`
-display: flex;
-flex-direction: column;
-width: 60%;
-min-width: 250px;
-
-@media screen and (max-width: 1023px) { 
-  width: 70%;
-}
-`
-
-const Login__component = styled.input` // 아이디, 패스워드 입력칸
-width: 100%;
-height: 40px;
-margin-bottom: 10px;
-padding: 10px;
-box-sizing: border-box;
-border: none;
-outline: none;
-border-radius: 7px;
-`
-
-const Login__btn = styled.input` // 로그인 버튼
-width: 100%;
-background-color: #74b99a;
-border: none;
-padding: 10px;
-color: #3b3b3b;
-font-weight: bold;
-border-radius: 10px;
-cursor: pointer;
-&:hover {
-  background-color: #5b8f78;
-  color: #ffffff;
-}
-`
 
 const Signup = styled.div`
 display: flex;

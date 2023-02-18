@@ -187,7 +187,6 @@ interface Loading_Props {
 }
 
 const TargetTest = styled.tfoot`
-  /* background-color: aquamarine; */
   height: 100%;
   width: 100%;
   display: ${(props: Loading_Props) => props.visible ? 'block' : 'none' };
@@ -240,7 +239,6 @@ function AppointmentList() {
 
   /* 정산 내역 출력 */
   const appointmentListUp = async () => { 
-    console.log('정산내역 출력하려고 하는데 현재 페이지:', currentPage)
     try {
       console.log('리스트 출력')
       let list = await axios.get('http://localhost:6001/appointmentList', {
@@ -251,7 +249,6 @@ function AppointmentList() {
       })
       // console.log(list.data.list)
       setTotalPageCount(list.data.totalPageCount); // 총 페이지 개수
-
 
       if (appointmentListType.type !== 'count') { // 정산 타입이 count가 아닐 경우에는 정산 리스트 저장
         // if (currentPage === 1) {

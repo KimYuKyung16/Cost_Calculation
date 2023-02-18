@@ -6,7 +6,7 @@ import { memberListActions } from '../redux/modules/reducer/memberListReducer'
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
-import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
+import { faMinusCircle, faUsers, faUser } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 
 
 import axios from 'axios'; 
@@ -18,16 +18,29 @@ const Container = styled.div`
   /* height: 100vw; */
   width: 100%;
   height: 100%;
-  min-height: 100;
-  background-color: #116348;
-  /* overflow: scroll;
+  min-height: calc(100vh - 40px);
+  background-color: #322c58; //322c58
+  overflow: scroll; 
 
   -ms-overflow-style: none;
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
-  } */
+  } 
+
+  & hr {
+    width: 100%;
+    height: 1px;
+    background-color : #cbcbcb;
+    border: none;
+    /* margin-bottom: 30px; */
+  }
+
+  & h5 {
+    color: #c9c9c9;
+    margin-left: 10px;
+  }
 `
 
 const Main = styled.div`
@@ -47,8 +60,8 @@ const Test = styled.div`
 `
 
 const Profile = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 70%;
 `
 
@@ -71,17 +84,31 @@ const Table = styled.table`
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: white;
+    justify-content: center;
+    color: #dedede;
 
-    &:nth-child(1) {
+    &:nth-child(1) { // 송금 버튼
       /* width: 20%; */
+      display: flex;
+      flex-direction: column;
+      white-space: nowrap;
+
+      & > input {
+        background-color: #812d50;
+        border: none;
+        color: white;
+        padding: 3px 20px;
+        margin-top: 10px;
+      }
     }
     
     &:nth-child(2) {
       font-weight: bold;
       width: 30%;
+      /* white-space: nowrap; */
       /* background-color: beige; */
       padding-left: 10px;
+      padding-right: 20px;
     }
 
     &:nth-child(3) {
@@ -173,11 +200,20 @@ function AppointmentMemberList(props: Props) {
     <Container>
       <Main>
         <Test>
-          <div>
-            <p>총 비용: {totalCost} 원</p>
-            <p>1인당 내야 하는 비용: {eachCost} 원</p>
-          </div>
+          <Common_Expense>
+            <div>
+              <p><FontAwesomeIcon icon={faUsers}/> 총 비용:</p>
+              <p>{totalCost.toLocaleString('ko-KR')} 원</p>
+            </div>
+            <div>
+              <p><FontAwesomeIcon icon={faUser}/> 1인당 지출 비용:</p>
+              <p>{eachCost.toLocaleString('ko-KR')} 원</p>
+            </div>
+          </Common_Expense>
 
+          <hr />
+
+          <h5>현재 인원</h5>
           <Table>
             <tbody>
               {
@@ -191,9 +227,9 @@ function AppointmentMemberList(props: Props) {
                           <td>{x.nickname}</td>
                           <td>
                             <List>
-                              <li>총 지출비: {x.totalCost} 원</li>
-                              <li>더 내야하는 비용: {x.lackCost} 원</li>
-                              <li>받아야 하는 비용: {x.excessCost} 원</li>
+                              <li>총 지출비: {x.totalCost.toLocaleString('ko-KR')} 원</li>
+                              <li>더 내야하는 비용: {x.lackCost.toLocaleString('ko-KR')} 원</li>
+                              <li>받아야 하는 비용: {x.excessCost.toLocaleString('ko-KR')} 원</li>
                             </List>
                           </td>
                         </tr>
@@ -203,13 +239,16 @@ function AppointmentMemberList(props: Props) {
                   } else {
                     return(
                       <tr key={index}>
-                        <td><Profile src={x.profile}/></td>
+                        <td>
+                          <Profile src={x.profile}/>
+                          <input type="button" value="송금" />
+                        </td>
                         <td>{x.nickname}</td>
                         <td>
                           <List color={'white'}>
-                            <li>총 지출비: {x.totalCost} 원</li>
-                            <li>더 내야하는 비용: {x.lackCost} 원</li>
-                            <li>받아야 하는 비용: {x.excessCost} 원</li>
+                            <li>총 지출비: {x.totalCost.toLocaleString('ko-KR')} 원</li>
+                            <li>더 내야하는 비용: {x.lackCost.toLocaleString('ko-KR')} 원</li>
+                            <li>받아야 하는 비용: {x.excessCost.toLocaleString('ko-KR')} 원</li>
                           </List>
                         </td>
                       </tr>
@@ -221,12 +260,34 @@ function AppointmentMemberList(props: Props) {
           </Table>
 
           <div>
-            <input onClick={()=>{navigate('cost')}} type="button" value="비용 등록"/>
+            {/* <input onClick={()=>{navigate('cost')}} type="button" value="비용 등록"/> */}
           </div>
         </Test>
       </Main>
     </Container>
   )
 }
+
+const Common_Expense = styled.div`
+  color: #d8d8d8;
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  & > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 20px;
+    margin: 20px 0;
+
+    & > p:nth-child(1) {
+      color: #ffffff;
+      font-weight: bold;
+    }
+  }
+`
 
 export default AppointmentMemberList;

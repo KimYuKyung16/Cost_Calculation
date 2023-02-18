@@ -16,6 +16,7 @@ const Header = styled.div`
 height: 40px;
 border-bottom: 1px solid white;
 
+
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
   z-index: 1;
@@ -25,9 +26,9 @@ border-bottom: 1px solid white;
 const Total = styled.div`
 display: flex;
 flex-direction: column;
-width: 100vw; 
-height: 100vh;
-background-color: aquamarine;
+width: 100%; 
+height: 100%;
+/* background-color: #ffffff; */
 box-sizing: border-box;
 `
 
@@ -35,7 +36,8 @@ box-sizing: border-box;
 const Container = styled.div`
 display: flex;
 flex-direction: row;
-height: calc(100% - 40px);
+/* height: calc(100% - 40px); */
+height: 100%;
 width: 100%;
 position: relative;
 `
@@ -49,9 +51,11 @@ interface Black_Props {
 }
 
 const Main__MemberList = styled.div`
-  width: 30%;
-  height: 100%;
-  background-color: aqua;
+/* position: sticky;
+top: 0; */
+  width: 40%;
+  height: calc(100vh - 40px);
+  /* background-color: aqua; */
 
 /* 모바일, 타블렛 기준 */
 @media screen and (max-width: 1023px) { 
@@ -68,7 +72,7 @@ const Main__MemberList = styled.div`
 
 const Main__CostList = styled.div`
 /* display: flex; */
-height: 100%;
+height: calc(100vh - 40px);
 width: 100%;
 `
 const BlackContainer = styled.div`
@@ -85,7 +89,7 @@ opacity: 50%;
 display: none;
 
 @media screen and (max-width: 1023px) { 
-display: block;
+display: ${(props: MemberList_Props) => props.visable}; // block으로 하면 점진적인 검은색 화면 애니메이션 가능 but 스크롤 불가능
 /* transform: translateX(-150%); */
 z-index: 1;
 opacity: ${(props: MemberList_Props) => props.visable === 'block' ? '80%' : '0%' };

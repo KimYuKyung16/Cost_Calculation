@@ -6,8 +6,8 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faSearchPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 
-import { userListActions, userSearchActions } from '../redux/modules/reducer/userListReducer'
-import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
+import { userListActions, userSearchActions } from '../../redux/modules/reducer/userListReducer'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 const Main = styled.div`
   display: flex;

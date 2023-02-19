@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import styled from 'styled-components'; // styled in js
 
 import Header from './header';
-import UserInfo from '../../userInfo/userInfo'; // 유저 정보 페이지
+import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
 import AppointmentList from "./appointmentList";
 
 import axios from 'axios';

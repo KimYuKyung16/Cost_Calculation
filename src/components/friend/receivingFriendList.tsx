@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
-import { friendListActions } from '../redux/modules/reducer/friendReducer'
-import { userListActions, receivingListActions } from '../redux/modules/reducer/userListReducer'
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { friendListActions } from '../../redux/modules/reducer/friendReducer'
+import { userListActions, receivingListActions } from '../../redux/modules/reducer/userListReducer'
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘

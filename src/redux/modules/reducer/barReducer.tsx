@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface barState {
-  visable: string; // 바 상태값
+  visible: string; // 바 상태값
 }
 
 // 친구 검색창 상태값
@@ -10,7 +10,7 @@ interface friendVisibleState {
 }
 
 const initialState: barState = {
-  visable: 'none',
+  visible: 'none',
 }; 
 
 const initialState2: friendVisibleState = {
@@ -21,7 +21,7 @@ const barSlice = createSlice({
   name: 'bar', // 슬라이스 이름
   initialState, // 초기 상태
   reducers:{ // 리듀서 설정
-    setVisable: (state, action: PayloadAction<string>) => { state.visable = action.payload },
+    setVisible: (state, action: PayloadAction<string>) => { state.visible = action.payload },
   }
 })
 

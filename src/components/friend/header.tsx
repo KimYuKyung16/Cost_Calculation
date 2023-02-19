@@ -2,8 +2,8 @@ import { AriaAttributes, DOMAttributes, useEffect, useRef, useState } from 'reac
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
-import { barActions } from '../redux/modules/reducer/barReducer'
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { barActions } from '../../redux/modules/reducer/barReducer'
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faAngleLeft, faBars, faEllipsisV } from '@fortawesome/free-solid-svg-icons'; 
@@ -78,9 +78,9 @@ function Layout_Header() {
 
 
   const clickBar = () => { // 햄버거바를 클릭했을 때 실행되는 함수
-    if (barState.visable === 'none') dispatch(barActions.setVisable('block'));
-    else dispatch(barActions.setVisable('none'));
-    console.log(barState.visable)
+    if (barState.visible === 'none') dispatch(barActions.setVisible('block'));
+    else dispatch(barActions.setVisible('none'));
+    console.log(barState.visible)
   }
 
   useEffect(() => {}, [appointmentTitle]);

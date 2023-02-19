@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import styled from 'styled-components'; // styled in js
-import UserInfo from '../../userInfo/userInfo'; // 유저 정보 페이지
+import UserInfo from '../userInfo/userInfo'; // 유저 정보 페이지
 
 import axios from 'axios';
 import { memberListActions } from '../../redux/modules/reducer/memberListReducer';
@@ -112,6 +112,8 @@ const Main__List__Members = styled.div`
   width: 10%;
   max-width: 70px;
   max-height: 70px;
+  /* min-height: 50px;
+  min-width: 50px; */
 
   & div {
     padding-top: 0%;
@@ -129,16 +131,13 @@ const Main__List__Members = styled.div`
         padding-top: 0%;
         max-width: 70px;
         max-height: 70px;
-        top: 0;
-
-
-        
+        top: 0;    
 
         & div {
           width: 50%;
           padding-top: 50%;
           max-width: 30px;
-          max-height: 30px; 
+          max-height: 30px;
           position: relative;
           border-radius: 10px;
           background-color: #000000;

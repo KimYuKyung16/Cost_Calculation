@@ -8,18 +8,18 @@ import Login from "./components/auth/login"; // 로그인 페이지
 import Signup from "./components/auth/signup"; // 회원가입 페이지
 
 import Main from "./components/main/index"; // 메인 페이지
-import UserInfo from "./userInfo/userInfo";
-import ModifiedUserInfo from "./userInfo/setProfile";
+import UserInfo from "./components/userInfo/userInfo";
+import ModifiedUserInfo from "./components/userInfo/setProfile";
 
-import ModifiedFriend from "./friend/modifyFriend";
-import Friend from "./friend/friend";
+import ModifiedFriend from "./components/friend/modifyFriend";
+import Friend from "./components/friend/friend";
 
-import AddAppointment from "./calendar/addAppointment";
-import Appointment from "./calendar/appointment";
+import AddAppointment from "./components/appointment/addAppointment";
+import Appointment from "./components/appointment/index"; // 일정 상세 페이지
 // import AppointmentMemberList from "./calendar/appointment_MembrList";
 
-import CostList from "./calendar/costList";
-import AddCost from "./calendar/addCost";
+import CostList from "./components/appointment/costList";
+import AddCost from "./components/appointment/costList/addCost";
 
 function App() {
   return (

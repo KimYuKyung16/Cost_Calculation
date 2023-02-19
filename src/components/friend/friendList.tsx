@@ -6,15 +6,15 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components"; // styled in js
 import axios from 'axios';
 
-import { friendVisibleActions } from '../redux/modules/reducer/barReducer'
+import { friendVisibleActions } from '../../redux/modules/reducer/barReducer'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faMinusCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 // import { faMinusCircle } from "@fortawesome/free-regular-svg-icons";
 
-import { userListActions } from '../redux/modules/reducer/userListReducer'
-import { friendListActions } from '../redux/modules/reducer/friendReducer' 
-import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
+import { userListActions } from '../../redux/modules/reducer/userListReducer'
+import { friendListActions } from '../../redux/modules/reducer/friendReducer' 
+import { useAppSelector, useAppDispatch } from '../../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 const Main = styled.div`
 width: 100%;

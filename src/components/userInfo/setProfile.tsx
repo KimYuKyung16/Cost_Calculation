@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-import { userInfoActions } from '../redux/modules/reducer/userInfoReducer'
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { userInfoActions } from '../../redux/modules/reducer/userInfoReducer'
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 
 import styled from "styled-components"; // styled in js

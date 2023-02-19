@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 
 import { useNavigate, Link, useParams } from "react-router-dom";
 
-import { costActions } from '../redux/modules/reducer/costReducer'
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { costActions } from '../../../redux/modules/reducer/costReducer'
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘

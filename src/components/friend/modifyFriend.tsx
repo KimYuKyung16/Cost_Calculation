@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components"; // styled in js
 import axios from 'axios';
 
-import { userListActions, userSearchActions, waitingListActions, receivingListActions } from '../redux/modules/reducer/userListReducer'
-import { useAppSelector, useAppDispatch } from '../redux/hooks' // 커스텀된 useSelector, useDispatch
+import { userListActions, userSearchActions, waitingListActions, receivingListActions } from '../../redux/modules/reducer/userListReducer'
+import { useAppSelector, useAppDispatch } from '../../redux/hooks' // 커스텀된 useSelector, useDispatch
 
 import UsersSearch from './usersSearch';
 import FriendList from './friendList';

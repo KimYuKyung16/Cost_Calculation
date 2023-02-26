@@ -225,6 +225,7 @@ const Main__Members = styled.table`
         color: white;
         margin-top: 10px;
         padding: 3px 20px;
+        cursor: pointer;
       }
     }
     

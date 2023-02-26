@@ -15,7 +15,9 @@ import styled from "styled-components"; // styled in js
 
 const Container = styled.div`
 display: flex;
+width: 100%;
 flex-direction: column;
+justify-content: center;
 align-items: center;
 background-color: #322c58;
 
@@ -30,6 +32,9 @@ background-color: #322c58;
 `
 
 const Main = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
 width: 100%;
 `
 

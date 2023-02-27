@@ -14,7 +14,7 @@ import ModifiedUserInfo from "./components/userInfo/setProfile";
 import ModifiedFriend from "./components/friend/modifyFriend";
 import Friend from "./components/friend/friend";
 
-import AddAppointment from "./components/appointment/addAppointment";
+import AddAppointment from "./pages/addAppointment";
 import Appointment from "./components/appointment/index"; // 일정 상세 페이지
 // import AppointmentMemberList from "./calendar/appointment_MembrList";
 

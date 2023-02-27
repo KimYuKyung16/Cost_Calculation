@@ -1,4 +1,9 @@
-import { useEffect, useRef } from 'react';
+/**
+ * 멤버 추가
+ * 
+ */
+
+import { useEffect, useRef, useState } from 'react';
 
 import { useNavigate } from "react-router-dom";
 
@@ -9,129 +14,12 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
 import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
 
-import axios from 'axios';
- 
+import axios from 'axios'; 
+
 import styled from "styled-components"; // styled in js
 
-const Container = styled.div`
-display: flex;
-width: 100%;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-background-color: #322c58;
 
-& h2 {
-  color: white;
-}
-
-& hr {
-  width: 90%;
-  box-sizing: border-box;
-}
-`
-
-const Main__appointmentName = styled.div`
-display: flex;
-flex-direction: row;
-justify-content: flex-start;
-/* background-color: aquamarine; */
-width: 100%;
-` 
-
-const Member = styled.div`
-display: flex;
-flex-direction: row;
-`
-
-const DefaultProfile = styled.img`
-width: 100px;
-height: 100px;
-`;
-
-const Main__member = styled.div`
-  display: flex;
-  flex-direction: column;  
-  width: 100%;
-`
-
-const Main__member__search = styled.div`
-  /* background-color: aqua; */
-  position: relative;
-
-  & > input {
-    &:nth-child(1) {
-      width: 50%;
-      height: 30px;
-      font-size: 17px;
-    }
-    &:nth-child(2) {
-      height: 30px;
-      font-size: 17px;
-      border: none;
-      background-color: aquamarine;
-    }
-  }
-`
-
-const Main__memberList = styled.div`
-  /* display: flex;
-  flex-direction: column;  
-  width: 100%; */
-  background-color: azure;
-`
-
-const Main__friendList = styled.div`
-  /* position: relative; */
-  width: 100%;
-  background-color: antiquewhite;
-`
-
-const List = styled.div`
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-`
-
-const Test = styled.tbody`
-  background-color: #ffffff;
-  width: 100%;
-
-  * {
-    /* width: 100%; */
-    
-  }
-
-  & > tr {
-    width: 100%;
-    /* display: flex;
-    flex-direction: row;
-    align-items: center; */
-    background-color: #ffffff;
-    /* margin: 5px; */
-    padding: 5px;
-    
-  }
-
-  & td:nth-child(1) {
-    width: 100%;
-    /* background-color: #2781d0; */
-  }
-
-  & td:nth-child(2) {
-    width: 100%;
-    /* background-color: #a4adb4; */
-  }
-`
-
-const Profile = styled.img`
-  width: 50px;
-  height: 50px;
-`
-
-
-
-function AddAppointment() {
+function AppointmentInfo() {
   axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
   const dispatch = useAppDispatch();
 
@@ -140,7 +28,8 @@ function AddAppointment() {
   const appointment = useAppSelector(state => state.appointment);
 
   const friendList = useAppSelector((state  => state.userList)); // 친구 리스트
-  const searchVal = useAppSelector((state  => state.userSearch)); // 검색 단어
+
+  let [searchVal, setSearchVal] = useState(''); // 검색 단어
 
   const el: any = useRef();
   
@@ -150,7 +39,7 @@ function AddAppointment() {
 
   let onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => { // 수동으로 입력해서 멤버 추가할 때: 닉네임 설정
     dispatch(memberActions.setNickname(e.target.value));
-    dispatch(userSearchActions.setSearch(e.target.value));
+    setSearchVal(e.target.value);
   };
 
   // console.log(memberList);
@@ -241,14 +130,6 @@ function AddAppointment() {
     })
   }
 
-  // const test = function(e: any) {
-  //   console.log(e.target)
-  //   if (!el.current.contains(e.target)) {
-  //     dispatch(userSearchActions.setSearch(' '));
-  //   } else  {
-  //     dispatch(userSearchActions.setSearch(''));
-  //   }
-  // };
 
   const test2 = () => {
     dispatch(memberListActions.setInitialMemberList([]));
@@ -258,9 +139,9 @@ function AddAppointment() {
   useEffect(() => {
     function handleOutsideClick(e: any) {
       if (el.current && el.current.contains(e.target)) {
-        dispatch(userSearchActions.setSearch(''));
+        setSearchVal('');
       } else {
-        dispatch(userSearchActions.setSearch(' '));
+        setSearchVal(' ');
       }
     }
 
@@ -274,30 +155,25 @@ function AddAppointment() {
 
   useEffect(() => {test2();}, [])  
   useEffect(() => { friendlistUp(); }, [searchVal])
-  // useEffect(() => {
-  //   window.removeEventListener("click", test, true);
-  // }, [])
 
 
   return(
     <Container>
-      {/* <Main> */}
-        <h2>일정 추가</h2>
-        <hr />
-        <Main__appointmentName>
-          <label htmlFor="appointmentName">일정이름 </label>
+      <h2>일정 추가</h2>
+
+      <Container__information>
+        <AppointmentName>
+          <label htmlFor="appointmentName">일정이름</label>
           <input id="appointmentName" onChange={onChangeAppointmentName} type="text" placeholder="일정 이름을 적어주세요"/>
-        </Main__appointmentName>
-        <Main__member>
-          <Main__member__search>
-            <label htmlFor="id">인원추가 </label>
+        </AppointmentName>
+
+        <Member>
+          <label htmlFor="id">인원추가</label>
+          <Member_Search>
             <input id="id" ref={el} onClick={ ()=>{ dispatch(userSearchActions.setSearch(''))} } onChange={onChangeNickname} type="text" placeholder="이름을 적어주세요" value={member.nickname}/>
-            <input onClick={addMember} type="button" value="인원 추가" />
-          </Main__member__search>
-          <Main__friendList>
-            <List>
-              <Test>
-                {
+            <Member_FriendList>
+              <List>
+              {
                   friendList.map((x, index) => {
                     return(
                       <tr onClick={()=>{ addFriendMember(x.id, x.nickname, x.profile)}} key={index}>
@@ -306,30 +182,163 @@ function AddAppointment() {
                     )
                   })
                 }
-              </Test>
-            </List>
-          </Main__friendList>
-        </Main__member>
-        
-        <Main__memberList>
-          {
-            memberList.map((x, index) => {
-              return(
-                <Member key={index}>
-                  <DefaultProfile src={x.profile ? x.profile : '/image/default_profile.png'}/>
-                  <p>{x.nickname}</p>
-                  <p>{index}</p>
-                  <FontAwesomeIcon onClick={()=>{deleteMember(index)}} icon={faMinusCircle} />
-                </Member>
-              )
-            })
-          }
-        </Main__memberList>
+              </List>
+            </Member_FriendList>
+          </Member_Search>
+          <input onClick={addMember} type="button" value="추가" />
+        </Member>
+      </Container__information>
 
-        <input onClick={saveAppointment} type="button" value="저장"/>
-      {/* </Main> */}
     </Container>
-  )
+  );
 }
 
-export default AddAppointment;
+const Container = styled.section`
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 100%;
+height: auto;
+max-width: 800px;
+color: #ffffff;
+background-color: #322c58;
+padding: 40px 20px 50px 20px;
+
+& > h2 { 
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+`
+
+const Container__information = styled.section`
+display: flex;
+flex-direction: column;
+width: 100%;
+font-size: 2rem;
+`
+
+/* 일정 이름 */
+const AppointmentName = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+width: 100%;
+margin-bottom: 15px;
+
+& > label {
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+& > input { // 일정 이름
+  width: 100%;
+  height: 50px;
+  padding: 10px 15px;
+  margin-right: 20px;
+  border: 1px solid #322c58;
+  border-radius: 10px;
+  font-size: 1.6rem;
+  color: #535353;
+  outline: none;
+}
+
+::after {
+  content: '';
+  width: 100px;
+}
+`
+
+/* 인원 추가 */
+const Member = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+width: 100%;
+
+& > label {
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+& > input { // 추가 버튼
+  height: 50px;
+  border: none;
+  white-space: nowrap;
+  font-size: 1.5rem;
+  width: 100px;
+  background-color: #322c58;
+  border: 3px solid #b4b8d3;
+  color: #b4b8d3;
+  font-weight: bold;
+  border-radius: 10px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+`
+
+/* 멤버 검색 */
+const Member_Search = styled.div`
+width: 100%;
+position: relative; 
+
+& > input { // 멤버 이름
+  height: 50px;
+  border: 1px solid #322c58;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1.6rem;
+  color: #535353;
+  border-radius: 10px 10px 0 0;
+  outline: none;
+}
+`
+
+/* 멤버 검색: 친구 검색 */
+const Member_FriendList = styled.table`
+position: absolute;
+width: 100%;
+z-index: 1;
+top: 49px;
+background-color: #ffffff;
+border: 1px solid #322c58;
+border-radius: 0 0 10px 10px;
+overflow: hidden;
+border-collapse: separate;
+/* display: none; */
+`
+
+/* 친구 리스트 */
+const List = styled.tbody`
+width: 100%;
+
+& > tr {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #ffffff;
+  /* margin: 5px; */
+  padding: 5px 10px;
+  color: #5f5f5f;
+  cursor: pointer;
+}
+
+& td:nth-child(1) {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 1.4rem;
+  gap: 10px;
+  font-weight: 600;
+}
+`
+
+const Profile = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 70%;
+`
+
+
+
+export default AppointmentInfo;

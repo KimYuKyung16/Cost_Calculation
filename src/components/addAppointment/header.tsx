@@ -1,9 +1,13 @@
+import { useNavigate } from "react-router-dom";
+
 import styled from "styled-components"; // styled in js
 
+
 function AddAppointment_Header() {
+  const navigate = useNavigate();
   return(
     <Header>
-      <img src='image/logo_name.png' />
+      <img onClick={()=>{ navigate('/main') }} src='image/logo_name.png' />
     </Header>
   )
 }
@@ -18,8 +22,10 @@ overflow: auto;
 background: #322c58;
 border-bottom: 1px solid #ffffff;
 
+
 & > img {
   height: 80%;
+  padding-left: 15px;
 }
 `
 

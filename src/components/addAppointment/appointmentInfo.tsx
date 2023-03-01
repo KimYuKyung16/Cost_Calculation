@@ -11,9 +11,6 @@ import { userListActions, userSearchActions } from '../../redux/modules/reducer/
 import { memberActions, memberListActions, appointmentActions } from '../../redux/modules/reducer/memberListReducer'
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
-import { faMinusCircle } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
-
 import axios from 'axios'; 
 
 import styled from "styled-components"; // styled in js
@@ -24,136 +21,75 @@ function AppointmentInfo() {
   const dispatch = useAppDispatch();
 
   const member = useAppSelector(state => state.member);
-  const memberList = useAppSelector(state => state.memberList);
-  const appointment = useAppSelector(state => state.appointment);
 
   const friendList = useAppSelector((state  => state.userList)); // 친구 리스트
 
-  let [searchVal, setSearchVal] = useState(''); // 검색 단어
+  let [searchVal, setSearchVal] = useState(' '); // 검색 단어
 
   const el: any = useRef();
   
-  let onChangeAppointmentName = (e: React.ChangeEvent<HTMLInputElement>) => { // 약속 이름
+  const onChangeAppointmentName = (e: React.ChangeEvent<HTMLInputElement>) => { // 약속 이름
     dispatch(appointmentActions.setAppointmentName(e.target.value));
   };
 
-  let onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => { // 수동으로 입력해서 멤버 추가할 때: 닉네임 설정
+  const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => { // 수동으로 입력해서 멤버 추가할 때: 닉네임 설정
     dispatch(memberActions.setNickname(e.target.value));
     setSearchVal(e.target.value);
   };
 
-  // console.log(memberList);
-  // console.log(friendList);
-  console.log(searchVal)
-
-  function friendlistUp() { // 유저 검색했을 때 나오는 값들 저장
-    axios.get('http://localhost:6001/searchFriendList', {
-      params: {
-        searchVal: searchVal
-      }
-    })
-    .then(function (response) { 
-      // console.log(el.current.contains());
-      // console.log(el.current)
-      // el.current.focus();
-      console.log(response.data);
-      dispatch(userListActions.setInitialUserList(response.data))
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+  /* 유저 검색했을 때 나오는 값들 저장 */
+  const friendlistUp = async () => {
+    try {
+      let friendList = await axios.get('http://localhost:6001/searchFriendList', {
+        params: {
+          searchVal: searchVal
+        }
+      })
+      dispatch(userListActions.setInitialUserList(friendList.data))
+    } catch(e) {
+      console.log(e);
+    }
   }
 
-  function addFriendMember(id: string, nickname: string, profile: string) { // 친구 중에서 멤버 추가
-    console.log('멤버의 id값:',id)
+  /* 친구 중에서 멤버 추가 */
+  const addFriendMember = (id: string, nickname: string, profile: string) => { 
     dispatch(memberListActions.addMember({
       id: id, 
       nickname: nickname, 
       profile: profile
     }));
   }
-
-  console.log(friendList)
-
-  function addMember() { // 멤버 추가
-    dispatch(memberListActions.addMember({
-      id: member.id, 
-      nickname: member.nickname, 
-      profile: member.profile
-    })); // 멤버 리스트 배열값 변경
-    dispatch(memberActions.setNickname('')); // input 초기화
-  }
-
-  function deleteMember(index: number) { // 멤버 삭제
-    dispatch(memberListActions.deleteMember(index)); // 멤버 리스트 배열값 변경
-  }
-
-
-
-  function date(){ //날짜를 구해주는 함수
-    let today = new Date();
-
-    let year = today.getFullYear();
-    let month = ('0' + (today.getMonth() + 1)).slice(-2);
-    let day = ('0' + today.getDate()).slice(-2);
-
-    let dateString = year + '.' + month  + '.' + day;
-    return dateString
-  }
-
-  function time(){ //시간을 구해주는 함수
-    let today = new Date();   
-
-    let hours = ('0' + today.getHours()).slice(-2); 
-    let minutes = ('0' + today.getMinutes()).slice(-2);
-    let seconds = ('0' + today.getSeconds()).slice(-2); 
-    
-    let timeString = hours + ':' + minutes  + ':' + seconds;
-    return timeString
-  }
-
-
-  function saveAppointment() { // 약속 저장
-    axios.post('http://localhost:6001/appointment', {
-      name: appointment.name,
-      members: memberList,
-      date: date(),
-      time: time()
-    })
-    .then(function (response) { 
-      console.log(response);
-      // navigate('/main'); // 메인페이지로 이동
  
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-  }
-
-
-  const test2 = () => {
-    dispatch(memberListActions.setInitialMemberList([]));
-    console.log(memberList)
+  /* 멤버 추가 */
+  const addMember = () => { 
+    if (el.current.value) {
+      dispatch(memberListActions.addMember({
+        id: member.id, 
+        nickname: member.nickname, 
+        profile: member.profile
+      })); // 멤버 리스트 배열값 변경
+      dispatch(memberActions.setNickname('')); // input 초기화
+    } else {
+      alert("이름을 입력해주세요");
+    }
   }
 
   useEffect(() => {
-    function handleOutsideClick(e: any) {
-      if (el.current && el.current.contains(e.target)) {
-        setSearchVal('');
-      } else {
-        setSearchVal(' ');
-      }
+    const handleOutsideClick = (e: any) => {
+      if (el.current && el.current.contains(e.target)) setSearchVal(''); // 친구 목록 보임
+      else setSearchVal(' '); // 친구 목록 안보임
     }
 
-    // Component rendering 후 이벤트 등록
-    document.addEventListener('click', handleOutsideClick, true);
-    // Component 제거 시 이벤트 제거
+    document.addEventListener('click', handleOutsideClick, true); // Component rendering 후 이벤트 등록
     return () => {
-      document.removeEventListener('click', handleOutsideClick, true);
+      document.removeEventListener('click', handleOutsideClick, true); // Component 제거 시 이벤트 제거
     };
   }, [el]);
 
-  useEffect(() => {test2();}, [])  
+  useEffect(() => {
+    dispatch(memberListActions.setInitialMemberList([])); // 멤버리스트 초기화
+  }, [])  
+
   useEffect(() => { friendlistUp(); }, [searchVal])
 
 
@@ -207,6 +143,7 @@ padding: 40px 20px 50px 20px;
 & > h2 { 
   font-size: 3rem;
   margin-bottom: 20px;
+  white-space: nowrap;
 }
 `
 
@@ -246,6 +183,20 @@ margin-bottom: 15px;
   content: '';
   width: 100px;
 }
+
+@media screen and (max-width: 1023px) { 
+  & > label {
+    display: none;
+  }
+
+  & > input {
+    margin: 0;
+  }
+
+  ::after {
+    display: none;
+  }
+}
 `
 
 /* 인원 추가 */
@@ -273,6 +224,12 @@ width: 100%;
   border-radius: 10px;
   margin-right: 10px;
   margin-left: 10px;
+}
+
+@media screen and (max-width: 1023px) { 
+  & > label {
+    display: none;
+  }
 }
 `
 

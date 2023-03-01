@@ -34,17 +34,20 @@ function MemberList() {
   }
 
   const saveAppointment = async () => {
-    try {
-      let state = await axios.post('http://localhost:6001/appointment', {
-        name: appointment.name,
-        members: memberList,
-        date: getDateTime.getDate(),
-        time: getDateTime.getTime()
-      })
-      console.log(state);
-      navigate('/main'); // 메인페이지로 이동
-    } catch(e) {
-      console.log(e);
+    if (appointment.name && memberList.length !== 0 ) {
+      try {
+        let state = await axios.post('http://localhost:6001/appointment', {
+          name: appointment.name,
+          members: memberList,
+          date: getDateTime.getDate(),
+          time: getDateTime.getTime()
+        })
+        navigate('/main'); // 메인페이지로 이동
+      } catch(e) {
+        console.log(e);
+      }
+    } else {
+      alert("입력하지 않은 부분이 있습니다.");
     }
   }
 
@@ -70,7 +73,7 @@ function MemberList() {
     } else {
       return (
         <>
-          <p>멤버를 추가해주세요!</p>
+          <p>멤버를 추가해주세요</p>
         </>
       )
     }
@@ -92,6 +95,32 @@ width: 100%;
 height: 100%;
 background-color: #ffffff;
 padding: 20px 20px 50px 20px;
+
+& > p {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #515151;
+  margin: 10vw 0;
+}
+
+& > input {
+  background-color: #73ba9a;
+  border: none;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  height: 60px;
+  color: #ffffff;
+  font-weight: 700;
+  margin-top: 30px;
+  font-size: 1.7rem;
+  cursor: pointer;
+
+  :hover {
+    background-color: #65b490;
+    color: #ffffff;
+  }
+}
 `
 
 const Container__memberList = styled.table`

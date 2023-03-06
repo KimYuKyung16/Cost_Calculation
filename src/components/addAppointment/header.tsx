@@ -27,6 +27,12 @@ border-bottom: 1px solid #ffffff;
   height: 80%;
   padding-left: 15px;
 }
+
+@media screen and (max-width: 768px) { 
+  & > img {
+    height: 60%;
+  }
+} 
 `
 
 export default AddAppointment_Header;

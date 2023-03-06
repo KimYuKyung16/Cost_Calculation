@@ -100,13 +100,13 @@ function AppointmentInfo() {
       <Container__information>
         <AppointmentName>
           <label htmlFor="appointmentName">일정이름</label>
-          <input id="appointmentName" onChange={onChangeAppointmentName} type="text" placeholder="일정 이름을 적어주세요"/>
+          <input id="appointmentName" onChange={onChangeAppointmentName} type="text" placeholder="일정 이름"/>
         </AppointmentName>
 
         <Member>
           <label htmlFor="id">인원추가</label>
           <Member_Search>
-            <input id="id" ref={el} onClick={ ()=>{ dispatch(userSearchActions.setSearch(''))} } onChange={onChangeNickname} type="text" placeholder="이름을 적어주세요" value={member.nickname}/>
+            <input id="id" ref={el} onClick={ ()=>{ dispatch(userSearchActions.setSearch(''))} } onChange={onChangeNickname} type="text" placeholder="아이디 또는 이름" value={member.nickname}/>
             <Member_FriendList>
               <List>
               {
@@ -145,6 +145,12 @@ padding: 40px 20px 50px 20px;
   margin-bottom: 20px;
   white-space: nowrap;
 }
+
+@media screen and (max-width: 768px) { 
+  & > h2 {
+    font-size: 2rem;
+  }
+} 
 `
 
 const Container__information = styled.section`
@@ -152,6 +158,11 @@ display: flex;
 flex-direction: column;
 width: 100%;
 font-size: 2rem;
+gap: 15px;
+
+@media screen and (max-width: 768px) { 
+  gap: 10px;
+} 
 `
 
 /* 일정 이름 */
@@ -160,7 +171,7 @@ display: flex;
 flex-direction: row;
 align-items: center;
 width: 100%;
-margin-bottom: 15px;
+/* margin-bottom: 15px; */
 
 & > label {
   margin-right: 10px;
@@ -169,12 +180,11 @@ margin-bottom: 15px;
 
 & > input { // 일정 이름
   width: 100%;
-  height: 50px;
-  padding: 10px 15px;
+  padding: 15px;
   margin-right: 20px;
   border: 1px solid #322c58;
   border-radius: 10px;
-  font-size: 1.6rem;
+  font-size: 2rem;
   color: #535353;
   outline: none;
 }
@@ -184,13 +194,15 @@ margin-bottom: 15px;
   width: 100px;
 }
 
-@media screen and (max-width: 1023px) { 
+@media screen and (max-width: 768px) { 
   & > label {
     display: none;
   }
 
   & > input {
+    padding: 10px;
     margin: 0;
+    font-size: 1.5rem;
   }
 
   ::after {
@@ -205,30 +217,38 @@ display: flex;
 flex-direction: row;
 align-items: center;
 width: 100%;
+gap: 10px;
 
 & > label {
-  margin-right: 10px;
+  /* margin-right: 10px; */
   white-space: nowrap;
 }
 
 & > input { // 추가 버튼
-  height: 50px;
+  padding: 15px;
   border: none;
   white-space: nowrap;
-  font-size: 1.5rem;
-  width: 100px;
+  font-size: 2rem;
   background-color: #322c58;
   border: 3px solid #b4b8d3;
   color: #b4b8d3;
   font-weight: bold;
   border-radius: 10px;
   margin-right: 10px;
-  margin-left: 10px;
 }
 
-@media screen and (max-width: 1023px) { 
+@media screen and (max-width: 768px) { 
+  gap: 5px;
+
   & > label {
     display: none;
+  }
+
+  & > input { // 추가 버튼
+    border: 2px solid #b4b8d3;
+    padding: 9px;
+    font-size: 1.5rem;
+    margin: 0;
   }
 }
 `
@@ -239,15 +259,22 @@ width: 100%;
 position: relative; 
 
 & > input { // 멤버 이름
-  height: 50px;
+  /* height: 50px; */
+  padding: 15px 15px;
   border: 1px solid #322c58;
   width: 100%;
-  padding: 10px 15px;
-  font-size: 1.6rem;
+  font-size: 2rem;
   color: #535353;
   border-radius: 10px 10px 0 0;
   outline: none;
 }
+
+@media screen and (max-width: 768px) { 
+  & > input {
+    padding: 10px 10px;
+    font-size: 1.5rem;
+  }
+} 
 `
 
 /* 멤버 검색: 친구 검색 */
@@ -255,13 +282,16 @@ const Member_FriendList = styled.table`
 position: absolute;
 width: 100%;
 z-index: 1;
-top: 49px;
+top: 53px;
 background-color: #ffffff;
 border: 1px solid #322c58;
 border-radius: 0 0 10px 10px;
 overflow: hidden;
 border-collapse: separate;
-/* display: none; */
+
+@media screen and (max-width: 768px) { 
+  top: 38px;
+} 
 `
 
 /* 친구 리스트 */
@@ -288,12 +318,24 @@ width: 100%;
   gap: 10px;
   font-weight: 600;
 }
+
+@media screen and (max-width: 768px) { 
+  & td:nth-child(1) {
+    font-size: 1.2rem;
+    gap: 5px;
+  }
+} 
 `
 
 const Profile = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 70%;
+width: 50px;
+height: 50px;
+border-radius: 70%;
+
+@media screen and (max-width: 768px) { 
+  width: 35px;
+  height: 35px;
+} 
 `
 
 

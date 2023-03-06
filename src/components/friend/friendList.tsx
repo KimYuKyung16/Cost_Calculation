@@ -16,105 +16,6 @@ import { userListActions } from '../../redux/modules/reducer/userListReducer'
 import { friendListActions } from '../../redux/modules/reducer/friendReducer' 
 import { useAppSelector, useAppDispatch } from '../../redux/hooks' // 커스텀된 useSelector, useDispatch
 
-const Main = styled.div`
-width: 100%;
-height: 100%;
-/* background-color: #ffffff; */
-position: relative;
-`
-
-const Main__List = styled.table`
-  width: 100%;
-  height: 100%;
-  border-spacing: 0px;
-  border-collapse: separate;
-  font-size: 1em;
-  font-weight: bold;
-  /* box-sizing: border-box; */
-  color: #4f4f4f;
-  background-color: #ffffff;
-
-  & tr {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: #ffffff;
-    width: 100%;
-    height: 70px;
-    padding: 0.5em;
-    box-sizing: border-box;
-  }
-
-  & td:nth-child(1) {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    /* background-color: aliceblue; */
-
-    & div {
-      width: 10%;
-      height: 50px;
-      /* padding-bottom: 10%; */
-      position: relative;
-      border-radius: 70%;
-      margin: 0 0.5rem;
-
-      max-height: 50px;
-      max-width: 50px;
-      background-color: #a34747;
-
-      & img {
-        width: 100%;
-        height: 100%;
-        border-radius: 70%;
-        padding-top: 0%;
-        position: absolute;
-        top: 0;
-        border: 1px solid #bfbfbf;
-      } 
-    }
-  }
-
-  & td:nth-child(2) {
-    /* visibility: hidden; */
-    padding: 0 20px;
-    color: #a34747;
-    /* background-color: aqua; */
-  }
-`
-
-const Main__button = styled.p`
-  display: none;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  right: 2em;
-  bottom: 2em;
-  background-color: #322c58;
-  color: white;
-  font-weight: bold;
-  border-radius: 70%;
-  border: 2px solid #9291a1;
-  width: 10vw;
-  height: 10vw;
-  z-index: 1;
-
-  & :nth-child(1) {
-    font-size: 4vw;
-  }
-
-/* 모바일, 타블렛 기준 */
-@media screen and (max-width: 1023px) { 
-display: flex;
-}
-`
-
-
-const Profile = styled.img`
-  /* width: 50px;
-  height: 50px;
-  border-radius: 70%; */
-`
 
 function FriendList() {
   axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
@@ -156,45 +57,132 @@ function FriendList() {
     getFriendList();
   }, [])
 
+  
+  const delete_friend = (index: number, id: string) => {
+    if (window.confirm("친구 목록에서 삭제하시겠습니까?")) { 
+      deleteFriend(index, id)               
+      console.log("삭제되었습니다.");                
+    } else { 
+      console.log("삭제에 실패했습니다.");  
+    }  
+  }
+
 
   return(
     <>
       <Main>
-        <Main__List>
+        <Main__friendList>
           <tbody>
             {
               friendList.map((x, index) => {
                 return(
                   <tr key={index}>
+                    <td><Profile src={x.profile}/>{x.nickname}</td>
                     <td>
-                      <div><Profile src={x.profile}/></div>
-                      {x.nickname}
+                      <img src="/image/delete_icon.svg" onClick={ () => { delete_friend(index, x.id) } }/>
                     </td>
-                    <td><FontAwesomeIcon onClick={
-                      () => {
-                        if (window.confirm("친구 목록에서 삭제하시겠습니까?")) { 
-                          deleteFriend(index, x.id)               
-                          console.log("삭제되었습니다.");                
-                        } else { 
-                          console.log("삭제에 실패했습니다.");  
-                        }              
-                      }
-                    } icon={faMinusCircle} /></td>
                   </tr>
                 )
               })
             }
           </tbody>
-        </Main__List>
+        </Main__friendList>
 
-        <Main__button onClick={clickAddFriendBtn}>
-          <FontAwesomeIcon icon={faUserPlus}/>
-        </Main__button>
+        <Main__button onClick={clickAddFriendBtn} src="/image/add_friend_icon.svg" />
       </Main>
 
     </>
   )
-
 }
+
+const Main = styled.div`
+width: 100%;
+height: 100%;
+background-color: #ffffff;
+position: relative;
+`
+
+/* 친구 리스트  */
+const Main__friendList = styled.table`
+width: 100%;
+height: 100%;
+border-spacing: 0px;
+border-collapse: separate;
+font-size: 1.2em;
+font-weight: bold;
+color: #4f4f4f;
+
+& tr {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 8px;
+}
+
+& td {
+  display: flex;
+  align-items: center;
+}
+
+& td:nth-child(1) { // 프로필 & 닉네임
+  width: 100%;
+  height: 100%;
+}
+
+& td:nth-child(2) { // 삭제 아이콘
+  /* visibility: hidden; */
+  height: 100%;
+
+  & > img {
+    height: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) { 
+  font-size: 1.1rem;
+
+  & td:nth-child(2) { // 삭제 아이콘
+    & > img {
+      height: 15px;
+    }
+  }
+}
+`
+
+const Main__button = styled.img`
+display: none;
+align-items: center;
+justify-content: center;
+width: 10vw;
+height: 10vw;
+min-width: 50px;
+min-height: 50px;
+position: absolute;
+right: 5vw;
+bottom: 7vw;
+
+& > img {
+  height: 80%;
+}
+
+@media screen and (max-width: 768px) { 
+  display: block;
+}
+`
+
+const Profile = styled.img`
+width: 50px;
+height: 50px;
+border-radius: 70px;
+border: 1px solid #bfbfbf;
+margin-right: 5px;
+
+@media screen and (max-width: 768px) { 
+  width: 45px;
+  height: 45px;
+}
+`
+
 
 export default FriendList;

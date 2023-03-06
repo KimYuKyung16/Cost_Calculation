@@ -6,12 +6,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 
-import { barActions } from '../../redux/modules/reducer/barReducer'
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { barActions } from '../redux/modules/reducer/barReducer'
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
-import Appointment_Header from './header';
-import MemberList from './membrList';
-import CostList from './costList/index';
+import Appointment_Header from '../components/appointmentDetail/header';
+import MemberList from '../components/appointmentDetail/membrList';
+import CostList from '../components/appointmentDetail/costList/index';
 
 import axios from 'axios'; 
 import styled from "styled-components";
@@ -41,7 +41,7 @@ function Appointment() {
 
 
   return(
-    <Total>
+    <Container>
 
       <Black visable={barState.visible} ref={blackRef}></Black>
 
@@ -49,20 +49,20 @@ function Appointment() {
         <Appointment_Header num={num}></Appointment_Header>
       </Header>
 
-      <Container>
+      <Main>
         <Main__MemberList visable={barState.visible}>
           <MemberList num={num}></MemberList> 
         </Main__MemberList>
         <Main__CostList>
           <CostList num={num}></CostList>
         </Main__CostList>
-      </Container>  
+      </Main>  
 
-    </Total>
+    </Container>
   )
 }
 
-const Total = styled.div`
+const Container = styled.div`
 display: flex;
 flex-direction: column;
 width: 100%; 
@@ -77,7 +77,7 @@ height: 100%;
 background-color: black;
 opacity: 50%;
 
-@media screen and (max-width: 1023px) { 
+@media screen and (max-width: 768px) { 
   display: ${(props: MemberList_Props) => props.visable}; // block으로 하면 점진적인 검은색 화면 애니메이션 가능 but 스크롤 불가능
   opacity: ${(props: MemberList_Props) => props.visable === 'block' ? '80%' : '0%' };
   transition: ${(props: MemberList_Props) => props.visable === 'block' ? 'opacity 0.5s ease-out' : 'opacity 0.5s ease-in'};
@@ -89,12 +89,12 @@ const Header = styled.div` // 헤더
 height: 40px;
 border-bottom: 1px solid white;
 
-@media screen and (max-width: 1023px) { 
+@media screen and (max-width: 768px) { 
   z-index: 1;
 }
 `
 
-const Container = styled.div`
+const Main = styled.main`
 display: flex;
 flex-direction: row;
 position: relative;
@@ -106,12 +106,12 @@ interface MemberList_Props {
   visable: string | undefined;
 }
 
-const Main__MemberList = styled.div` // 멤버 리스트
+const Main__MemberList = styled.section` // 멤버 리스트
 width: 40%;
 height: calc(100vh - 40px);
 
-@media screen and (max-width: 1023px) { 
-  width: 70%;
+@media screen and (max-width: 768px) { 
+  width: 90%;
   position: absolute;
   top: 0;
   transform: ${(props: MemberList_Props) => props.visable === 'block' ? 'translateX(-0%)' : 'translateX(-100%)' };
@@ -120,9 +120,13 @@ height: calc(100vh - 40px);
 }
 `
 
-const Main__CostList = styled.div` // 지출 내역 리스트
-width: 100%;
+const Main__CostList = styled.section` // 지출 내역 리스트
+width: 60%;
 height: calc(100vh - 40px);
+
+@media screen and (max-width: 768px) { 
+  width: 100%
+} 
 `
 
 export default Appointment;

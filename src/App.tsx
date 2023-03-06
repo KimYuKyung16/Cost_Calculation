@@ -12,14 +12,14 @@ import UserInfo from "./components/userInfo/userInfo";
 import ModifiedUserInfo from "./components/userInfo/setProfile";
 
 import ModifiedFriend from "./components/friend/modifyFriend";
-import Friend from "./components/friend/friend";
+import Friend from "./pages/friend";
 
 import AddAppointment from "./pages/addAppointment";
-import Appointment from "./components/appointment/index"; // 일정 상세 페이지
+import Appointment from "./pages/appointmentDetail"; // 일정 상세 페이지
 // import AppointmentMemberList from "./calendar/appointment_MembrList";
 
-import CostList from "./components/appointment/costList";
-import AddCost from "./components/appointment/costList/addCost";
+import CostList from "./components/appointmentDetail/costList";
+import AddCost from "./components/appointmentDetail/costList/addCost";
 
 function App() {
   return (

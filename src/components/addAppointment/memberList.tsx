@@ -94,7 +94,7 @@ align-items: center;
 width: 100%;
 height: 100%;
 background-color: #ffffff;
-padding: 20px 20px 50px 20px;
+padding: 20px 20px 150px 20px;
 
 & > p {
   font-size: 2rem;
@@ -109,7 +109,8 @@ padding: 20px 20px 50px 20px;
   border-radius: 12px;
   width: 100%;
   max-width: 400px;
-  height: 60px;
+  /* height: 60px; */
+  padding: 15px;
   color: #ffffff;
   font-weight: 700;
   margin-top: 30px;
@@ -121,6 +122,20 @@ padding: 20px 20px 50px 20px;
     color: #ffffff;
   }
 }
+
+@media screen and (max-width: 768px) { 
+  padding: 10px 10px 100px 10px;
+
+  & > p {
+    font-size: 1.5rem;
+    margin: 20vw 0;
+  }
+
+  & > input {
+    font-size: 1.5rem;
+    padding: 10px;
+  }
+} 
 `
 
 const Container__memberList = styled.table`
@@ -152,12 +167,12 @@ border-bottom: 1px solid #e0e0e0;
   width: 100%;
   padding: 10px;
 
-  :nth-child(1) {
+  :nth-child(1) { // 프로필
     width: auto;
     white-space: nowrap;
   }
 
-  :nth-child(2) {
+  :nth-child(2) { // 이름
     width: 100%;
     padding: 0;
     font-size: 1.3rem;
@@ -165,18 +180,37 @@ border-bottom: 1px solid #e0e0e0;
     color: #5f5f5f;
   }
 
-  :nth-child(3) {
+  :nth-child(3) { // 삭제 아이콘
     width: auto;
     font-size: 2rem;
     color: #7a2020;
   }
 }
+
+@media screen and (max-width: 768px) { 
+  & > td {
+    padding: 7px;
+
+    :nth-child(2) {  // 이름
+      font-size: 1.1rem;
+    }
+
+    :nth-child(3) { // 삭제 아이콘
+      font-size: 1.6rem;
+    }
+  }
+} 
 `
 
 const DefaultProfile = styled.img`
 width: 50px;
 height: 50px;
 border-radius: 70%;
+
+@media screen and (max-width: 768px) { 
+  width: 40px;
+  height: 40px;
+} 
 `;
 
 export default MemberList;

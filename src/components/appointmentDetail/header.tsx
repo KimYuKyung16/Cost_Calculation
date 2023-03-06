@@ -161,7 +161,7 @@ const Header = styled.div`
   }
 
 /* 모바일, 타블렛 기준 */
-@media screen and (max-width: 1023px) { 
+@media screen and (max-width: 768px) { 
   padding: 0;
   & > p:first-child { // 햄버거바 아이콘
     display: block;

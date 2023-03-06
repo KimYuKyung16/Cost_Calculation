@@ -11,62 +11,6 @@ import { faAngleLeft, faBars, faEllipsisV } from '@fortawesome/free-solid-svg-ic
 import axios from 'axios'; 
 import styled from "styled-components"; // styled in js
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  height: 100%;
-  background-color: #322c58;
-  box-sizing: border-box;
-  padding-left: 10px;
-
-  & { // 전체
-    color: white;
-    font-size: 1.2em;
-  }
-
-  & p:nth-child(1) { // 뒤로가기 아이콘
-    padding: 0 10px;
-    font-size: 1.2em;
-  }
-
-  & p:nth-child(3) { // 뒤로가기 아이콘
-    padding: 0 10px;
-    font-size: 1.2em;
-  }
-
-
-/* 모바일, 타블렛 기준 */
-@media screen and (max-width: 1023px) { 
-  padding: 0;
-}
-
-`
-
-const Header__title = styled.div`
-display: flex;
-flex-direction: row;
-align-items: center;
-width: 100%;
-height: 100%;
-box-sizing: border-box;
-
-  & img { // 로고 이미지
-    width: auto;
-    height: 60%;
-    border-radius: 70%;
-    border: 2px solid white;
-  }
-
-  & p {
-    padding-left: 5px;
-  }
-
-`
-
-
-
-
 
 function Layout_Header() {
   const dispatch = useAppDispatch();
@@ -87,7 +31,7 @@ function Layout_Header() {
 
   return (
     <Header>
-      <p onClick={clickBar}><FontAwesomeIcon icon={faAngleLeft}/></p> {/* 햄버거바 */}
+      <p onClick={clickBar}><FontAwesomeIcon icon={faAngleLeft}/></p>
 
       <Header__title>
         <img src='/image/logo_purple.png'/>
@@ -98,5 +42,51 @@ function Layout_Header() {
     </Header>
   )
 }
+
+const Header = styled.header`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+  background-color: #322c58;
+  padding-left: 10px;
+
+  * { // 전체
+    color: white;
+    font-size: 1.2em;
+  }
+
+  & > p:first-child { // 뒤로가기 아이콘
+    padding: 0 10px;
+  }
+
+  & > p:last-child { // 메뉴 아이콘
+    padding: 0 10px;
+  }
+
+@media screen and (max-width: 768px) { 
+  padding: 0;
+}
+`
+
+const Header__title = styled.div`
+display: flex;
+flex-direction: row;
+align-items: center;
+width: 100%;
+height: 100%;
+
+& img { // 로고 이미지
+  width: auto;
+  height: 60%;
+  border-radius: 70px;
+  border: 2px solid white;
+}
+
+& p {
+  padding-left: 5px;
+}
+`
+
 
 export default Layout_Header;

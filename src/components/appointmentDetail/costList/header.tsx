@@ -15,6 +15,8 @@ function Header() {
   const memberList = useAppSelector(state => state.memberList); // 멤버 리스트
   const cost = useAppSelector(state => state.cost); // 비용 리스트
 
+  console.log(memberList);
+
   // 변경된 지불인 닉네임 저장 : 나중에 변경해야함.
   const onChangePayer = (e: React.ChangeEvent<HTMLSelectElement>) => { 
     dispatch(costActions.setcostID(e.target.value)); 

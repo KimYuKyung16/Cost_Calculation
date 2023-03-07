@@ -47,14 +47,14 @@ function CostList(props: Props) {
   const componentChange = () => {
     if (!costList.length) { // 지출 내역이 없을 경우
       return (
-        <>
+        <Main__List_none>
           <p>지출 내역이 없습니다.</p>
           <p>지출 내역을 추가해보세요.</p>
-        </>
+        </Main__List_none>
       )
     } else { // 지출 내역이 있을 경우
       return (
-        <>
+        <Main__List>
           <tbody>
             {
               costList.map((x, index) => {
@@ -62,7 +62,7 @@ function CostList(props: Props) {
                   <tr key={index}>
                     <td>{x.title}</td>
                     <td>{x.payer}</td>
-                    <td>{x.cost} 원</td>
+                    <td>{x.cost.toLocaleString()} 원</td>
                   </tr>
                 )
               })
@@ -73,7 +73,7 @@ function CostList(props: Props) {
               <td><LoadingImage src='/image/loading_icon.gif'/></td>
             </tr>
           </Loading> 
-        </>
+        </Main__List>
       )
     }
   }
@@ -130,58 +130,108 @@ background-color: #e4e4e4;
 padding: 0 3% 1% 3%;
 overflow: auto;
 
-@media screen and (max-width: 1023px) { 
+@media screen and (max-width: 768px) { 
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
 `
-const Main = styled.table`
-table-layout: fixed;
-border-collapse: collapse;
+
+const Main = styled.div`
 width: 100%;
-white-space: nowrap; 
-font-size: 0.9em;
+height: 100%;
+`
+
+const Main__List_none = styled.div`
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding-bottom: 60px;
+font-size: 1.4rem;
+gap: 10px;
+
+@media screen and (max-width: 768px) { 
+  font-size: 1.2rem;
+  gap: 8px;
+  padding-bottom: 80px;
+} 
+`
+
+const Main__List = styled.table`
+table-layout: fixed;
+border-collapse: separate;
+border-spacing: 5px;
+width: 100%;
+font-size: 1.3em;
 
 & > tbody > tr {
-  display: flex;
   width: 100%;
-  height: 50px;
-  margin: 5px 0;
+  /* height: 50px; */
+  font-size: 1.3rem;
 
   & > td {
-    padding: 1% 2%;
+    padding: 10px;
+    vertical-align: middle;
   }
 
   & > td:nth-child(1) { // 정산 이름
     width: 60%;
-    vertical-align: middle;
     background-color: #ffffff;
     border: 2px solid #b4b8d1;
     border-radius: 5px;
     overflow: hidden;  
+    white-space: nowrap;
     text-overflow: ellipsis; // 말줄임
   }
 
   & > td:nth-child(2) { // 정산자
-    justify-content: center;
-    width: 20%;
+    text-align: center;
+    width: 100px;
     background-color: #c2c2c2;
     border-radius: 5px;
     color: white;
     font-weight: bold;
-    margin: 0 5px;
+    white-space: nowrap;
   }
 
   & > td:nth-child(3) { // 정산 가격
-    justify-content: flex-end;
-    width: 20%;
+    text-align: right;
+    width: 100px;
     background-color: #322c58;
     border-radius: 5px;
     color: #fffc60;
     font-weight: bold;
+    white-space: nowrap;
   }
 }
+
+@media screen and (max-width: 768px) { 
+  & > tbody > tr {
+  width: 100%;
+  /* height: 50px; */
+  font-size: 1.1rem;
+
+  & > td {
+    padding: 5px;
+  }
+
+  & > td:nth-child(1) { // 정산 이름
+    width: 60%;
+    border: 1px solid #b4b8d1;
+  }
+
+  & > td:nth-child(2) { // 정산자
+    width: 80px;
+  }
+
+  & > td:nth-child(3) { // 정산 가격
+    width: 80px;
+  }
+}
+} 
 `
 interface Loading_Props {
   visible: boolean | undefined | null;

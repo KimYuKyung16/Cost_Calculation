@@ -52,17 +52,22 @@ align-items: center;
 position: sticky;
 top: 0;
 width: 100%;
-height: 50px;
+/* height: 100px; */
 background-color: #e4e4e4;
-padding: 0 0 0 1vw;
+padding: 10px 0;
+border-bottom: 2px solid #a1a1a1;
 
-& > div:nth-child(2) { // 멤버별 필터링, 지출 내역 등록 
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 40%;
-  height: 60%;
-  max-width: 300px;
+& > h2 {
+  font-size: 2.3rem;
+}
+
+& > div { // 멤버별 필터링, 지출 내역 등록 
+display: flex;
+flex-direction: row;
+align-items: center;
+width: 40%;
+height: 80%;
+max-width: 300px;
 
   & > input { // 지출 내역 등록 버튼
     width: 50%;
@@ -73,9 +78,22 @@ padding: 0 0 0 1vw;
     font-weight: bold;
     margin-left: 5px;
     border-radius: 10px;
+    font-size: 1.3rem;
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 768px) { 
+  & > h2 {
+    font-size: 2rem;
+  }
+
+  & > div {
+    & > input {
+      font-size: 1.1rem;
+    }
+  }
+} 
 `
 
 /* 멤버 별 필터링 */
@@ -91,8 +109,16 @@ margin-right: 5px;
   color: #322d59;
   border: 1px solid #bebebe;
   border-radius: 10px;
+  outline: none;
+  font-size: 1.3rem;
   cursor: pointer;
 }
+
+@media screen and (max-width: 768px) { 
+  & > select {
+    font-size: 1.1rem;
+  }
+} 
 `
 
 export default Header;

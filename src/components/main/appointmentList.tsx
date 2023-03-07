@@ -12,196 +12,6 @@ import { memberListActions } from '../../redux/modules/reducer/memberListReducer
 
 
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%; 
-  height: 100%;
-  /* height: 100%; */
-  /* padding: 2% 5%; */
-  box-sizing: border-box;  
-  overflow: auto; 
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-const Main = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 90%;
-  box-sizing: border-box;
-  /* overflow: auto; // 화면을 넘어가면 스크롤이 되도록 */
-  /* background-color: aqua; */
-`
-
-const Main__List = styled.table`
-  /* background-color: #7e4a4a; */
-  /* table-layout:fixed;  */
-  width: 100%;
-  border-spacing: 0 15px;
-  border-collapse: collapse;
-  box-sizing: border-box;
-  * {
-    /* padding: 1% 2%; */
-    
-    & tr {
-      display: flex;
-      width: 100%;
-      border-bottom: 1px solid #e3e3e3;
-      /* background-color: #191a68; */
-      box-sizing: border-box;
-      
-    }
-
-    & td {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      font-weight: bold;
-      font-size: 1.2em;
-      /* width: 100%; */
-      padding: 0 3%;
-      box-sizing: border-box;
-
-      & p {
-        color: #322c59;
-
-        & span:nth-child(2) {
-          color: #3c3c3c;
-          padding-left: 10px;
-          font-weight: bold;
-        }
-
-        & span:nth-child(3) {
-          color: #4b4b74;
-          padding-left: 10px;
-          font-weight: 600;
-        }
-      }
-
-    }
-
-    & td:nth-child(1) {
-      width: 100%;
-      /* background-color: #e61414; */
-    }
-
-    & td:nth-child(2) {
-      /* width: 10%; */
-      /* background-color: #ecc529; */
-      white-space: nowrap;;
-      padding: 0;
-    }
-
-    & td:nth-child(3) {
-      /* background-color: #282ab1; */
-      width: 200px;
-      padding: 0;
-      padding-left: 10px;
-    }
-  }
-`
-const Main__List__Members = styled.div`
-  border-radius: 10px;
-  width: 10%;
-  max-width: 70px;
-  max-height: 70px;
-  /* min-height: 50px;
-  min-width: 50px; */
-
-  & div {
-    padding-top: 0%;
-    max-width: 50px;
-    max-height: 50px;
-
-      & div {
-        display: flex;
-        flex-direction: row;
-        flex-flow: wrap-reverse;
-        justify-content: center;
-        align-items: center;
-
-        width: 100%;
-        padding-top: 0%;
-        max-width: 70px;
-        max-height: 70px;
-        top: 0;    
-
-        & div {
-          width: 50%;
-          padding-top: 50%;
-          max-width: 30px;
-          max-height: 30px;
-          position: relative;
-          border-radius: 10px;
-          background-color: #000000;
-
-          & img {
-            width: 100%;
-            height: 100%;
-            border-radius: 10px;
-            padding-top: 0%;
-            position: absolute;
-            top: 0;
-            border: 1px solid #bfbfbf;
-          } 
-        }
-      }
-  }
-`
-
-const Star = styled.img`
-  width: 20px;
-  height: 20px;
-  /* padding-right: 10px; */
-`
-
-
-interface State_Props {
-  state: string | undefined;
-}
-
-const Main__Date = styled.div`
-color: #6c6c6c;
-font-size: 0.8em;
-padding: 0;
-`
-
-const Main__State = styled.div`
-background-color: ${(props: State_Props) => props.state === 'true' ? '#72bc93' : '#b6b7d5' };
-/* background-color: #72bc93; */
-color: #ffffff;
-padding: 3px 10px;
-font-size: 0.8em;
-`
-
-interface Loading_Props {
-  visible: boolean | undefined | null;
-}
-
-const TargetTest = styled.tfoot`
-  height: 100%;
-  width: 100%;
-  display: ${(props: Loading_Props) => props.visible ? 'block' : 'none' };
-
-  & td {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-`
-
-const LoadingImage = styled.img`
-  width: 100px;
-  height: 100px;
-`
-
 function AppointmentList() {
   axios.defaults.withCredentials = true; // 요청, 응답에 쿠키를 포함하기 위해 필요
   const navigate = useNavigate();
@@ -297,12 +107,12 @@ function AppointmentList() {
                   <tr key={index}>
 
                     <td>
-                      <p>
-                        <Star onClick={()=>{bookmark(index, x.num)}} src={appointmentList[index].bookmark === 'true'? 'image/star.png' : 'image/empty_star.png'}  />
-                        <span onClick={()=>{navigate('/appointment/' + x.num)}}>{x.calculate_name}</span>
-                        <span>{x.members.length}</span>
-                      </p>   
-
+                      <Main__Title>
+                        <Star onClick={()=>{bookmark(index, x.num)}} src={appointmentList[index].bookmark === 'true'? 'image/star.png' : 'image/empty_star.png'}/>
+                        <p onClick={()=>{navigate('/appointment/' + x.num)}}>{x.calculate_name}</p>
+                        <p>{x.members.length}</p>
+                      </Main__Title>
+    
                       <Main__List__Members>
                         <div>
                           <div> {/* 3개의 프로필을 모아둔 div*/}
@@ -400,5 +210,233 @@ function AppointmentList() {
     </Container>
   )
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+  height: 100%;
+  /* height: 100%; */
+  /* padding: 2% 5%; */  
+  overflow: auto; 
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+const Main = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 90%;
+  /* overflow: auto; // 화면을 넘어가면 스크롤이 되도록 */
+  /* background-color: aqua; */
+`
+
+const Main__List = styled.table`
+/* background-color: #7e4a4a; */
+table-layout: fixed; 
+width: 100%;
+border-spacing: 0 15px;
+border-collapse: collapse;
+  /* padding: 1% 2%; */
+    
+& tr {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+& td {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: space-between; */
+  font-weight: bold;
+  font-size: 1.5rem;
+  padding: 10px 3%;
+}
+
+& td:nth-child(1) {
+  width: 70%;
+}
+
+& td:nth-child(2) { // 날짜
+  width: 10%;
+  /* background-color: #ecc529; */
+  white-space: nowrap;;
+  padding: 0;
+}
+
+& td:nth-child(3) { // 정산 여부 버튼
+  /* background-color: #282ab1; */
+  width: 10%;
+  padding: 0;
+  padding-left: 10px;
+}
+  
+
+@media screen and (max-width: 768px) { 
+
+  & > td {
+    /* display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.3rem;
+    padding: 10px 3%; */
+  }
+
+  & td:nth-child(1) {
+    /* width: 100%; */
+    /* background-color: #e61414; */
+    /* & > p {
+      color: #322c59;
+
+      & > span:nth-child(2) { // 일정 이름
+        color: #3c3c3c;
+        padding-left: 10px;
+        font-weight: bold;
+      }
+
+      & > span:nth-child(3) { // 멤버 수
+        color: #4b4b74;
+        padding-left: 10px;
+        font-weight: 600;
+      }
+    } */
+  }
+
+  & td:nth-child(2) { // 날짜
+    /* width: 10%; */
+    /* background-color: #ecc529; */
+    /* white-space: nowrap;;
+    padding: 0; */
+  }
+
+  & td:nth-child(3) { // 정산 여부 버튼
+    /* background-color: #282ab1;
+    width: 200px;
+    padding: 0;
+    padding-left: 10px; */
+    /* width: 10%; */
+  }
+} 
+`
+const Main__List__Members = styled.div`
+  border-radius: 10px;
+  width: 10%;
+  max-width: 70px;
+  max-height: 70px;
+  /* min-height: 50px;
+  min-width: 50px; */
+
+  & div {
+    padding-top: 0%;
+    max-width: 50px;
+    max-height: 50px;
+
+      & div {
+        display: flex;
+        flex-direction: row;
+        flex-flow: wrap-reverse;
+        justify-content: center;
+        align-items: center;
+
+        width: 100%;
+        padding-top: 0%;
+        max-width: 70px;
+        max-height: 70px;
+        top: 0;    
+
+        & div {
+          width: 50%;
+          padding-top: 50%;
+          max-width: 30px;
+          max-height: 30px;
+          position: relative;
+          border-radius: 10px;
+          background-color: #000000;
+
+          & img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            padding-top: 0%;
+            position: absolute;
+            top: 0;
+            border: 1px solid #bfbfbf;
+          } 
+        }
+      }
+  }
+`
+
+const Star = styled.img`
+  width: 20px;
+  height: 20px;
+  /* padding-right: 10px; */
+`
+
+
+interface State_Props {
+  state: string | undefined;
+}
+
+const Main__Date = styled.div`
+color: #6c6c6c;
+font-size: 0.8em;
+padding: 0;
+`
+
+const Main__State = styled.div`
+background-color: ${(props: State_Props) => props.state === 'true' ? '#72bc93' : '#b6b7d5' };
+/* background-color: #72bc93; */
+color: #ffffff;
+padding: 3px 10px;
+font-size: 0.8em;
+white-space: nowrap;
+`
+
+interface Loading_Props {
+  visible: boolean | undefined | null;
+}
+
+const TargetTest = styled.tfoot`
+  height: 100%;
+  width: 100%;
+  display: ${(props: Loading_Props) => props.visible ? 'block' : 'none' };
+
+  & td {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+`
+
+const LoadingImage = styled.img`
+  width: 100px;
+  height: 100px;
+`
+
+const Main__Title = styled.div`
+display: flex;
+flex-direction: row;
+background-color: antiquewhite;
+width: 90%;
+align-items: center;
+
+& > p:nth-child(2) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* width: 100%; */
+  padding-right: 10px;
+}
+`
 
 export default AppointmentList;

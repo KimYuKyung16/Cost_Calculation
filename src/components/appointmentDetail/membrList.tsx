@@ -127,9 +127,9 @@ function AppointmentMemberList(props: Props) {
                     </li>
                     <li>
                       <List>
-                        <li>총 지출비 <hr/> {x.totalCost.toLocaleString('ko-KR')} 원</li>
-                        <li>더 내야하는 비용 <hr/> {x.lackCost.toLocaleString('ko-KR')} 원</li>
-                        <li>받아야 하는 비용 <hr/> {x.excessCost.toLocaleString('ko-KR')} 원</li>
+                        <li><span>총 지출비</span> <hr/> {x.totalCost.toLocaleString('ko-KR')} 원</li>
+                        <li><span>더 내야하는 비용</span> <hr/> {x.lackCost.toLocaleString('ko-KR')} 원</li>
+                        <li><span>받아야 하는 비용</span> <hr/> {x.excessCost.toLocaleString('ko-KR')} 원</li>
                       </List>
                     </li>
                   </MyInfo>
@@ -143,9 +143,9 @@ function AppointmentMemberList(props: Props) {
                     </li>
                     <li>
                       <List>
-                        <li>총 지출비 <hr/> {x.totalCost.toLocaleString('ko-KR')} 원</li>
-                        <li>더 내야하는 비용 <hr/> {x.lackCost.toLocaleString('ko-KR')} 원</li>
-                        <li>받아야 하는 비용 <hr/> {x.excessCost.toLocaleString('ko-KR')} 원</li>
+                        <li><span>총 지출비</span> <hr/> {x.totalCost.toLocaleString('ko-KR')} 원</li>
+                        <li><span>더 내야하는 비용</span> <hr/> {x.lackCost.toLocaleString('ko-KR')} 원</li>
+                        <li><span>받아야 하는 비용</span> <hr/> {x.excessCost.toLocaleString('ko-KR')} 원</li>
                       </List>
                     </li>
                   </MemberInfo>
@@ -336,6 +336,14 @@ color: #e6e6e6;
   font-size: 1.2rem;
   padding: 5px 0;
   white-space: nowrap;
+
+  & > span {
+    background-color: #b6b7d2;
+    padding: 2px 5px;
+    color: #322c58;
+    border-radius: 8px;
+    font-weight: bold;
+  }
   
   & > hr {
     height: 15px;

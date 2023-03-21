@@ -25,7 +25,7 @@ function Signup() {
 
   // 회원가입 과정
   const signupConfirm = async () => {
-    const info =  await axios.post('http://localhost:6001/signup', { // 서버로 post 요청
+    const info =  await axios.post('http://localhost:6001/auth/register', { // 서버로 post 요청
       nickname: signupInfo.nickname,
       userID: signupInfo.userID,
       userPW: signupInfo.userPW,

@@ -3,65 +3,73 @@
  * 
  * */
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom"; 
 
-import axios from 'axios';
+import { login, authentication } from "../../apis/api/user";
+
+import { useAppSelector, useAppDispatch } from '../../redux/hooks';
+import { userInfoActions } from '../../redux/modules/reducer/userInfoReducer';
+
 import styled from 'styled-components'; 
 import { Main, Main__Logo, Main__Components, Etc_components, Component_Input, Component_btn } from '../../styles/Login_SignUp_Component';
 
-import { useAppSelector, useAppDispatch } from '../../redux/hooks';
-import { loginActions } from '../../redux/modules/reducer/loginReducer';
-import { userInfoActions } from '../../redux/modules/reducer/userInfoReducer';
-
 
 function Login() {
-  axios.defaults.withCredentials = true; // withCredentials 전역 설정
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  
+  let [loginState, setLoginState] = useState(false);
+  let [loginVals, setLoginVals] = useState({ userID: '', userPW: '' });
 
-  const loginInfo = useAppSelector((state  => state.loginInfo));
+  let onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => { setLoginVals((val) => ( {...val, userID:e.target.value} )) }; // 변경된 아이디 저장
+  let onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => { setLoginVals((val) => ( {...val, userPW:e.target.value} )) }; // 변경된 패스워드 저장
 
-  let onChangeId = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(loginActions.setUserID(e.target.value)) }; // 변경된 아이디 저장
-  let onChangePw = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(loginActions.setUserPW(e.target.value)) }; // 변경된 패스워드 저장
-
-  const login = async () => { // 로그인 함수
-    const userInfo = await axios.post('http://localhost:6001/login', {
-      userID: loginInfo.userID,
-      userPW: loginInfo.userPW
-    })
-
-    if (userInfo.data.login_status === 'success') { // 로그인에 성공했다면
+  /* 로그인 버튼을 클릭했을 경우 */
+  const click_LoginBtn = async () => { 
+    const userInfo = await login(loginVals);
+    if (userInfo.status === 200) {
       // 로그인을 했을 때 user의 닉네임과 프로필 정보를 redux에 저장
       dispatch(userInfoActions.setNickname(userInfo.data.nickname));
       dispatch(userInfoActions.setProfile(userInfo.data.profile));
       navigate('/main'); // 메인페이지로 이동
     } else {
-      alert("로그인에 실패하셨습니다.");
-    }  
+      console.log(userInfo?.message);
+      console.log(userInfo?.status);
+    }
   }
 
-  const login_confirm = async () => { // 현재 로그인 상태 확인
-    let auth = await axios.get('http://localhost:6001/authentication')
-    if (auth.data.authenticator) { navigate('/main'); }
-  }
+  useEffect(() => { 
+    /* 현재 로그인 상태 확인 */
+    const login_confirm = async () => {
+      const auth = await authentication();
+      console.log(auth)
+      if (auth.status === 200) navigate('/main'); 
+      else setLoginState(true);
+    }
+    login_confirm();
+  }, [])
 
-  useEffect(() => { login_confirm() }, [])
 
   return(
     <Main>
-      <Main__Logo src="image/logo_name.png"/>
-      <Main__Components>
-        <Etc_components>
-          <Component_Input onChange={onChangeId} type="text" placeholder='아이디를 입력하세요.'/>
-          <Component_Input onChange={onChangePw} type="password" placeholder='패스워드를 입력하세요.'/>
-          <Component_btn onClick={login} type="button" value="로그인"/>
-          <Signup>
-            <p>회원이 아니라면</p>
-            <p onClick={()=>{navigate('/signup')}}>회원가입</p>
-          </Signup>
-        </Etc_components>
-      </Main__Components>
+      {
+        loginState && 
+        <>
+          <Main__Logo src="image/logo_name.png"/>
+          <Main__Components>
+            <Etc_components>
+              <Component_Input onChange={ onChangeId } type="text" placeholder='아이디를 입력하세요.'/>
+              <Component_Input onChange={ onChangePw } type="password" placeholder='패스워드를 입력하세요.'/>
+              <Component_btn onClick={ click_LoginBtn } type="button" value="로그인"/>
+              <Signup>
+                <p>회원이 아니라면</p>
+                <p onClick={()=>{navigate('/signup')}}>회원가입</p>
+              </Signup>
+            </Etc_components>
+          </Main__Components>
+        </>
+      }
     </Main>
   );
 }

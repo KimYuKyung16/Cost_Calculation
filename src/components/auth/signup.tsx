@@ -3,36 +3,32 @@
  * 
  * */
 
+ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import axios from 'axios';
-import { Main, Main__Logo, Main__Components, Etc_components, Component_Input, Component_btn } from '../../styles/Login_SignUp_Component';
+import { register } from "../../apis/api/user";
 
 import { useAppSelector, useAppDispatch } from '../../redux/hooks' // 커스텀된 useSelector, useDispatch
-import { signUpFormActions } from '../../redux/modules/reducer/signUpReducer';
+
+import { Main, Main__Logo, Main__Components, Etc_components, Component_Input, Component_btn } from '../../styles/Login_SignUp_Component';
 
 
 function Signup() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const signupInfo = useAppSelector((state  => state.signupInfo));
+  // const signupInfo = useAppSelector((state  => state.signupInfo));
+  let [signUpVals, setsignUpVals] = useState({ nickname: '', userID: '', userPW: '', userConfirmPW: '' });
 
-  let onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(signUpFormActions.setNickname(e.target.value)) };
-  let onChangeUserID = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(signUpFormActions.setUserID(e.target.value)) };
-  let onChangeUserPW = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(signUpFormActions.setUserPW(e.target.value)) };
-  let onChangeUserConfirmPW = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(signUpFormActions.setUserConfirmPW(e.target.value)) };
+  let onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => { setsignUpVals((val) => ( {...val, nickname:e.target.value} )) };
+  let onChangeUserID = (e: React.ChangeEvent<HTMLInputElement>) => { setsignUpVals((val) => ( {...val, userID:e.target.value} )) };
+  let onChangeUserPW = (e: React.ChangeEvent<HTMLInputElement>) => { setsignUpVals((val) => ( {...val, userPW:e.target.value} )) };
+  let onChangeUserConfirmPW = (e: React.ChangeEvent<HTMLInputElement>) => { setsignUpVals((val) => ( {...val, userConfirmPW:e.target.value} )) };
 
   // 회원가입 과정
   const signupConfirm = async () => {
-    const info =  await axios.post('http://localhost:6001/auth/register', { // 서버로 post 요청
-      nickname: signupInfo.nickname,
-      userID: signupInfo.userID,
-      userPW: signupInfo.userPW,
-      userConfirmPW: signupInfo.userConfirmPW
-    })
-
-    if (info.data.status) {
+    const info =  await register(signUpVals);
+    if (info.status === 200) {
       alert("회원가입에 성공하셨습니다."); 
       navigate('/'); // 메인페이지로 이동
     } else {

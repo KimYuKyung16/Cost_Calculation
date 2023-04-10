@@ -20,6 +20,17 @@ export const getCalculateList = async (calculateListInfo: {}) => {
   }
 }
 
+// 정산 추가하기
+export const addCalculate = async (calculateInfo: {}) => { 
+  try {
+    const { data, status } = await defaultInstance.post(`/calculate`, calculateInfo);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+
 // 즐겨찾기 삭제하기
 export const deleteBookmark = async (num: number) => { 
   try {

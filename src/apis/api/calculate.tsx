@@ -30,6 +30,67 @@ export const addCalculate = async (calculateInfo: {}) => {
   }
 }
 
+// 정산 이름 가져오기
+export const getCalculateTitle = async (num: string | undefined) => { 
+  try {
+    const { data, status } = await defaultInstance.get(`/calculate/${num}/title`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+// 정산 상태 가져오기
+export const getCalculateComplete = async (num: string | undefined) => { 
+  try {
+    const { data, status } = await defaultInstance.get(`/calculate/${num}/complete`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+// 정산 상태 취소하기
+export const deleteCalculateComplete = async (num: string | undefined) => { 
+  try {
+    const { data, status } = await defaultInstance.delete(`/calculate/${num}/complete`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+// 정산 상태 추가하기
+export const addCalculateComplete = async (num: string | undefined) => { 
+  try {
+    const { data, status } = await defaultInstance.post(`/calculate/${num}/complete`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+
+// 정산 상태 수정하기
+export const changeCalculateComplete = async (num: string | undefined, state: string) => { 
+  try {
+    const { data, status } = await defaultInstance.put(`/calculate/${num}/complete/${state}`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+// 멤버 리스트 가져오기
+export const getMemberList = async (calculateNum: {}) => { 
+  try {
+    const { data, status } = await defaultInstance.get(`/calculate/memberList`, calculateNum);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
 
 // 즐겨찾기 삭제하기
 export const deleteBookmark = async (num: number) => { 
@@ -50,3 +111,4 @@ export const addBookmark = async (num: number) => {
     return {message: e.response.data.message, status: e.response.status}
   }
 }
+

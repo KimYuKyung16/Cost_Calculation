@@ -1,212 +1,87 @@
-import { useEffect } from 'react';
+/**
+ * 유저 검색
+ * 
+ */
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getUserList, addFriend } from "../../apis/api/friend"; // API
+import { userListState } from "../../interfaces/friendInterface"; // Interface
 
-import styled from "styled-components"; // styled in js
-import axios from 'axios';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // 아이콘 사용 위해 필요
-import { faSearchPlus } from '@fortawesome/free-solid-svg-icons'; // 제거 아이콘
-
-import { userListActions, userSearchActions } from '../../redux/modules/reducer/userListReducer'
-import { useAppSelector, useAppDispatch } from '../../redux/hooks' // 커스텀된 useSelector, useDispatch
+import * as UsersSearchStyle from "../../styles/friend/usersSearchStyle";
 
 
 function UsersSearch() {
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const userList = useAppSelector((state  => state.userList));
-  const searchVal = useAppSelector((state  => state.userSearch));
+  const inputRef: any = useRef();
 
-  console.log(userList);
+  let [searchVal, setSearchVal] = useState<string>(''); // 검색어
+  let [totalUserList, setTotalUserList] = useState<userListState[]>([]); // 전체 유저 리스트
 
-  let onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => { dispatch(userSearchActions.setSearch(e.target.value)) }; // 변경된 아이디 저장
+  let onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => { setSearchVal(e.target.value) };
 
-  function listUp() { // 유저 검색했을 때 나오는 값들 저장
-    axios.get('http://localhost:6001/userList', {
-      params: {
-        searchVal: searchVal
-      }
-    })
-    .then(function (response) { 
-      console.log(response.data);
-      dispatch(userListActions.setInitialUserList(response.data))
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+  /* 전체 유저 가져오기 */
+  const userListUp = async () => {
+    const userList = await getUserList({params: { searchVal: searchVal }});
+
+    if (userList.status === 200) {
+      setTotalUserList(userList.data)
+    } else if (userList.status === 600) {
+      alert("로그아웃 되었습니다. 다시 로그인해주세요.");
+      navigate('/login');
+    } else {
+      console.log(userList.message);
+      console.log(userList.status);
+    }
   }
 
-  function addFriend(receiver: string) { // 친구 추가하기
-    axios.post('http://localhost:6001/userList/addFriend', {
-      receiver
-    })
-    .then(function (response) { 
-      // console.log(response);
-      // dispatch(userListActions.setInitialUserList(response.data))
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
+  /* 친구 추가하기 */
+  const add_Friend = async (receiver: string) => {
+    const friendAddition = await addFriend({receiver});
+    setSearchVal('');
+    inputRef.current.value = '';
+    
+    if (friendAddition.status === 200) {
+      alert(receiver + "님에게 친구 신청을 보냈습니다.");
+    } else if (friendAddition.status === 600) {
+      alert("로그아웃 되었습니다. 다시 로그인해주세요.");
+      navigate('/login');
+    } else {
+      console.log(friendAddition.message);
+      console.log(friendAddition.status);
+    }
   }
 
-  useEffect(() => { listUp(); }, [searchVal])
+  useEffect(() => { userListUp(); }, [searchVal])
 
   return (
-    <Main>
-      <Main__Search>
-        <input onChange={onChangeSearch} type="text" placeholder='아이디를 입력하세요'/>
+    <UsersSearchStyle.Container>
+      <UsersSearchStyle.Container__Search>
+        <input ref={inputRef} onChange={onChangeSearch} type="text" placeholder='아이디를 입력하세요'/>
         <img src="/image/friend_add_icon.svg"/>
-      </Main__Search>
-      <Main__list>
-        <Main__list_memberList>
+      </UsersSearchStyle.Container__Search>
+      <UsersSearchStyle.Container__list>
+        <UsersSearchStyle.Container__list_memberList>
           <tbody>
             {
-              userList.map((x, index) => {
+              totalUserList.map((x, index) => {
                 return(
                   <tr key={index}>
-                    <td><Profile src={x.profile === "\\image\\default_profile.png" ? x.profile : x.profile}/>{x.nickname}</td>
+                    <td><UsersSearchStyle.Profile src={x.profile === "\\image\\default_profile.png" ? x.profile : x.profile}/>{x.nickname}</td>
                     {
                     x.userID || x.receiver || x.sender ? null : 
-                    <td><input onClick={() => {addFriend(x.id);}} type="button" value="친구 추가"/></td>
+                    <td><input onClick={() => {add_Friend(x.id);}} type="button" value="친구 추가"/></td>
                     }
                   </tr>
                 )
               })
             }
           </tbody>
-        </Main__list_memberList>
-      </Main__list>
-    </Main>
+        </UsersSearchStyle.Container__list_memberList>
+      </UsersSearchStyle.Container__list>
+    </UsersSearchStyle.Container>
   )
 }
 
-const Main = styled.div`
-display: flex;
-flex-direction: column;  
-width: 100%;
-background-color: #322c5a;
-`
-
-const Main__Search = styled.div`
-display: flex;
-flex-direction: row;
-width: 100%;
-background-color: #ffffff;
-align-items: center;
-justify-content: center;
-border: 1px solid #322c5a;
-border-bottom: none;
-box-sizing: border-box;
-padding: 5px;
-
-& :nth-child(1) { // 아이디 입력창
-  width: 100%;
-  border: none;
-  font-size: 1.4rem;
-  background-color: #ffffff;
-  outline: none;
-  padding: 7px;
-}
-
-& :nth-child(2) { // 검색 아이콘
-  color: #322c58;
-  height: 80%;
-}
-
-@media screen and (max-width: 768px) { 
-  padding: 4px;
-
-  & :nth-child(1) { // 아이디 입력창
-    font-size: 1.3rem;
-    padding: 5px;
-  }
-
-  & :nth-child(2) { // 검색 아이콘
-    height: 70%;
-  }
-} 
-`
-
-
-const Main__list = styled.div`
-position: relative;
-width: 100%;
-`
-
-const Main__list_memberList = styled.table`
-position: absolute;
-z-index: 1;
-width: 100%;
-height: 100%;
-border-spacing: 0px;
-border-collapse: separate;
-font-size: 1.3em;
-font-weight: 700;
-color: #4f4f4f;
-background-color: #ffffff;
-border: 1px solid #322c5a; // 화면 커졌을 때 이상한 줄 원인
-
-& tr {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: #ffffff;
-  width: 100%;
-  padding: 8px 10px;
-}
-
-& td:nth-child(1) { // 프로필 & 닉네임
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-& td:nth-child(2) { // 친구 추가 버튼
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-
-  & input {
-    font-size: 1.1rem;
-    /* background-color: #cecece; */
-    background-color: #fff08b;
-    color: #5c5b5b;
-    font-weight: 500;
-    border: 1px solid #bfbfbf;
-    border-radius: 8px;
-    padding: 8px 10px;
-  }
-}
-
-@media screen and (max-width: 768px) { 
-  font-size: 1.1em;
-
-  & tr {
-    padding: 6px 7px;
-  }
-
-  & td:nth-child(2) { // 친구 추가 버튼
-    padding-left: 5px;
-
-    & input {
-      font-size: 0.9rem;
-      padding: 5px 7px;
-    }
-  }
-} 
-`
-
-const Profile = styled.img`  
-border: 1px solid #bfbfbf;
-border-radius: 70px;
-width: 50px;
-height: 50px;
-margin-right: 7px;
-
-@media screen and (max-width: 768px) { 
-  width: 45px;
-  height: 45px;
-  margin-right: 5px;
-} 
-`
 
 export default UsersSearch;

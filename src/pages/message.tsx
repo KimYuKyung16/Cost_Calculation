@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
-import styled from "styled-components"; // styled in js
+import styled from "styled-components";
 
 import Header from "../components/message/header";
 import List from "../components/message/messageList";
+
 
 function Message() {
   return (
@@ -17,9 +17,9 @@ const Container = styled.div`
 display: flex;
 flex-direction: column;
 align-items: center;
-background-color: #322c58;
 width: 100vw;
 height: 100vh;
+background-color: #322c58;
 padding: 0 auto;
 `
 

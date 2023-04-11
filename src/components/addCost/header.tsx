@@ -1,90 +1,33 @@
 /** 
  * 지출 등록 - 헤더
  * 
- * */
+ */
+import {  useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
- import {  useEffect, useState } from 'react';
+import { useAppSelector } from "../../redux/hooks";
 
- import axios from 'axios'; 
- import styled from "styled-components";
+import * as HeaderStyle from "../../styles/addCost/headerStyle";
  
- import { useAppDispatch, useAppSelector } from "../../redux/hooks";
- import { barActions } from '../../redux/modules/reducer/barReducer'
- 
- import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
- import { faBars, faEllipsisV } from '@fortawesome/free-solid-svg-icons'; // 햄버거바 아이콘
-import { useNavigate } from 'react-router-dom';
- 
-function AddCost_Header() {
+function Header() {
   const navigate = useNavigate();
+  let params = useParams();
+  let num: string|undefined = params.num;
+
+  const calculateState = useAppSelector(state => state.calculate); // 정산 정보
 
   return (
-    <Header>
-      <Header__title>
-        <img onClick={() => {navigate('/main')}} src='/image/back_icon.svg'/>
+    <HeaderStyle.Header_>
+      <HeaderStyle.Header__title>
+        <img onClick={() => {navigate(`/calculate/${num}`)}} src='/image/back_icon.svg'/>
         <img src='/image/appointment_logo_icon.svg'/>
-        <p>{'test'}{' > '}<span>지출 등록</span></p>
-      </Header__title>
+        <p>{calculateState.calculateName}{' > '}<span>지출 등록</span></p>
+      </HeaderStyle.Header__title>
 
 
-    </Header>
+    </HeaderStyle.Header_>
   )
 }
  
  
- const Header = styled.div`
-   display: flex;
-   align-items: center;
-   flex-direction: row;
-   height: 40px;
-   background-color: #322c58;
-   box-sizing: border-box;
-   border-bottom: 1px solid #ffffff;
- 
-   & { // 전체
-     color: white;
-     font-size: 1.2em;
-   }
- 
-   & > p {
-    height: 80%;
-   }
- 
- /* 모바일, 타블렛 기준 */
- @media screen and (max-width: 768px) { 
-   & > p:first-child { // 햄버거바 아이콘
-     display: block;
-   }
- }
- 
- `
- 
- const Header__title = styled.div`
- display: flex;
- flex-direction: row;
- align-items: center;
- width: 100%;
- height: 100%;
- box-sizing: border-box;
-
-& > img:nth-child(1) { // 뒤로가기 아이콘
-  height: 40%;
-  padding: 0 10px;
-}
-
-& > img:nth-child(2) { // 로고 이미지
-  height: 50%;
-}
- 
-& > p:nth-child(3) {
-  padding-left: 5px;
-  font-size: 1.2rem;
-
-  & > span {
-    color: yellow;
-    font-size: 1.2rem;
-  }
-} 
-`
- 
- export default AddCost_Header;
+ export default Header;

@@ -1,36 +1,32 @@
-import { useEffect, useRef, useState } from 'react';
+/** 
+ * 지출 등록 - 정보 입력 부분
+ * 
+ */
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
 import { addCost } from "../../apis/api/cost"; // API
 
+import { useAppSelector } from "../../redux/hooks";
 
-import { useNavigate, Link, useParams } from "react-router-dom";
-
-import { costActions } from '../../redux/modules/reducer/costReducer'
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-
-
-import axios from 'axios'; 
-import styled from "styled-components"; // styled in js
-import { validateHeaderValue } from 'http';
+import * as AddCostStyle from "../../styles/addCost/addCostStyle";
 
 
 function AddCost() {
   const navigate = useNavigate();
-  const params = useParams(); // 리스트 번호
+  const params = useParams(); 
+  const num = params.num; // 리스트 번호
   
   const memberList = useAppSelector(state => state.memberList); // 멤버 리스트
-  const cost = useAppSelector(state => state.cost); // 비용 리스트
-  console.log(memberList);
-  console.log('cost:',cost);
 
-  let [costValues, setCostValues] = useState({
-    calculateListNum: params.num,
+  let [costValues, setCostValues] = useState({ // 제일 처음사람으로 초기화
+    calculateListNum: num,
     title: '',
-    payer: '',
-    id: '',
+    payer: memberList[0].nickname,
+    id: memberList[0].id,
     cost: '',
     content: ''
   });
-
   
   let onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { // 변경된 제목 저장
     setCostValues((value) => ({...value, title: e.target.value}));
@@ -66,30 +62,30 @@ function AddCost() {
       const state = await addCost(costValues);
 
       if (state.status === 200) {
-        navigate('/appointment/' + params.num);
+        navigate('/calculate/' + params.num);
+      } else if (state.status === 600) {
+        alert("로그인 상태가 아닙니다. 다시 로그인해주세요.");
+        navigate('/login');
       } else {
-        console.log(state.message);
-        console.log(state.status);
         alert("저장에 실패했습니다.");
       }
-
     } else {
       alert("작성되지 않은 부분이 있습니다.");
     }
   }
 
   return(
-    <Container>
-      <Container__Title>
+    <AddCostStyle.Container>
+      <AddCostStyle.Container__Title>
         <input type="text" placeholder='제목을 입력하세요' onChange={onChangeTitle}/>
-      </Container__Title>
-      <Container__Contents>
-        <Contents_Cost_Payer>
-          <Contents_Cost>
+      </AddCostStyle.Container__Title>
+      <AddCostStyle.Container__Contents>
+        <AddCostStyle.Contents_Cost_Payer>
+          <AddCostStyle.Contents_Cost>
             <input type="text" maxLength={10} onChange={onChangeCost}/>
             <p>원</p>
-          </Contents_Cost>
-          <Contents_Payer onChange={onChangePayer} value={costValues.id}>
+          </AddCostStyle.Contents_Cost>
+          <AddCostStyle.Contents_Payer onChange={onChangePayer} value={costValues.id}>
             {
               memberList.map((x, index) => {
                 return(
@@ -97,158 +93,22 @@ function AddCost() {
                 )
               })
             }        
-          </Contents_Payer>
+          </AddCostStyle.Contents_Payer>
           <p>최대 10,000,000원까지 입력이 가능합니다.</p>
-        </Contents_Cost_Payer>
-      </Container__Contents>
+        </AddCostStyle.Contents_Cost_Payer>
+      </AddCostStyle.Container__Contents>
 
-      <Conainer__Content>
+      <AddCostStyle.Container__Content>
         <textarea placeholder='내용을 입력하세요' onChange={onChangeContent}/>
-      </Conainer__Content>
+      </AddCostStyle.Container__Content>
         
-      <Contianer__RegisterBtn>
+      <AddCostStyle.Container__RegisterBtn>
         <input type="button" value="등록" onClick={click_RegisterBtn}/>
-      </Contianer__RegisterBtn>
-    </Container>
+      </AddCostStyle.Container__RegisterBtn>
+    </AddCostStyle.Container>
   )
 }
 
-const Container = styled.section`
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 100%;
-height: 100%;
-min-height: 100vh;
-background-color: #322c58;
 
-@media screen and (max-width: 768px) {
-
-} 
-`
-
-const Container__Title = styled.div`
-  width: 100%;
-  height: 60px;
-  margin-bottom: 20px;
-
-  & > input {
-    width: 100%;
-    height: 100%;
-    padding: 0 5%;
-    background-color: #322c58;
-    border: none;
-    border-bottom: 1px solid #ffffff;
-    outline: none;
-    color: #ffffff;
-    font-size: 2rem;
-
-    ::placeholder {
-      color: #a2a2a2;
-    }
-  }
-`
-
-const Container__Contents = styled.div`
-  width: 100%;
-  padding: 0 5%;
-  height: 70px;
-`
-
-const Contents_Cost_Payer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: 20px;
-  position: relative;
-  height: 100%;
-
-  & > p {
-    position: absolute;
-    bottom: 0;
-    right: 23%;
-    font-size: 1.2rem;
-    color: yellow;
-  }
-`
-
-const Contents_Cost = styled.div`
-position: relative;
-height: 50px;
-display: flex;
-flex-direction: row;
-align-items: center;
-width: 80%;
-border-radius: 4px;
-overflow: hidden;
-
-& > input {
-  -moz-appearance: textfield; // firefox에서 화살표 제거
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  text-align: right;
-  padding-right: 35px;
-  font-size: 2rem;
-  outline: none;
-  border: none;
-  font-weight: bold;
-
-  // chrome, safari, edge, opera에서 화살표 제거
-  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-}
-
-& > p {
-  position: absolute;
-  color: #000000;
-  font-size: 2rem;
-  right: 10px;
-}
-`
-
-const Contents_Payer = styled.select`
-  background-color: #ffffff;
-  width: 20%;
-  height: 50px;
-  border-radius: 4px;
-`
-
-const Conainer__Content = styled.div`
-padding: 0 5%;
-width: 100%;
-margin-bottom: 20px;;
-
-& > textarea {
-  width: 100%;
-  resize: none;
-  height: 400px;
-  margin-top: 10px;
-  outline: none;
-  border: 1px solid #ffffff;
-  background-color: #322c58;
-  padding: 15px;
-  color: #ffffff;
-  border-radius: 4px;
-}
-`
-
-const Contianer__RegisterBtn = styled.div`
-text-align: center;
-padding: 0 5%;
-width: 100%;
-
-& > input {
-  width: 100%;
-  background-color: #74b99a;
-  border: none;
-  color: #ffffff;
-  height: 40px;
-  width: 50%;
-  border-radius: 8px;
-}
-`
 
 export default AddCost;

@@ -30,6 +30,16 @@ export const addCalculate = async (calculateInfo: {}) => {
   }
 }
 
+// 정산 삭제하기
+export const deleteCalculate = async (num: string | undefined) => { 
+  try {
+    const { data, status } = await defaultInstance.delete(`/calculate/${num}`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
 // 정산 이름 가져오기
 export const getCalculateTitle = async (num: string | undefined) => { 
   try {
@@ -106,6 +116,17 @@ export const deleteBookmark = async (num: number) => {
 export const addBookmark = async (num: number) => { 
   try {
     const { data, status } = await defaultInstance.post(`/calculateList/bookmark/${num}`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+
+// 내가 시작한 정산 리스트 가져오기
+export const getMyCalculateList = async (current_page: number) => { 
+  try {
+    const { data, status } = await defaultInstance.get(`/mycalculateList/${current_page}`);
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}

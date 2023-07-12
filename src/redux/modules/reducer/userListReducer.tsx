@@ -27,34 +27,34 @@ const initialState2: string = '';
 const initialState3: waitingListState[] = []; // 친구 대기중인 유저 리스트
 
 const userListSlice = createSlice({
-  name: 'userList', // 슬라이스 이름
-  initialState, // 초기 상태
-  reducers:{ // 리듀서 설정
+  name: 'userList', 
+  initialState, 
+  reducers:{
     setInitialUserList: (state, action: PayloadAction<userListState[]>) => action.payload,
   }
 })
 
 const userSearchSlice = createSlice({
-  name: 'userSearch', // 슬라이스 이름
-  initialState: initialState2, // 초기 상태
-  reducers:{ // 리듀서 설정
+  name: 'userSearch', 
+  initialState: initialState2, 
+  reducers:{
     setSearch: (state, action: PayloadAction<string>) => action.payload,
   }
 })
 
 const waitingListSlice = createSlice({
-  name: 'waitingList', // 슬라이스 이름
-  initialState: initialState3, // 초기 상태
-  reducers:{ // 리듀서 설정
+  name: 'waitingList', 
+  initialState: initialState3, 
+  reducers:{
     setInitialWaitingList: (state, action: PayloadAction<waitingListState[]>) => action.payload,
   }
 })
 
 
 const receivingListSlice = createSlice({
-  name: 'receivingList', // 슬라이스 이름
-  initialState: initialState3, // 초기 상태
-  reducers:{ // 리듀서 설정
+  name: 'receivingList', 
+  initialState: initialState3, 
+  reducers:{
     setInitialReceivingList: (state, action: PayloadAction<waitingListState[]>) => action.payload,
   }
 })

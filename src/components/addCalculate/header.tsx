@@ -1,21 +1,23 @@
 /**
  * 헤더
- * 
+ *
  */
 import { useNavigate } from "react-router-dom";
-
 import * as HeaderStyle from "../../styles/addCalculate/headerStyle";
-
 
 function Header() {
   const navigate = useNavigate();
 
-  return(
+  return (
     <HeaderStyle.Header_>
-      <img onClick={()=>{ navigate('/main') }} src='image/logo_name.png' />
+      <img
+        onClick={() => {
+          navigate("/main");
+        }}
+        src="image/logo_name.png"
+      />
     </HeaderStyle.Header_>
-  )
+  );
 }
-
 
 export default Header;

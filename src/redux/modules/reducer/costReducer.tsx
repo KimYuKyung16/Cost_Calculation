@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface costInfo {
+  num: number;
   title: string; // 제목
   id: string; // 지불인 아이디
   payer: string; // 지불인 닉네임
@@ -39,7 +40,8 @@ const costSlice = createSlice({
     setcostCost: (state, action: PayloadAction<string>) => { state.cost = action.payload },
     setcostContent: (state, action: PayloadAction<string>) => { state.content = action.payload },
 
-    setcostList: (state, action: PayloadAction<costInfo[]>) => { state.list = action.payload }
+    setcostList: (state, action: PayloadAction<costInfo[]>) => { state.list = action.payload },
+    deleteCost: (state, action: PayloadAction<number>) => { state.list.splice(action.payload, 1) }
   }
 })
 

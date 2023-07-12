@@ -1,38 +1,46 @@
-import { useState } from "react";
+/**
+ * 유저 정보
+ *
+ */
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { calculateListTypeActions } from "../../../redux/modules/reducer/calculateListReducer"
+import { getUserInfo } from '../../../apis/api/user';
+import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import { userInfoActions } from "../../../redux/modules/reducer/userInfoReducer";
-import { useAppSelector, useAppDispatch } from "../../../redux/hooks" 
-
 import CalculateListType from "./calculateListType";
 import UserInfo_Mobile from "./userInfo_mobile";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 import { faUserFriends, faEnvelope, faBars } from "@fortawesome/free-solid-svg-icons"; 
 import * as UserInfoStyle from "../../../styles/main/userInfoStyle"; 
-
 
 function UserInfo() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state  => state.userInfo));
-
   const nickname = userInfo.nickname;
   const profile = userInfo.profile; 
-
-  let [userInfoVisible, setUserInfoVisible] = useState('none');
-  let [menubarVisible, setMenubarVisible] = useState('none');
+  const [userInfoVisible, setUserInfoVisible] = useState('none');
+  const [menubarVisible, setMenubarVisible] = useState('none');
   
   const profileMouseClick = () => {
     if (userInfoVisible === 'none') setUserInfoVisible('block');
     else setUserInfoVisible('none');
   }
-
   const menubarMouseClick = () => {
     if (menubarVisible === 'none') setMenubarVisible('block');
     else setMenubarVisible('none');
   }
+  const get_UserInfo = async () => {
+    const userInfo = await getUserInfo();
+    if (userInfo.status === 200) {
+      dispatch(userInfoActions.setNickname(userInfo.data.nickname));
+      dispatch(userInfoActions.setProfile(userInfo.data.profile));
+    }
+  }
+  
+  useEffect(() => {
+    get_UserInfo();
+  }, [])
 
   return(
       <UserInfoStyle.Container>
@@ -67,7 +75,5 @@ function UserInfo() {
       </UserInfoStyle.Container>
   )
 }
-
-
 
 export default UserInfo;

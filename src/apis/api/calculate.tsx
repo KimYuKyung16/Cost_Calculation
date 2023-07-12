@@ -14,6 +14,7 @@ export const getCalculateTypeCount = async (calculateTypeCountInfo: {}) => {
 export const getCalculateList = async (calculateListInfo: {}) => { 
   try {
     const { data, status } = await defaultInstance.get(`/calculateList`, calculateListInfo);
+    console.log(data)
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}

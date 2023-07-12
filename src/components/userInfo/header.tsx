@@ -2,13 +2,10 @@
  * 내 정보 페이지 - 헤더
  * 
  * */
-
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; 
 import { faUserFriends, faEnvelope } from "@fortawesome/free-solid-svg-icons"; 
-
-//  import * as HeaderStyle from "../../styles/message/headerStyle";
 
 function Header() {
   const navigate = useNavigate();
@@ -66,5 +63,4 @@ gap: 20px;
 } 
 `
  
-  
 export default Header;

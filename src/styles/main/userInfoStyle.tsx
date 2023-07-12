@@ -158,9 +158,8 @@ export const Container__UserInfoDiv_mobile = styled.div`
 display: none;
 width: 200px;
 background-color: #e0e0e0;
-border: 1px solid #5b5b5b;
 border-radius: 10px;
-box-shadow: 0 5px 20px rgba(206, 206, 206, 0.8);
+box-shadow: 0 5px 20px rgba(71, 71, 71, 0.8);
 overflow: hidden;
 position: absolute;
 top: 53px;

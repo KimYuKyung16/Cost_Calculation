@@ -8,6 +8,12 @@ const defaultApi = axios.create({ // 인증X
     withCredentials: true
 })
 
+const imageApi = axios.create({ // 인증X
+    baseURL: BASE_URL,
+    headers: { 'Content-Type': 'multipart/form-data; charset: UTF-8;' },
+    withCredentials: true
+})
+
 const token = localStorage.getItem('accessToken'); 
 const authApi = axios.create({ // 인증O
     baseURL: BASE_URL,
@@ -17,4 +23,5 @@ const authApi = axios.create({ // 인증O
 })
 
 export const defaultInstance = defaultApi;
+export const imageInstance = imageApi;
 export const authInstance = authApi; 

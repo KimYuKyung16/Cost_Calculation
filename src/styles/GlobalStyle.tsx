@@ -13,6 +13,16 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
   }
 
+  input {
+    outline: none;
+   }
+
+   textarea {
+    resize: none;
+    outline: none;
+    border: none;
+   }
+
   body {
     font-family: "NotoSans";
   }

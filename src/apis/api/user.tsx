@@ -1,4 +1,4 @@
-import { defaultInstance, authInstance } from '../utils/instance'
+import { defaultInstance, authInstance, imageInstance } from '../utils/instance'
 
 interface IUserRegister { // 회원가입
   userID: string,
@@ -13,10 +13,10 @@ interface IUserLogin { // 로그인
 
 export const register = async (userInfo: IUserRegister) => { // 회원가입
   try {
-    const { data } = await defaultInstance.post(`/auth/register`, userInfo);
-    return data
-  } catch (e) {
-    console.error(e);
+    const { data, status } = await defaultInstance.post(`/auth/register`, userInfo);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
   }
 }
 
@@ -39,3 +39,21 @@ export const authentication = async () => { // 로그인 여부 확인
   }
 }
 
+export const getUserInfo = async () => { // 유저 정보 가져오기
+  try {
+    const { data, status } = await defaultInstance.get(`/userInfo`);
+    return { data, status }
+  } catch (e: any) {
+    console.log(e)
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+export const saveProfile = async (userInfo: FormData) => { // 프로필 변경 후 저장
+  try {
+    const { data, status } = await imageInstance.post(`/userinfo/profile`, userInfo);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}

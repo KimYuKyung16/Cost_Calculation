@@ -1,9 +1,9 @@
 import { defaultInstance, authInstance } from '../utils/instance'
 
 // 쪽지 리스트 가져오기
-export const getMessageListApi = async () => { 
+export const getMessageListApi = async (current_page: number) => { 
   try {
-    const { data, status } = await defaultInstance.get(`/message`);
+    const { data, status } = await defaultInstance.get(`/message/${current_page}`);
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}

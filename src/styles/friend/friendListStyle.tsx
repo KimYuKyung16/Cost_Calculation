@@ -88,3 +88,19 @@ margin-right: 5px;
   height: 45px;
 }
 `
+
+/* 친구리스트가 없을 경우 */
+export const Container__friendList_none = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+height: 100%;
+font-size: 1.3rem;
+padding-bottom: 200px;
+
+@media screen and (max-width: 768px) { 
+  font-size: 1rem;
+  padding-bottom: 30vw;
+}
+`

@@ -84,10 +84,10 @@ padding: 0;
 border: none;
 border-radius: 10px;
 overflow: hidden;
-box-shadow: 0 5px 20px rgba(59, 59, 59, 0.8);
+box-shadow: 0 5px 10px rgba(59, 59, 59, 0.8);
 position: absolute;
-top: 55px;
-right: 3px;
+top: 35px;
+right: 10px;
 z-index: 3;
 
 * {
@@ -97,9 +97,8 @@ z-index: 3;
 
 & > ul {
   list-style: none;
-  font-size: 0.8em;
+  font-size: 1rem;
   
-
   & > li {
     text-align: center;
     padding: 10px;
@@ -108,15 +107,17 @@ z-index: 3;
 
   & > li:nth-child(1) {
     color: #6d6d6d;
+
+    &:hover {
+      font-weight: bold;
+    }
   }
 
   & > li:nth-child(2) {
-    background-color: #b40606;
-    /* border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px; */
+    background-color: #b02020;
 
     &:hover {
-      background-color: #d80707;
+      background-color: #ce2525;
       font-weight: bold;
     }
   }

@@ -11,7 +11,9 @@ padding: 0 3% 1% 3%;
 overflow: auto;
 position: relative;
 
-@media screen and (max-width: 768px) { 
+@media screen and (max-width: 768px) {
+  padding: 0; 
+  padding-bottom: 3%;
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
@@ -64,6 +66,18 @@ filter: drop-shadow(10px 10px 11px rgba(0, 0, 0, 0.15));
   &::-webkit-scrollbar { display: none; }
 }
 
+& > button { // 정산 내용 수정 버튼
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  background-color: #322c58;
+  color: #bac7fb;
+  border: 2px solid #bac7fb;
+  border-radius: 5px;
+  padding: 3px 10px;
+  font-size: 1.3rem;
+}
+
 @media screen and (max-width: 768px) { 
   width: 90%;
 
@@ -81,7 +95,7 @@ filter: drop-shadow(10px 10px 11px rgba(0, 0, 0, 0.15));
 /* 지출 내역이 없을 경우 */
 export const Container__List_none = styled.div`
 width: 100%;
-height: 100%;
+height: calc(100vh - 100px);
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -98,6 +112,10 @@ gap: 10px;
 `
 
 /* 지출 내역이 있을 경우 */
+interface IDeleteState {
+  state: boolean;
+}
+
 export const Container__List = styled.table`
 table-layout: fixed;
 border-collapse: separate;
@@ -143,6 +161,14 @@ font-size: 1.3em;
     font-weight: bold;
     white-space: nowrap;
   }
+
+  & > td:nth-child(4) { // 삭제 버튼
+    width: 10px;
+    color: #ba8174;
+    font-size: 1.5rem;
+    text-align: right;
+    display: ${(props:IDeleteState) => props.state ? 'none' : ''};
+  }
 }
 
 @media screen and (max-width: 768px) { 
@@ -166,6 +192,10 @@ font-size: 1.3em;
   & > td:nth-child(3) { // 정산 가격
     width: 80px;
   }
+  & > td:nth-child(4) { // 삭제 버튼
+    font-size: 1.2rem;
+    width: 20px;
+  }
 }
 } 
 `
@@ -174,7 +204,7 @@ interface Loading_Props {
 }
 
 /* 로딩 영역 */
-export const Loading = styled.tfoot`
+export const Loading = styled.div`
 display: ${(props: Loading_Props) => props.visible ? 'block' : 'none' };
 width: 100%;
 height: 100%;

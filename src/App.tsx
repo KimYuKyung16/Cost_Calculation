@@ -7,19 +7,18 @@ import Index from "./components/start/index"; // 시작 페이지
 import Login from "./components/auth/login"; // 로그인 페이지
 import Signup from "./components/auth/signup"; // 회원가입 페이지
 
-import Main from "./components/main/index"; // 메인 페이지
-import UserInfo from "./components/userInfo/userInfo";
-import ModifiedUserInfo from "./components/userInfo/setProfile";
+import Main from "./pages/main"; // 메인 페이지
+import UserInfo from "./pages/userInfo"; // 내 정보 페이지
+import ModifiedUserInfo from "./components/userInfo/setProfile"; // 내 정보 수정 페이지
 
-import ModifiedFriend from "./components/friend/modifyFriend";
-import Friend from "./pages/friend";
+import Friend from "./pages/friend"; // 친구 페이지
+import Message from "./pages/message"; // 쪽지 페이지
 
-import AddAppointment from "./pages/addAppointment";
-import Appointment from "./pages/appointmentDetail"; // 일정 상세 페이지
-// import AppointmentMemberList from "./calendar/appointment_MembrList";
+import AddCalculate from "./pages/addCalculate"; // 일정 추가 페이지
+import Calculate from "./pages/calculateDetail"; // 일정 상세 페이지
+import MoidfyCalculate from "./pages/moidfyCalculate"; // 일정 수정 페이지
 
-import CostList from "./components/appointmentDetail/costList";
-import AddCost from "./components/appointmentDetail/costList/addCost";
+import AddCost from "./pages/addCost"; // 지출 추가 페이지
 
 function App() {
   return (
@@ -32,18 +31,17 @@ function App() {
         <Route path="/signup" element={<Signup />}></Route>
 
         <Route path="/main" element={<Main />}></Route>
-        <Route path="/userinfo" element={<UserInfo />}></Route>
+        <Route path="/userInfo" element={<UserInfo />}></Route>
         <Route path="/userinfo/modify" element={<ModifiedUserInfo />}></Route>
 
-        <Route path="/modifiedFriend" element={<ModifiedFriend />}></Route>
         <Route path="/friend" element={<Friend />}></Route>
+        <Route path="/message" element={<Message />}></Route>
 
-        <Route path="/appointment" element={<AddAppointment />}></Route>
-        <Route path="/appointment/:num" element={<Appointment />}></Route>
+        <Route path="/calculate" element={<AddCalculate />}></Route>
+        <Route path="/calculate/:num" element={<Calculate />}></Route>
+        <Route path="/calculate/:num/modify" element={<MoidfyCalculate />}></Route>
 
-        {/* <Route path="/appointment/:num/memberlist" element={<AppointmentMemberList num={undefined} />}></Route> */}
-        <Route path="/appointment/:num/costlist" element={<CostList num={undefined} />}></Route>
-        <Route path="/appointment/:num/cost" element={<AddCost />}></Route>
+        <Route path="/calculate/:num/cost" element={<AddCost />}></Route>
       </Routes>
     </>
   );

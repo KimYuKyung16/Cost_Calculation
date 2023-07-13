@@ -50,10 +50,10 @@ export const deleteCalculate = async (num: string | undefined) => {
   }
 }
 
-// 정산 이름 가져오기
+// 정산 정보 가져오기
 export const getCalculateTitle = async (num: string | undefined) => { 
   try {
-    const { data, status } = await defaultInstance.get(`/calculate/${num}/title`);
+    const { data, status } = await defaultInstance.get(`/calculate/${num}`);
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}

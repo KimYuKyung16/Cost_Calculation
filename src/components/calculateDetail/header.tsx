@@ -19,6 +19,7 @@ function Header(props: { num: string | undefined }) {
   const barState = useAppSelector((state) => state.barState); // 바 상태 : none | block
   const calculateState = useAppSelector((state) => state.calculate);
   const [menuState, setMenuState] = useState<string>("none");
+  const userInfo = useAppSelector((state) => state.userInfo);
 
   /* 햄버거바를 클릭했을 때 실행되는 함수 */
   const clickBar = () => {
@@ -39,6 +40,9 @@ function Header(props: { num: string | undefined }) {
     }
   };
 
+  console.log(calculateState);
+  console.log(userInfo);
+
   return (
     <HeaderStyle.Header_>
       <img
@@ -54,24 +58,25 @@ function Header(props: { num: string | undefined }) {
         <img src="/image/appointment_logo_icon.svg" />
         <p>{calculateState.calculateName}</p>
       </HeaderStyle.Header__title>
-
-      <HeaderStyle.Header__Menu>
-        <p onClick={clickMenuBar}>
-          <FontAwesomeIcon icon={faEllipsisV} />
-        </p>
-        <HeaderStyle.Menu visible={menuState}>
-          <ul>
-            <li
-              onClick={() => {
-                navigate("modify");
-              }}
-            >
-              일정 수정
-            </li>
-            <li onClick={clickDeleteBtn}>삭제</li>
-          </ul>
-        </HeaderStyle.Menu>
-      </HeaderStyle.Header__Menu>
+      {calculateState.calculateOwner === userInfo.userID ? (
+        <HeaderStyle.Header__Menu>
+          <p onClick={clickMenuBar}>
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </p>
+          <HeaderStyle.Menu visible={menuState}>
+            <ul>
+              <li
+                onClick={() => {
+                  navigate("modify");
+                }}
+              >
+                일정 수정
+              </li>
+              <li onClick={clickDeleteBtn}>삭제</li>
+            </ul>
+          </HeaderStyle.Menu>
+        </HeaderStyle.Header__Menu>
+      ) : null}
     </HeaderStyle.Header_>
   );
 }

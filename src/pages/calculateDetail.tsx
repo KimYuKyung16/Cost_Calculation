@@ -20,11 +20,12 @@ function Appointment() {
   const blackRef = useRef<any>(null);
   const barState = useAppSelector((state) => state.barState); // 멤버리스트 visible
 
-  /* 정산 이름 가져오기 */
+  /* 정산 정보 가져오기 */
   const getTitle = async () => {
-    const title = await getCalculateTitle(num);
+    const calculate = await getCalculateTitle(num);
     dispatch(calculateActions.setCaculateListNum(num)); // 일정 번호 설정
-    dispatch(calculateActions.setCalculateName(title.data.title)); // 일정 이름 설정
+    dispatch(calculateActions.setCalculateName(calculate.data.calculate_name)); // 일정 이름 설정
+    dispatch(calculateActions.setCalculateOwner(calculate.data.id)); // 일정 만든 사람의 아이디
   };
   /* 정산 상태와 관련된 내용 가져오기 */
   const getComplete = async () => {

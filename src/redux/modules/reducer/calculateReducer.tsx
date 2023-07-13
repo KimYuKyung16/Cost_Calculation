@@ -15,6 +15,7 @@ interface completeState {
 interface appointmentState {
   calculateListNum: string | undefined;
   calculateName: string;
+  calculateOwner: string;
   memberCount: number;
   complete: completeState;
 }
@@ -22,6 +23,7 @@ interface appointmentState {
 const initialState: appointmentState = {
   calculateListNum: "0",
   calculateName: "",
+  calculateOwner: "",
   memberCount: 0,
   complete: {
     state: false,
@@ -64,6 +66,9 @@ const calculateSlice = createSlice({
     },
     setCompleteMemberCount: (state, action: PayloadAction<number>) => {
       state.complete.memberCount = action.payload;
+    },
+    setCalculateOwner: (state, action: PayloadAction<string>) => {
+      state.calculateOwner = action.payload;
     },
     // setInitialcalculateList: (state, action: PayloadAction<calculateListState[]>) => action.payload,
     // setBookmark: (state, action: PayloadAction<any>) => {

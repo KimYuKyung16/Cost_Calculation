@@ -4,14 +4,12 @@ interface userInfoState {
   userID: string;
   nickname: string;
   profile: string;
-  file: string;
 }
 
 const initialState: userInfoState = {
   userID: '',
   nickname: '',
   profile: '',
-  file: ''
 }
 
 /* createSlice: 리듀서 함수의 대상인 초기 상태와 슬라이스 이름을 받아 
@@ -29,10 +27,7 @@ const userInfoSlice = createSlice({
     },
     setProfile(state, action: PayloadAction<string>) {
       state.profile = action.payload;
-    },
-    setFile(state, action: PayloadAction<string>) {
-      state.file = action.payload;
-    },
+    }
   }
 })
 

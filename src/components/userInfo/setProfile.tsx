@@ -10,19 +10,21 @@ function Profile() {
   const dispatch = useAppDispatch();
   const userInfo = useAppSelector((state) => state.userInfo);
   const [nickname, setNickname] = useState(userInfo.nickname);
+  const [preview, setPreview] = useState('');
+  const [file, setFile] = useState(''); 
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
   };
   const profile_upload = (e: any) => {
     const upload_file = e.target.files[0];
-    dispatch(userInfoActions.setFile(upload_file));
-    dispatch(userInfoActions.setProfile(URL.createObjectURL(upload_file)));
+    setFile(upload_file);
+    setPreview(URL.createObjectURL(upload_file));
   };
   const profile_save = async () => {
     const fd = new FormData();
     fd.append("nickname", nickname);
-    fd.append("uploadImage", userInfo.file);
+    fd.append("uploadImage", file);
     const profile = await saveProfile(fd);
     if (profile.status === 200) {
       dispatch(userInfoActions.setProfile(profile.data.url));
@@ -34,7 +36,7 @@ function Profile() {
     <Container>
       <h1>프로필 설정</h1>
       <label htmlFor="profile">
-        <Exist_Profile alt="profile" src={userInfo.profile} />
+        <Exist_Profile alt="profile" src={preview ? preview : userInfo.profile} />
         <input
           id="profile"
           type="file"

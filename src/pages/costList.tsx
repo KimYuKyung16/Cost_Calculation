@@ -16,7 +16,7 @@ function CostList(props: { num: string | undefined }) {
   useEffect(() => {
     return () => {
       dispatch(modalStateActions.setState(false));
-      dispatch(modalStateActions.setContent(""));
+      dispatch(modalStateActions.setIndex(null));
     };
   }, []);
 

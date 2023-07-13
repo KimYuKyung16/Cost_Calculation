@@ -24,11 +24,14 @@ function CostList() {
   const costListDeleteState = useAppSelector(
     (state) => state.costListDeleteState
   ); // 삭제 버튼 상태
+  const userInfo = useAppSelector((state) => state.userInfo);
   const [loadingVisible, setloadingVisible] = useState<boolean>(true); // 로딩화면 가시성 여부
   const [costList, setCostList] = useState<costInterface[]>([]); // 지출 리스트
   const [totalPageCount, setTotalPageCount] = useState(); // 총 지출 페이지 개수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [changePage, setChangePage] = useState(1); // 페이지 변화 여부
+
+  const [costNum, setCostNum] = useState<number>();
 
   /* 지출 리스트 출력 */
   const costListPrint = async () => {
@@ -42,16 +45,24 @@ function CostList() {
     setTotalPageCount(list.data.totalPageCount); // 전체 페이지
     setCostList((state) => [...state, ...list.data.list]); // 정산 리스트
   };
+  // dispatch(modalStateActions.setIndex(0));
   /* 지출 상세 내용까지 보여주기 */
-  const costContent = async (content: string, index: number) => {
+  const costContent = async (costInfo: {num: number, content: string, title: string, cost: string, id: string, payer: string}, index: number) => {
+    console.log(costInfo)
+ 
     if (modalState.state) dispatch(modalStateActions.setState(true));
     else {
+      setCostNum(costInfo.num);
       dispatch(modalStateActions.setState(true));
-      dispatch(modalStateActions.setContent(content));
+      dispatch(modalStateActions.setContent(costInfo.content));
       dispatch(modalStateActions.setIndex(index));
+      dispatch(modalStateActions.setTitle(costInfo.title));
+      dispatch(modalStateActions.setCost(costInfo.cost));
+      dispatch(modalStateActions.setUserID(costInfo.id));
+      dispatch(modalStateActions.setPayer(costInfo.payer));
     }
   };
-    /* 지출 내역 삭제 */
+  /* 지출 내역 삭제 */
   const onClickDelete = async (num: number, index: number) => {
     const list = await deleteCost(num);
     if (list.status === 200) {
@@ -72,7 +83,7 @@ function CostList() {
     } else {
       setloadingVisible(true);
     }
-    // isIntersecting: 교차 여부 결과값(true or false)
+    // isIntersecting: 교차 여부 결과값(true or false)cost
     if (entry.isIntersecting && totalPageCount !== currentPage) {
       setCurrentPage((currentPage) => currentPage + 1); // 페이지 넘기기
     }
@@ -103,6 +114,11 @@ function CostList() {
     setChangePage((value) => value + 1); // 페이지가 바뀜을 알려주는 변수 하나 필요
   }, [cost.id]);
 
+
+
+  console.log(costList);
+  console.log(modalState);
+
   return (
     <CostListStyle.Container>
       <CostListStyle.Modal state={modalState.state}>
@@ -112,13 +128,18 @@ function CostList() {
           }}
           src="/image/close_icon.svg"
         />
-        <button
-          onClick={() => {
-            navigate(`cost/${modalState.index}`);
-          }}
-        >
-          수정
-        </button>
+        {costList.length > 0 && modalState && modalState.index !== null ? (
+          costList[modalState.index].id === userInfo.userID || costList[modalState.index].id[0] === '$'? (
+            <button
+              onClick={() => {
+                navigate(`cost/${costNum}`);
+              }}
+            >
+              수정
+            </button>
+          ) : null
+        ) : null}
+
         <h1>정산 내용</h1>
         <textarea value={modalState.content} readOnly />
       </CostListStyle.Modal>
@@ -136,7 +157,7 @@ function CostList() {
                   <tr key={index}>
                     <td
                       onClick={() => {
-                        costContent(x.content, index);
+                        costContent(x, index);
                       }}
                     >
                       {x.title}

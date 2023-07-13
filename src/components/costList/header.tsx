@@ -12,7 +12,7 @@ import {
 import { costActions } from "../../redux/modules/reducer/costReducer";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { calculateActions } from "../../redux/modules/reducer/calculateReducer";
-import { costListDeleteStateActions } from "../../redux/modules/reducer/barReducer";
+import { costListDeleteStateActions, modalStateActions } from "../../redux/modules/reducer/barReducer";
 import * as HeaderStyle from "../../styles/costList/headerStyle";
 import useDidMountEffect from "../../hooks/useDidMountEffect";
 
@@ -32,6 +32,7 @@ function Header() {
     dispatch(
       costActions.setcostPayer(e.target.options[e.target.selectedIndex].text)
     );
+    dispatch(modalStateActions.setIndex(null));
   };
   /* 정산 완료 버튼 클릭하는 경우 */
   const click_CompleteBtn = async () => {

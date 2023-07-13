@@ -19,6 +19,7 @@ import Calculate from "./pages/calculateDetail"; // 일정 상세 페이지
 import MoidfyCalculate from "./pages/moidfyCalculate"; // 일정 수정 페이지
 
 import AddCost from "./pages/addCost"; // 지출 추가 페이지
+import ModifyCost from "./pages/modifyCost"; // 지출 수정 페이지
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/calculate/:num/modify" element={<MoidfyCalculate />}></Route>
 
         <Route path="/calculate/:num/cost" element={<AddCost />}></Route>
+        <Route path="/calculate/:num/cost/:costNum" element={<ModifyCost />}></Route>
       </Routes>
     </>
   );

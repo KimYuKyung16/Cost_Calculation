@@ -40,9 +40,6 @@ function Header(props: { num: string | undefined }) {
     }
   };
 
-  console.log(calculateState);
-  console.log(userInfo);
-
   return (
     <HeaderStyle.Header_>
       <img

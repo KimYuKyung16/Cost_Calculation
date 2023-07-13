@@ -4,5 +4,6 @@ export interface costInterface {
   title: string;
   cost: string;
   payer: string;
+  id: string;
   content: string;
 }

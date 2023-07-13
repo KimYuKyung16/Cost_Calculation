@@ -14,6 +14,10 @@ interface IMmodalState {
   state: boolean;
   content: string;
   index: number | null;
+  userID: string;
+  title: string;
+  cost: string;
+  payer: string;
 }
 
 const initialState: IBarState = {
@@ -28,6 +32,10 @@ const initialState3: IMmodalState = {
   state: false, 
   content: '',
   index: null,
+  userID: '',
+  title: '',
+  cost: '',
+  payer: ''
 }; 
 
 const initialState4: {state: boolean} = {
@@ -57,8 +65,12 @@ const modalStateSlice = createSlice({
   initialState: initialState3, 
   reducers:{ // 리듀서 설정
     setState: (state, action: PayloadAction<boolean>) => { state.state = action.payload },
+    setIndex: (state, action: PayloadAction<number | null>) => { state.index = action.payload },
+    setTitle: (state, action: PayloadAction<string>) => { state.title = action.payload },
+    setCost: (state, action: PayloadAction<string>) => { state.cost = action.payload },
     setContent: (state, action: PayloadAction<string>) => { state.content = action.payload },
-    setIndex: (state, action: PayloadAction<number>) => { state.index = action.payload },
+    setUserID: (state, action: PayloadAction<string>) => { state.userID = action.payload },
+    setPayer: (state, action: PayloadAction<string>) => { state.payer = action.payload },
   }
 })
 

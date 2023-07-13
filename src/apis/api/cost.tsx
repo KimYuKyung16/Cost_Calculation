@@ -10,6 +10,16 @@ export const addCost = async (costInfo: {}) => {
   }
 };
 
+// 지출 수정하기
+export const modifyCost = async (costNum: number | undefined, costInfo: {}) => {
+  try {
+    const { data, status } = await defaultInstance.put(`/cost/${costNum}`, costInfo);
+    return { data, status };
+  } catch (e: any) {
+    return { message: e.response.data.message, status: e.response.status };
+  }
+};
+
 // 전체 지출 리스트 가져오기
 export const getCostList = async (costInfo: {}) => {
   try {

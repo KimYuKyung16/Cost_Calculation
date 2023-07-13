@@ -6,4 +6,6 @@ export interface costInterface {
   payer: string;
   id: string;
   content: string;
+  date: string;
+  time: string;
 }

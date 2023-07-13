@@ -34,16 +34,47 @@ scrollbar-width: none; /* 파이어폭스 */
 
 /* 친구 리스트 & 메시지 아이콘들 */
 export const Container__Icon = styled.div`
+display: flex;
+/* align-items: center; */
+justify-content: right;
 width: 100%;
-text-align: right;
+/* text-align: right; */
 padding: 20px 20px 0 0;
+/* background-color: #a63b3b; */
 
 & {
   color: #bac7fb;
-  font-size: 1.5rem;
+  font-size: 2rem;
 }
 
 & :nth-child(1) { padding-right: 10px; }
+
+& > div {
+  display: flex;
+  position: relative;
+  width: 35px;
+  height: 35px;
+
+  & :nth-child(1) {
+    position: absolute;
+  }
+
+  & > p {
+    display: flex;
+    justify-content: center;
+    background-color: #973d3d;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 100%;
+    font-size: 1.5rem;
+    color: white;
+    font-weight: bold;
+    padding: 0 6px;
+    width: 27px;
+    height: 27px;
+  }
+}
 
 @media screen and (max-width: 1023px) {
   display: none;

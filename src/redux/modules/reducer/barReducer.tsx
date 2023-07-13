@@ -10,7 +10,7 @@ interface IFriendVisibleState {
   visible: string; // 바 상태값
 }
 
-interface IMmodalState {
+interface IModalState {
   state: boolean;
   content: string;
   index: number | null;
@@ -18,6 +18,8 @@ interface IMmodalState {
   title: string;
   cost: string;
   payer: string;
+  date: string;
+  time: string;
 }
 
 const initialState: IBarState = {
@@ -28,14 +30,16 @@ const initialState2: IFriendVisibleState = {
   visible: 'block',
 }; 
 
-const initialState3: IMmodalState = {
+const initialState3: IModalState = {
   state: false, 
   content: '',
   index: null,
   userID: '',
   title: '',
   cost: '',
-  payer: ''
+  payer: '',
+  date: '',
+  time: '',
 }; 
 
 const initialState4: {state: boolean} = {
@@ -71,6 +75,8 @@ const modalStateSlice = createSlice({
     setContent: (state, action: PayloadAction<string>) => { state.content = action.payload },
     setUserID: (state, action: PayloadAction<string>) => { state.userID = action.payload },
     setPayer: (state, action: PayloadAction<string>) => { state.payer = action.payload },
+    setDate: (state, action: PayloadAction<string>) => { state.date = action.payload },
+    setTime: (state, action: PayloadAction<string>) => { state.time = action.payload },
   }
 })
 

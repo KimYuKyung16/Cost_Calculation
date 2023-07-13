@@ -73,7 +73,7 @@ height: 100%;
 & > p { // 안내 문구
   position: absolute;
   bottom: 0;
-  right: 23%;
+  right: 50%;
   font-size: 1.2rem;
   color: #ffff13;
 }
@@ -84,6 +84,7 @@ height: 100%;
   & > p { // 안내 문구
     font-size: 1rem;
   }
+
 } 
 `
 
@@ -92,7 +93,7 @@ export const Contents_Cost = styled.div`
 display: flex;
 flex-direction: row;
 align-items: center;
-width: 80%;
+width: 60%;
 height: 50px;
 border-radius: 4px;
 overflow: hidden;
@@ -204,5 +205,21 @@ margin-bottom: 20px;
     max-width: 500px;
     padding: 0;
   }
+} 
+`
+
+
+export const Test = styled.button`
+background-color: white;
+font-size: 1.5rem;
+width: 100%;
+white-space: nowrap;
+height: 50px;
+padding: 0 10px;
+border-radius: 5px;
+
+@media screen and (max-width: 768px) {
+  height: 30px;
+  font-size: 1.2rem;
 } 
 `

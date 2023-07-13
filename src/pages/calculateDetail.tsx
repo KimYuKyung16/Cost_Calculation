@@ -20,6 +20,8 @@ function Appointment() {
   const blackRef = useRef<any>(null);
   const barState = useAppSelector((state) => state.barState); // 멤버리스트 visible
 
+  console.log("흠??")
+
   /* 정산 정보 가져오기 */
   const getTitle = async () => {
     const calculate = await getCalculateTitle(num);

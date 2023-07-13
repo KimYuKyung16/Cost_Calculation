@@ -47,9 +47,21 @@ function CostList() {
   };
   // dispatch(modalStateActions.setIndex(0));
   /* 지출 상세 내용까지 보여주기 */
-  const costContent = async (costInfo: {num: number, content: string, title: string, cost: string, id: string, payer: string}, index: number) => {
-    console.log(costInfo)
- 
+  const costContent = async (
+    costInfo: {
+      num: number;
+      content: string;
+      title: string;
+      cost: string;
+      id: string;
+      payer: string;
+      date: string;
+      time: string;
+    },
+    index: number
+  ) => {
+    console.log(costInfo);
+
     if (modalState.state) dispatch(modalStateActions.setState(true));
     else {
       setCostNum(costInfo.num);
@@ -60,6 +72,8 @@ function CostList() {
       dispatch(modalStateActions.setCost(costInfo.cost));
       dispatch(modalStateActions.setUserID(costInfo.id));
       dispatch(modalStateActions.setPayer(costInfo.payer));
+      dispatch(modalStateActions.setDate(costInfo.date));
+      dispatch(modalStateActions.setTime(costInfo.time));
     }
   };
   /* 지출 내역 삭제 */
@@ -114,11 +128,6 @@ function CostList() {
     setChangePage((value) => value + 1); // 페이지가 바뀜을 알려주는 변수 하나 필요
   }, [cost.id]);
 
-
-
-  console.log(costList);
-  console.log(modalState);
-
   return (
     <CostListStyle.Container>
       <CostListStyle.Modal state={modalState.state}>
@@ -129,7 +138,8 @@ function CostList() {
           src="/image/close_icon.svg"
         />
         {costList.length > 0 && modalState && modalState.index !== null ? (
-          costList[modalState.index].id === userInfo.userID || costList[modalState.index].id[0] === '$'? (
+          costList[modalState.index].id === userInfo.userID ||
+          costList[modalState.index].id[0] === "$" ? (
             <button
               onClick={() => {
                 navigate(`cost/${costNum}`);
@@ -151,32 +161,51 @@ function CostList() {
       ) : (
         <>
           <CostListStyle.Container__List state={costListDeleteState.state}>
+            <colgroup>
+              <col/>
+              <col/>
+              <col/>
+              <col/>
+              <col/>
+            </colgroup>
+            
             <tbody>
+         
               {costList.map((x, index) => {
+                const [year, month, day] = x.date.split(".");
+                let dayState =
+                  index >= 1 && costList[index - 1].date.split(".")[2] === day;
                 return (
-                  <tr key={index}>
-                    <td
-                      onClick={() => {
-                        costContent(x, index);
-                      }}
-                    >
-                      {x.title}
-                    </td>
-                    <td>{x.payer}</td>
-                    <td>{x.cost.toLocaleString()} 원</td>
-                    <td
-                      onClick={() => {
-                        onClickDelete(x.num, index);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </td>
-                  </tr>
+                  <>
+                    {!dayState ? (
+                      <CostListStyle.Container__List_Date>
+                        <td colSpan={4}><p>{`${year}년 ${month}월 ${day}일`}</p></td>
+                      </CostListStyle.Container__List_Date>
+                    ) : null}
+                    <tr key={index}>
+                      <td
+                        onClick={() => {
+                          costContent(x, index);
+                        }}
+                      >
+                        {x.title}
+                      </td>
+                      <td>{x.time}</td>
+                      <td>{x.payer}</td>
+                      <td>{x.cost.toLocaleString()} 원</td>
+                      <td
+                        onClick={() => {
+                          onClickDelete(x.num, index);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} />
+                      </td>
+                    </tr>
+                  </>
                 );
               })}
             </tbody>
           </CostListStyle.Container__List>
-          <></>
           <CostListStyle.Loading ref={loadRef} visible={loadingVisible}>
             <img src="/image/loading_icon.gif" />
           </CostListStyle.Loading>

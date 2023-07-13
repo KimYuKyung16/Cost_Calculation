@@ -116,12 +116,44 @@ interface IDeleteState {
   state: boolean;
 }
 
+export const Container__List_Date = styled.tr`
+  color: #322c58;
+  width: 100% !important;
+  text-align: center;
+  font-weight: bold !important;
+
+
+  & > td { // 정산 이름
+    border-radius: 0 !important;
+    background-color: #e4e4e4 !important;
+    border: none !important;
+    border-bottom: 4px solid #322c58 !important;
+    font-size: 1.5rem;
+    text-align: center !important;
+  }
+`
+
 export const Container__List = styled.table`
 table-layout: fixed;
 border-collapse: separate;
 border-spacing: 5px;
 width: 100%;
 font-size: 1.3em;
+
+& > colgroup {
+  & > col:nth-child(1) {
+    width: 50%;
+  }
+  & > col:nth-child(2) {
+    width: 10%;
+  }
+  & > col:nth-child(3) {
+    width: 20%;
+  }
+  & > col:nth-child(4) {
+    width: 20%;
+  }
+}
 
 & > tbody > tr {
   width: 100%;
@@ -142,7 +174,17 @@ font-size: 1.3em;
     text-overflow: ellipsis; // 말줄임
   }
 
-  & > td:nth-child(2) { // 정산자
+  & > td:nth-child(2) { // 시간
+    text-align: center;
+    width: 100px;
+    background-color: #9cb0ff;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  & > td:nth-child(3) { // 정산자
     text-align: center;
     width: 100px;
     background-color: #c2c2c2;
@@ -152,7 +194,7 @@ font-size: 1.3em;
     white-space: nowrap;
   }
 
-  & > td:nth-child(3) { // 정산 가격
+  & > td:nth-child(4) { // 정산 가격
     text-align: right;
     width: 100px;
     background-color: #322c58;
@@ -162,7 +204,7 @@ font-size: 1.3em;
     white-space: nowrap;
   }
 
-  & > td:nth-child(4) { // 삭제 버튼
+  & > td:nth-child(5) { // 삭제 버튼
     width: 10px;
     color: #ba8174;
     font-size: 1.5rem;
@@ -172,6 +214,24 @@ font-size: 1.3em;
 }
 
 @media screen and (max-width: 768px) { 
+  & > colgroup {
+    & > col:nth-child(1) {
+      width: 50%;
+    }
+    & > col:nth-child(2) {
+      width: 10%;
+    }
+    & > col:nth-child(3) {
+      width: 20%;
+    }
+    & > col:nth-child(4) {
+      width: 20%;
+    }
+    & > col:nth-child(5) {
+      width: 10px;
+    }
+  }
+
   & > tbody > tr {
   width: 100%;
   font-size: 1.1rem;

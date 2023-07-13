@@ -10,6 +10,15 @@ export const getMessageListApi = async (current_page: number) => {
   }
 }
 
+export const getNonReadMessageCountApi = async () => { 
+  try {
+    const { data, status } = await defaultInstance.get(`/message/nonRead`);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
 // 메시지 읽음 표시 처리하기
 export const changeMessageReadApi = async (num: {}) => { 
   try {

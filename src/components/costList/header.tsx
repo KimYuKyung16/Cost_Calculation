@@ -91,6 +91,8 @@ function Header() {
     };
   }, []);
 
+  console.log(memberList)
+
   return (
     <HeaderStyle.Header_>
       <h2>🤑 지출 내역</h2>

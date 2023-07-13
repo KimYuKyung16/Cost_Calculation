@@ -2,14 +2,14 @@
  * 지출 등록 - 정보 입력 부분
  *
  */
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
 import { addCost } from "../../apis/api/cost"; // API
-
 import { useAppSelector } from "../../redux/hooks";
-
 import * as AddCostStyle from "../../styles/addCost/addCostStyle";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import { ko } from "date-fns/esm/locale";
 
 function AddCost() {
   const navigate = useNavigate();
@@ -24,6 +24,8 @@ function AddCost() {
     id: memberList[0].id,
     cost: "",
     content: "",
+    date: "",
+    time: "",
   });
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +70,9 @@ function AddCost() {
       costValues.title &&
       costValues.payer &&
       costValues.cost &&
-      costValues.content
+      costValues.content &&
+      costValues.date &&
+      costValues.time
     ) {
       const state = await addCost(costValues);
       if (state.status === 200) {
@@ -83,6 +87,32 @@ function AddCost() {
       alert("작성되지 않은 부분이 있습니다.");
     }
   };
+
+  const [date, setDate] = useState(new Date());
+
+  const test = (date: any) => {
+    setDate(date);
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+
+    const hour = ("0" + date.getHours()).slice(-2);
+    const minute = ("0" + date.getMinutes()).slice(-2);
+
+    setCostValues((value) => ({
+      ...value,
+      date: `${year}.${month}.${day}`,
+      time: `${hour}:${minute}`,
+    }));
+  };
+
+  const CustomDatePicker = forwardRef<any, any>(
+    ({ value, onClick }, ref) => (
+      <AddCostStyle.Test onClick={onClick} ref={ref}>
+        {value}
+      </AddCostStyle.Test>
+    )
+  );
 
   return (
     <AddCostStyle.Container>
@@ -111,9 +141,22 @@ function AddCost() {
               );
             })}
           </AddCostStyle.Contents_Payer>
+            <DatePicker
+              onChange={(date) => test(date)}
+              dateFormat="yyyy.MM.dd HH:mm aa"
+              selected={date}
+              placeholderText="날짜 선택"
+              showTimeInput // 시간 나오게 하기
+              timeFormat="HH:mm" //시간 포맷
+              timeInputLabel="Time:"
+              locale={ko}
+              customInput={<CustomDatePicker />}
+            ></DatePicker>
           <p>최대 10,000,000원까지 입력이 가능합니다.</p>
         </AddCostStyle.Contents_Cost_Payer>
       </AddCostStyle.Container__Contents>
+
+      <div></div>
 
       <AddCostStyle.Container__Content>
         <textarea placeholder="내용을 입력하세요" onChange={onChangeContent} />

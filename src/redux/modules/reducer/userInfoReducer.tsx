@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface userInfoState {
+  userID: string;
   nickname: string;
   profile: string;
   file: string;
 }
 
 const initialState: userInfoState = {
+  userID: '',
   nickname: '',
   profile: '',
   file: ''
@@ -19,15 +21,18 @@ const userInfoSlice = createSlice({
   name: 'userInfo', // 슬라이스 이름
   initialState, // 초기 상태
   reducers:{ // 리듀서 설정
-    setNickname(state, action: PayloadAction<string>){ // 액션 생성
+    setUserID(state, action: PayloadAction<string>) { 
+      state.userID = action.payload;
+    },
+    setNickname(state, action: PayloadAction<string>){
       state.nickname = action.payload;
     },
-    setProfile(state, action: PayloadAction<string>) { // 액션 생성
+    setProfile(state, action: PayloadAction<string>) {
       state.profile = action.payload;
     },
-    setFile(state, action: PayloadAction<string>) { // 액션 생성
+    setFile(state, action: PayloadAction<string>) {
       state.file = action.payload;
-    }
+    },
   }
 })
 

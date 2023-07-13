@@ -47,16 +47,16 @@ export const getSearchFriendList = async (searchVal: {}) => { // 검색된 친�
 
 export const getFriendList = async () => { // 친구 리스트 가져오기
   try {
-    const { data, status } = await defaultInstance.get(`/friendList`);
+    const { data, status } = await defaultInstance.get(`/friend/list`);
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}
   }
 }
 
-export const deleteFriend = async (userID: {}) => { // 친구 삭제하기
+export const deleteFriend = async (userID: string) => { // 친구 삭제하기
   try {
-    const { data, status } = await defaultInstance.delete(`/friendList`, userID);
+    const { data, status } = await defaultInstance.delete(`/friend/list/${userID}`);
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}

@@ -21,7 +21,7 @@ justify-content: center;
 padding: 10% 0;
 font-size: 1.5rem;
 
-& > p {
+& td {
   text-align: center;
   color: #5b5b5b;
 }
@@ -208,7 +208,7 @@ interface Loading_Props {
 }
 
 /* 로딩 부분 */
-export const Container__Loading = styled.tfoot`
+export const Container__Loading = styled.div`
 display: ${(props: Loading_Props) => props.visible ? 'block' : 'none' };
 height: 100%;
 width: 100%;

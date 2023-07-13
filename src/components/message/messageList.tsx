@@ -113,7 +113,7 @@ function MessageList() {
         <h1>쪽지</h1>
         <p onClick={deleteTotalMessage}>전체 삭제</p>
       </MessageListStyle.Container__Header>
-      {list.length ? (
+      {list && list.length ? (
         <MessageListStyle.Container__MessageList>
           {list.map((x) => {
             return (

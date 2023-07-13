@@ -147,11 +147,13 @@ function CalculateList() {
       <CalculateListStyle.Container__List>
         {!calculateList.length ? (
           <CalculateListStyle.Container__calculateList__none>
-            <p>
-              일정이 없습니다.
-              <br />
-              새로운 일정을 추가해보세요.
-            </p>
+            <tr>
+              <td>
+                일정이 없습니다.
+                <br />
+                새로운 일정을 추가해보세요.
+              </td>
+            </tr>
           </CalculateListStyle.Container__calculateList__none>
         ) : (
           <>

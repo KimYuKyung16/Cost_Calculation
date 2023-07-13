@@ -72,19 +72,19 @@ function CalculateList() {
     <>
       {list.length >= 1 ? (
         <Container>
-          {list.map((x: any, index: any) => {
+          {list.map((calculate: any, index: any) => {
             return (
-              <li>
+              <li key={calculate.num}>
                 <p
                   onClick={() => {
-                    navigate(`/calculate/${x.num}`);
+                    navigate(`/calculate/${calculate.num}`);
                   }}
                 >
-                  {x.calculate_name}
+                  {calculate.calculate_name}
                 </p>
-                <p>{x.date}</p>
+                <p>{calculate.date}</p>
                 <p>
-                  <Date>{x.state === "true" ? "정산중" : "정산완료"}</Date>
+                  <Date>{calculate.state === "true" ? "정산중" : "정산완료"}</Date>
                 </p>
               </li>
             );

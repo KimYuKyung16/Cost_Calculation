@@ -6,7 +6,7 @@ import storage from 'redux-persist/lib/storage/session'; //sessionstorage
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 
-import { calculateReducer } from "../modules/reducer/calculateReducer";
+import { calculateReducer, modifyCalculateReducer } from "../modules/reducer/calculateReducer";
 import userInfoReducer from "../modules/reducer/userInfoReducer"
 import { userListReducer, userSearchReducer, waitingListReducer, receivingListReducer } from "../modules/reducer/userListReducer"
 import { memberListReducer, calculateNameReducer } from "../modules/reducer/memberListReducer"
@@ -37,7 +37,8 @@ const reducers = combineReducers({ // persist-redux 추가
   modalState: modalStateReducer,
   costListDeleteState: costListDeleteStateReducer,
 
-  calculate: calculateReducer
+  calculate: calculateReducer,
+  modifyCalculate: modifyCalculateReducer,
 });
 
 const persistConfig = { // persist-redux 추가

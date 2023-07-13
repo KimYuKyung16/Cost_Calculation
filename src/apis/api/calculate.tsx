@@ -14,7 +14,6 @@ export const getCalculateTypeCount = async (calculateTypeCountInfo: {}) => {
 export const getCalculateList = async (calculateListInfo: {}) => { 
   try {
     const { data, status } = await defaultInstance.get(`/calculateList`, calculateListInfo);
-    console.log(data)
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}
@@ -25,6 +24,16 @@ export const getCalculateList = async (calculateListInfo: {}) => {
 export const addCalculate = async (calculateInfo: {}) => { 
   try {
     const { data, status } = await defaultInstance.post(`/calculate`, calculateInfo);
+    return { data, status }
+  } catch (e: any) {
+    return {message: e.response.data.message, status: e.response.status}
+  }
+}
+
+// 정산 추가하기
+export const modifyCalculate = async (num:string | undefined, calculateInfo: {}) => { 
+  try {
+    const { data, status } = await defaultInstance.put(`/calculate/${num}`, calculateInfo);
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}

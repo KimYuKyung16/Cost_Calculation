@@ -40,6 +40,7 @@ function Login() {
       // 로그인을 했을 때 user의 닉네임과 프로필 정보를 redux에 저장
       dispatch(userInfoActions.setNickname(userInfo.data.nickname));
       dispatch(userInfoActions.setProfile(userInfo.data.profile));
+      dispatch(userInfoActions.setUserID(userInfo.data.userID));
       navigate("/main"); // 메인페이지로 이동
     } else {
       if (userInfo.status === 406) {

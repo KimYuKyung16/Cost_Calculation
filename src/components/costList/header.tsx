@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { calculateActions } from "../../redux/modules/reducer/calculateReducer";
 import { costListDeleteStateActions } from "../../redux/modules/reducer/barReducer";
 import * as HeaderStyle from "../../styles/costList/headerStyle";
+import useDidMountEffect from "../../hooks/useDidMountEffect";
 
 function Header() {
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ function Header() {
   };
   /* 정산 상태 바꾸기 */
   const changeState = async (state: string) => {
+    if (!calculateState.calculateListNum) return;
     await changeCalculateComplete(calculateState.calculateListNum, state);
   };
   /* 비용 삭제 표시 여부 */

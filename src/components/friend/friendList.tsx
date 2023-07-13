@@ -35,7 +35,7 @@ function FriendList() {
   };
   /* 친구삭제 버튼을 클릭했을 때 실행되는 함수 */
   const click_deleteFriend = async (index: number, id: string) => {
-    const state = await deleteFriend({ params: { id } });
+    const state = await deleteFriend(id);
     if (state.status === 200) {
       dispatch(friendListActions.deleteFriend(index));
       // FriendListUp();

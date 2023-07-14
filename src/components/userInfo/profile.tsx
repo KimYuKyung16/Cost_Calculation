@@ -4,11 +4,31 @@
  */
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
+import { logout } from "../../apis/api/user";
+import Swal from 'sweetalert2';
 
 function UserProfile() {
   const navigate = useNavigate();
   const userInfo = useAppSelector((state) => state.userInfo);
+  const onClickLogoutBtn = async () => {
+    const state = await logout();
+    if (state.status === 200) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: '로그아웃 되었습니다',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      navigate("/login");
+    } else {
+      Swal.fire(
+        '',
+        '로그아웃에 실패했습니다'
+      )
+    }
+  }
 
   return (
     <Container>
@@ -25,6 +45,11 @@ function UserProfile() {
           }}
           type="button"
           value="프로필 수정"
+        />
+        <input
+          onClick={onClickLogoutBtn}
+          type="button"
+          value="로그아웃"
         />
       </Container__Info>
     </Container>

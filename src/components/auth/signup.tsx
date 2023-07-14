@@ -14,6 +14,7 @@ import {
   Component_Input,
   Component_btn,
 } from "../../styles/common/Login_SignUp_Component";
+import Swal from "sweetalert2";
 
 function Signup() {
   const navigate = useNavigate();
@@ -45,13 +46,13 @@ function Signup() {
     ) {
       const info = await register(signUpVals);
       if (info.status === 200) {
-        alert("회원가입에 성공하셨습니다.");
-        navigate("/"); // 메인페이지로 이동
+        Swal.fire("회원가입 성공", "회원가입에 성공하셨습니다", "success");
+        navigate("/login");
       } else if (info.status === 406) {
-        alert(info.message);
+        Swal.fire("회원가입 오류", info.message, "error");
       }
     } else {
-      alert("입력하지 않은 값이 있습니다.");
+      Swal.fire("", "입력하지 않은 값이 있습니다");
     }
   };
 
@@ -60,16 +61,19 @@ function Signup() {
       <Main__Logo src="image/logo_name.png" />
       <Main__Components>
         <Etc_components>
+          <p>2 ~ 6자리로 한글, 영문자, 숫자만 가능</p>
           <Component_Input
             onChange={onChangeNickname}
             type="text"
             placeholder="닉네임을 입력하세요"
           />
+          <p>8 ~ 20자리로 영문자, 숫자만 가능</p>
           <Component_Input
             onChange={onChangeUserID}
             type="text"
             placeholder="아이디를 입력하세요"
           />
+          <p>10 ~ 16자리로 영문자, 숫자, 특수문자 모두 포함 필수</p>
           <Component_Input
             onChange={onChangeUserPW}
             type="password"

@@ -5,12 +5,9 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { login, authentication } from "../../apis/api/user";
-
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { userInfoActions } from "../../redux/modules/reducer/userInfoReducer";
-
 import styled from "styled-components";
 import {
   Main,
@@ -20,6 +17,7 @@ import {
   Component_Input,
   Component_btn,
 } from "../../styles/common/Login_SignUp_Component";
+import Swal from 'sweetalert2';
 
 function Login() {
   const navigate = useNavigate();
@@ -36,6 +34,13 @@ function Login() {
   /* 로그인 버튼을 클릭했을 경우 */
   const click_LoginBtn = async () => {
     const userInfo = await login(loginVals);
+    if (loginVals.userID.length === 0 || loginVals.userPW.length === 0) {
+      Swal.fire(
+        '',
+        '입력하지 않은 값이 있습니다'
+      )
+      return;
+    }
     if (userInfo.status === 200) {
       // 로그인을 했을 때 user의 닉네임과 프로필 정보를 redux에 저장
       dispatch(userInfoActions.setNickname(userInfo.data.nickname));
@@ -44,7 +49,11 @@ function Login() {
       navigate("/main"); // 메인페이지로 이동
     } else {
       if (userInfo.status === 406) {
-        alert(userInfo.message);
+        Swal.fire(
+          '로그인 오류',
+          userInfo.message,
+          'error',
+        )
       }
     }
   };

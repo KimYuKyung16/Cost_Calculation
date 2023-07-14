@@ -40,6 +40,12 @@ flex-direction: column;
 width: 60%;
 min-width: 250px;
 
+& > p {
+  color: #ffff71;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
 @media screen and (max-width: 1023px) { 
   width: 70%;
 }
@@ -61,6 +67,7 @@ width: 100%;
 background-color: #74b99a;
 border: none;
 padding: 10px;
+margin-top: 10px;
 color: #3b3b3b;
 font-weight: bold;
 border-radius: 10px;

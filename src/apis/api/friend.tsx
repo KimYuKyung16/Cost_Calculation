@@ -38,7 +38,7 @@ export const acceptFriend = async (userInfo: {}) => { // 친구 신청 수락하
 
 export const getSearchFriendList = async (searchVal: {}) => { // 검색된 친구 리스트 가져오기
   try {
-    const { data, status } = await defaultInstance.get(`/searchFriendList`, searchVal);
+    const { data, status } = await defaultInstance.get(`/friend/list/search`, searchVal);
     return { data, status }
   } catch (e: any) {
     return {message: e.response.data.message, status: e.response.status}

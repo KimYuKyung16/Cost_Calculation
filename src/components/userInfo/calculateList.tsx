@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getMyCalculateList } from "../../apis/api/calculate";
+import Swal from "sweetalert2";
 
 function CalculateList() {
   const navigate = useNavigate();
@@ -13,9 +14,10 @@ function CalculateList() {
   const [totalPages, setTotalPages] = useState<number>(0); // 총 페이지 개수
   const [currentPage, setCurrentPage] = useState<number>(1); // 현재 페이지
   const [startNum, setStartNum] = useState<number>(0); // 패이지 시작 번호
-  const [btnVisible, setBtnVisible] = useState<{ left: boolean; right: boolean }>(
-    { left: false, right: true }
-  ); // 좌우 버튼 가시성 여부
+  const [btnVisible, setBtnVisible] = useState<{
+    left: boolean;
+    right: boolean;
+  }>({ left: false, right: true }); // 좌우 버튼 가시성 여부
 
   /* 내가 시작한 정산 리스트 가져오기 */
   const get_MyCalculateList = async () => {
@@ -23,6 +25,16 @@ function CalculateList() {
     if (list.status === 200) {
       setTotalPages(list.data.total_pages);
       setList(list.data.list);
+    }
+    if (list.status === 600) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: list.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/login");
     }
   };
   /* 페이지 버튼 생성하기 */
@@ -84,7 +96,9 @@ function CalculateList() {
                 </p>
                 <p>{calculate.date}</p>
                 <p>
-                  <Date>{calculate.state === "true" ? "정산중" : "정산완료"}</Date>
+                  <Date>
+                    {calculate.state === "true" ? "정산중" : "정산완료"}
+                  </Date>
                 </p>
               </li>
             );

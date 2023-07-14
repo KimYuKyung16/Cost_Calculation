@@ -18,10 +18,7 @@ function ReceivingFriendList() {
     const receivingList = await getReceivingList();
     if (receivingList.status === 200) {
       setReceivingList(receivingList.data);
-    } else {
-      console.log(receivingList.message);
-      console.log(receivingList.status);
-    }
+    } 
   };
   /* 친구 신청 수락하기 */
   const accept = async (userInfo: waitingListState) => {
@@ -35,10 +32,7 @@ function ReceivingFriendList() {
           profile: userInfo.profile,
         })
       );
-    } else {
-      console.log(receivingList.message);
-      console.log(receivingList.status);
-    }
+    } 
   };
 
   useEffect(() => {

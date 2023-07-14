@@ -12,6 +12,7 @@ import {
 } from "../../../redux/modules/reducer/calculateListReducer";
 import { ICalculateListState } from "../../../interfaces/calculateInterface";
 import * as CalculateListStyle from "../../../styles/main/calculateListStyle";
+import Swal from 'sweetalert2';
 
 function CalculateList() {
   const navigate = useNavigate();
@@ -39,6 +40,16 @@ function CalculateList() {
         current_page: currentPage,
       },
     });
+    if (list.status === 600) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: list.message,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      navigate('/login')
+    }
     setTotalPageCount(list.data.totalPageCount); // 총 페이지 개수 설정
     setCalculateList((state) => [...state, ...list.data.list]); // 일정 리스트 설정
     dispatch(

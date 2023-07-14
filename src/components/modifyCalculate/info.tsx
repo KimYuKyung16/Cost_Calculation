@@ -15,8 +15,11 @@ import {
   calculateActions,
 } from "../../redux/modules/reducer/calculateReducer";
 import * as InfoStyle from "../../styles/addCalculate/infoStyle";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function CalculateInfo() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const nicknameRef: any = useRef();
   const friendList = useAppSelector((state) => state.userList); // 친구 리스트
@@ -44,7 +47,18 @@ function CalculateInfo() {
     if (list.status === 200) {
       dispatch(userListActions.setInitialUserList(list.data));
     }
-  };
+    if (list.status === 600) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: list.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/login");
+    }
+  }
+  
   /* 친구 중에서 멤버 추가 */
   const addFriendMember = (id: string, nickname: string, profile: string) => {
     let nAddMemberList = [...modifyCalculateState.addMemberList];

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userInfoActions } from "../../redux/modules/reducer/userInfoReducer";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { saveProfile } from "../../apis/api/user";
+import { authentication, saveProfile } from "../../apis/api/user";
 import styled from "styled-components"; 
+import Swal from 'sweetalert2';
 
 function Profile() {
   const navigate = useNavigate(); // 페이지 이동을 위해 필요
@@ -12,6 +13,20 @@ function Profile() {
   const [nickname, setNickname] = useState(userInfo.nickname);
   const [preview, setPreview] = useState('');
   const [file, setFile] = useState(''); 
+
+  const user = async () => {
+    const state = await authentication();
+    if (state.status === 500) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: state.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/login");
+    }
+  };
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
@@ -27,10 +42,23 @@ function Profile() {
     fd.append("uploadImage", file);
     const profile = await saveProfile(fd);
     if (profile.status === 200) {
-      dispatch(userInfoActions.setProfile(profile.data.url));
+      if (profile.data.url) {
+        dispatch(userInfoActions.setProfile(profile.data.url));
+      }
       navigate("/main");
     }
+    if (profile.status === 500) {
+      Swal.fire(
+        '',
+        '이미지 파일이 너무 큽니다',
+        'error',
+      )
+    }
   };
+
+  useEffect(() => {
+    user();
+  }, []);
 
   return (
     <Container>

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserList, addFriend } from "../../apis/api/friend";
 import { userListState } from "../../interfaces/friendInterface";
 import * as UsersSearchStyle from "../../styles/friend/usersSearchStyle";
+import Swal from "sweetalert2";
 
 function UsersSearch() {
   const navigate = useNavigate();
@@ -23,11 +24,16 @@ function UsersSearch() {
     if (userList.status === 200) {
       setTotalUserList(userList.data);
     } else if (userList.status === 600) {
-      alert("로그아웃 되었습니다. 다시 로그인해주세요.");
-      navigate("/login");
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: userList.message,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      navigate('/login')
     } else {
       console.log(userList.message);
-      console.log(userList.status);
     }
   };
   /* 친구 추가하기 */
@@ -37,9 +43,6 @@ function UsersSearch() {
     inputRef.current.value = "";
     if (friendAddition.status === 200) {
       alert(receiver + "님에게 친구 신청을 보냈습니다.");
-    } else if (friendAddition.status === 600) {
-      alert("로그아웃 되었습니다. 다시 로그인해주세요.");
-      navigate("/login");
     } else {
       console.log(friendAddition.message);
       console.log(friendAddition.status);

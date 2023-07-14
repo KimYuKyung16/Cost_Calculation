@@ -10,6 +10,7 @@ import * as AddCostStyle from "../../styles/addCost/addCostStyle";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
+import Swal from "sweetalert2";
 
 function AddCost() {
   const navigate = useNavigate();
@@ -78,7 +79,13 @@ function AddCost() {
       if (state.status === 200) {
         navigate("/calculate/" + params.num);
       } else if (state.status === 600) {
-        alert("로그인 상태가 아닙니다. 다시 로그인해주세요.");
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: state.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate("/login");
       } else {
         alert("저장에 실패했습니다.");
@@ -106,13 +113,11 @@ function AddCost() {
     }));
   };
 
-  const CustomDatePicker = forwardRef<any, any>(
-    ({ value, onClick }, ref) => (
-      <AddCostStyle.Test onClick={onClick} ref={ref}>
-        {value}
-      </AddCostStyle.Test>
-    )
-  );
+  const CustomDatePicker = forwardRef<any, any>(({ value, onClick }, ref) => (
+    <AddCostStyle.Test onClick={onClick} ref={ref}>
+      {value}
+    </AddCostStyle.Test>
+  ));
 
   return (
     <AddCostStyle.Container>
@@ -141,17 +146,17 @@ function AddCost() {
               );
             })}
           </AddCostStyle.Contents_Payer>
-            <DatePicker
-              onChange={(date) => test(date)}
-              dateFormat="yyyy.MM.dd HH:mm aa"
-              selected={date}
-              placeholderText="날짜 선택"
-              showTimeInput // 시간 나오게 하기
-              timeFormat="HH:mm" //시간 포맷
-              timeInputLabel="Time:"
-              locale={ko}
-              customInput={<CustomDatePicker />}
-            ></DatePicker>
+          <DatePicker
+            onChange={(date) => test(date)}
+            dateFormat="yyyy.MM.dd HH:mm aa"
+            selected={date}
+            placeholderText="날짜 선택"
+            showTimeInput // 시간 나오게 하기
+            timeFormat="HH:mm" //시간 포맷
+            timeInputLabel="Time:"
+            locale={ko}
+            customInput={<CustomDatePicker />}
+          ></DatePicker>
           <p>최대 10,000,000원까지 입력이 가능합니다.</p>
         </AddCostStyle.Contents_Cost_Payer>
       </AddCostStyle.Container__Contents>

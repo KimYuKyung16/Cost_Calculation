@@ -12,6 +12,7 @@ import useDidMountEffect from "../../hooks/useDidMountEffect";
 import * as CostListStyle from "../../styles/costList/costListStyle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 function CostList() {
   const navigate = useNavigate();
@@ -83,7 +84,13 @@ function CostList() {
       let nCostList = [...costList];
       nCostList.splice(index, 1);
       setCostList(nCostList);
-      alert("삭제되었습니다");
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "삭제되었습니다",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   const callback = (entries: any) => {
@@ -162,15 +169,14 @@ function CostList() {
         <>
           <CostListStyle.Container__List state={costListDeleteState.state}>
             <colgroup>
-              <col/>
-              <col/>
-              <col/>
-              <col/>
-              <col/>
+              <col />
+              <col />
+              <col />
+              <col />
+              <col />
             </colgroup>
-            
+
             <tbody>
-         
               {costList.map((x, index) => {
                 const [year, month, day] = x.date.split(".");
                 let dayState =
@@ -179,7 +185,9 @@ function CostList() {
                   <>
                     {!dayState ? (
                       <CostListStyle.Container__List_Date>
-                        <td colSpan={4}><p>{`${year}년 ${month}월 ${day}일`}</p></td>
+                        <td colSpan={4}>
+                          <p>{`${year}년 ${month}월 ${day}일`}</p>
+                        </td>
                       </CostListStyle.Container__List_Date>
                     ) : null}
                     <tr key={index}>

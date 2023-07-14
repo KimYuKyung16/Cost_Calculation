@@ -3,7 +3,7 @@
  *
  */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getMemberList } from "../../apis/api/calculate";
 import { MemberInterface } from "../../interfaces/memberInterface";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -12,8 +12,10 @@ import { calculateActions } from "../../redux/modules/reducer/calculateReducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faUser } from "@fortawesome/free-solid-svg-icons";
 import * as MemberListStyle from "../../styles/calculateDetail/memberListStyle";
+import Swal from "sweetalert2";
 
 function MemberList(props: { num: string | undefined }) {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const params = useParams();
   const num: string | undefined = params.num;
@@ -31,6 +33,16 @@ function MemberList(props: { num: string | undefined }) {
       setMemberList(member.data.memberList); // 멤버 리스트 설정
       dispatch(memberListActions.setInitialMemberList(member.data.memberList));
       dispatch(calculateActions.setMemberCount(member.data.memberList.length)); // 멤버 수 설정
+    }
+    if (member.status === 600) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: member.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/login");
     }
   };
 

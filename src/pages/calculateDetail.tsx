@@ -5,7 +5,7 @@
 import styled from "styled-components";
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { getCalculateTitle, getCalculateComplete } from "../apis/api/calculate";
+import { getCalculateInfo, getCalculateComplete } from "../apis/api/calculate";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { barActions } from "../redux/modules/reducer/barReducer";
 import { calculateActions } from "../redux/modules/reducer/calculateReducer";
@@ -20,11 +20,9 @@ function Appointment() {
   const blackRef = useRef<any>(null);
   const barState = useAppSelector((state) => state.barState); // 멤버리스트 visible
 
-  console.log("흠??")
-
   /* 정산 정보 가져오기 */
   const getTitle = async () => {
-    const calculate = await getCalculateTitle(num);
+    const calculate = await getCalculateInfo(num);
     dispatch(calculateActions.setCaculateListNum(num)); // 일정 번호 설정
     dispatch(calculateActions.setCalculateName(calculate.data.calculate_name)); // 일정 이름 설정
     dispatch(calculateActions.setCalculateOwner(calculate.data.id)); // 일정 만든 사람의 아이디

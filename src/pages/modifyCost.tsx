@@ -5,8 +5,30 @@
 import styled from "styled-components";
 import Header from "../components/modifyCost/header";
 import ModifyCost from "../components/modifyCost/modifyCost";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { authentication } from "../apis/api/user";
+import { useEffect } from "react";
 
-function AddCost() {
+function Modify_Cost() {
+  const navigate = useNavigate();
+  const user = async () => {
+    const state = await authentication();
+    if (state.status === 500) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: state.message,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/login");
+    }
+  };
+  useEffect(() => {
+    user();
+  }, []);
+
   return (
     <>
       <Header />
@@ -31,4 +53,4 @@ const Main = styled.main`
   }
 `;
 
-export default AddCost;
+export default Modify_Cost;

@@ -38,7 +38,6 @@ function FriendList() {
     const state = await deleteFriend(id);
     if (state.status === 200) {
       dispatch(friendListActions.deleteFriend(index));
-      // FriendListUp();
     }
   };
 

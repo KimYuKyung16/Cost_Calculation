@@ -17,6 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as UserInfoStyle from "../../../styles/main/userInfoStyle";
 import { getNonReadMessageCountApi } from "../../../apis/api/message";
+import Swal from "sweetalert2";
 
 function UserInfo() {
   const navigate = useNavigate();
@@ -44,14 +45,23 @@ function UserInfo() {
     }
   };
 
-  const test = async () => {
+  const getMessageCount = async () => {
     let count = await getNonReadMessageCountApi();
-    console.log(count)
+    if (count.status === 600) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: count.message,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      navigate('/login')
+    }
     setMessageCount(count.data.count);
   };
 
   useEffect(() => {
-    test();
+    getMessageCount();
   }, [])
   useEffect(() => {
     get_UserInfo();

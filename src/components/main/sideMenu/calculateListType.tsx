@@ -10,8 +10,11 @@ import {
 } from "../../../redux/modules/reducer/calculateListReducer";
 import { getCalculateTypeCount } from "../../../apis/api/calculate";
 import * as calculateListTypeStyle from "../../../styles/main/calculateListTypeStyle";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function CalculateListType() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const calculateListType = useAppSelector((state) => state.calculateListType);
   const calculateListTypeCount = useAppSelector(
@@ -21,6 +24,16 @@ function CalculateListType() {
   /* 타입별 리스트 개수 가져오기 */
   const calculateType_Count = async () => {
     const count = await getCalculateTypeCount({ params: { type: "count" } });
+    if (count.status === 600) {
+      Swal.fire({
+        position: "center",
+        icon: "error",
+        title: count.message,
+        showConfirmButton: false,
+        timer: 1500
+      })
+      navigate('/login')
+    }
     if (count.data.countList) {
       dispatch(
         calculateListTypeCountActions.setInitialCalculateListTypeCount(

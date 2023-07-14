@@ -22,7 +22,7 @@ function AddCost() {
         showConfirmButton: false,
         timer: 1500
       })
-      navigate('/login')
+      navigate('/login', {replace: true})
     }
   }
 

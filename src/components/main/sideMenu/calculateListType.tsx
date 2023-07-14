@@ -32,7 +32,7 @@ function CalculateListType() {
         showConfirmButton: false,
         timer: 1500
       })
-      navigate('/login')
+      navigate('/login', {replace: true})
     }
     if (count.data.countList) {
       dispatch(

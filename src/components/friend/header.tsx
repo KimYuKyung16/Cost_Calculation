@@ -12,7 +12,7 @@ function Header() {
     <HeaderStyle.Header_>
       <img
         onClick={() => {
-          navigate("/main");
+          navigate(-1);
         }}
         src="/image/back_icon.svg"
       />

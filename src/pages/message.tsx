@@ -18,7 +18,7 @@ function Message() {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate("/login");
+      navigate("/login", {replace: true});
     }
   };
   useEffect(() => {

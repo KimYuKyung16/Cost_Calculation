@@ -31,7 +31,7 @@ function UsersSearch() {
         showConfirmButton: false,
         timer: 1500
       })
-      navigate('/login')
+      navigate('/login', {replace: true})
     } else {
       console.log(userList.message);
     }

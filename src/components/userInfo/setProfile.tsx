@@ -24,7 +24,7 @@ function Profile() {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate("/login");
+      navigate("/login", {replace: true});
     }
   };
 
@@ -45,7 +45,7 @@ function Profile() {
       if (profile.data.url) {
         dispatch(userInfoActions.setProfile(profile.data.url));
       }
-      navigate("/main");
+      navigate(-1);
     }
     if (profile.status === 500) {
       Swal.fire(

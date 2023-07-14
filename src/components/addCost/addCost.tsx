@@ -77,7 +77,7 @@ function AddCost() {
     ) {
       const state = await addCost(costValues);
       if (state.status === 200) {
-        navigate("/calculate/" + params.num);
+        navigate(-1);
       } else if (state.status === 600) {
         Swal.fire({
           position: "center",
@@ -86,7 +86,7 @@ function AddCost() {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/login");
+        navigate("/login", {replace:true});
       } else {
         alert("저장에 실패했습니다.");
       }

@@ -61,8 +61,6 @@ function CostList() {
     },
     index: number
   ) => {
-    console.log(costInfo);
-
     if (modalState.state) dispatch(modalStateActions.setState(true));
     else {
       setCostNum(costInfo.num);

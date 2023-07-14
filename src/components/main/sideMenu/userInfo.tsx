@@ -55,7 +55,7 @@ function UserInfo() {
         showConfirmButton: false,
         timer: 1500
       })
-      navigate('/login')
+      navigate('/login', {replace: true})
     }
     setMessageCount(count.data.count);
   };

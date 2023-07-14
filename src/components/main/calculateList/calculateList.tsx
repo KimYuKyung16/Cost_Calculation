@@ -48,7 +48,7 @@ function CalculateList() {
         showConfirmButton: false,
         timer: 1500
       })
-      navigate('/login')
+      navigate('/login', {replace: true})
     }
     setTotalPageCount(list.data.totalPageCount); // 총 페이지 개수 설정
     setCalculateList((state) => [...state, ...list.data.list]); // 일정 리스트 설정

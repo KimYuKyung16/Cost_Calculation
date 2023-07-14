@@ -42,7 +42,7 @@ function MemberList(props: { num: string | undefined }) {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate("/login");
+      navigate("/login", {replace: true});
     }
   };
 

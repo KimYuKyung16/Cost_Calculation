@@ -93,7 +93,7 @@ function Signup() {
             <p>회원이라면</p>
             <p
               onClick={() => {
-                navigate("/login");
+                navigate("/login", {replace: true});
               }}
             >
               로그인

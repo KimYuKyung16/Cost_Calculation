@@ -34,7 +34,7 @@ function CalculateList() {
         showConfirmButton: false,
         timer: 1500,
       });
-      navigate("/login");
+      navigate("/login", {replace: true});
     }
   };
   /* 페이지 버튼 생성하기 */

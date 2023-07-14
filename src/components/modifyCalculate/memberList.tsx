@@ -48,7 +48,7 @@ function MemberList() {
     } else if (state.status === 600) {
       // 로그인이 되어있지 않을 경우
       alert("로그아웃 되었습니다.");
-      navigate("/login");
+      navigate("/login", {replace: true});
     }
   };
 

@@ -21,7 +21,7 @@ function UserProfile() {
         showConfirmButton: false,
         timer: 1500
       })
-      navigate("/login");
+      navigate("/login", {replace: true});
     } else {
       Swal.fire(
         '',
